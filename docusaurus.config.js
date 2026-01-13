@@ -10,8 +10,9 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "🐙 port-dive — AI portfolio deep dives.",
-  tagline: "Get the facts straight, build conviction and gain.",
+  title: "🐙 PortDive — AI driven portfolio deep dives.",
+  tagline:
+    "Get the facts straight, build conviction and gain from your investments.",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -93,7 +94,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "tutorialSidebar",
             position: "left",
-            label: "Tutorial",
+            label: "Reports",
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
@@ -110,7 +111,7 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Tutorial",
+                label: "Reports",
                 to: "/docs/intro",
               },
             ],
@@ -121,10 +122,6 @@ const config = {
               {
                 label: "X",
                 href: "https://x.com/Holgo99",
-              },
-              {
-                label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
               },
             ],
           },
