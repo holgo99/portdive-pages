@@ -1,0 +1,12 @@
+---
+sidebar_position: 1
+---
+
+# 🐙 PortDive - Technical and Fundamental analysis done with AI.
+
+Newest **NVO, NOVO NORDISK - COMPREHENSIVE TA-FUNDAMENTAL ANALYSIS & LONG-STRATEGY PLAYBOOK**.
+
+## Latest Reports
+
+- [Jan 12, 2026] NVO, NOVO NORDISK - COMPREHENSIVE TA-FUNDAMENTAL ANALYSIS & LONG-STRATEGY PLAYBOOK
+- [Jan 8, 2026] ZETA, Zeta Global Holdings Corp. - COMPREHENSIVE TA-FUNDAMENTAL ANALYSIS & LONG STRATEGY PLAYBOOK
