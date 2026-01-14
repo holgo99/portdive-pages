@@ -3,6 +3,13 @@
  * and scoped locally.
  */
 
+.heroImage {
+    max-width: 480px;
+    max-height: 320px;
+    width: 100%;
+    object-fit: contain;
+}
+
 .heroBanner {
     padding: 4rem 0;
     text-align: center;
@@ -12,11 +19,18 @@
     margin-bottom: 1em;
 }
 
-.heroImage {
-    max-width: 480px;
-    max-height: 320px;
-    width: 100%;
-    object-fit: contain;
+.heroBanner h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.33em;
+}
+
+@media (max-width: 996px) {
+    .heroBanner h1 {
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width: 996px) {
