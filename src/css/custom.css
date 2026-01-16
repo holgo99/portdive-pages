@@ -74,6 +74,8 @@
     --ifm-button-border-radius: 50px;
     /* Add RGB version of your primary color for rgba() usage */
     --ifm-color-primary-rgb: 45, 212, 191;
+
+    /* Footer */
 }
 
 /* Dark theme */
@@ -137,41 +139,6 @@
     --ifm-hr-border-color: #1a4a4a;
 }
 
-/* Additional utility classes for PortDive brand elements */
-.portdive-card {
-    background: var(--ifm-card-background-color);
-    border: 1px solid var(--ifm-card-border-color);
-    border-radius: var(--ifm-global-border-radius);
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-[data-theme="dark"] .portdive-card {
-    box-shadow: var(--ifm-card-glow-shadow);
-}
-
-.portdive-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--ifm-global-shadow-md);
-}
-
-[data-theme="dark"] .portdive-card:hover {
-    box-shadow: 0 0 30px var(--ifm-card-glow-color);
-}
-
-/* Accent gradient for special elements */
-.portdive-accent-gradient {
-    background: linear-gradient(
-        135deg,
-        var(--ifm-color-primary),
-        var(--ifm-color-secondary)
-    );
-}
-
-[data-theme="dark"] .portdive-cta:hover {
-    box-shadow: 0 0 15px var(--ifm-card-glow-color);
-}
-
 html,
 body,
 #__docusaurus,
@@ -181,7 +148,6 @@ body,
     min-height: 100dvh;
 }
 
-/*
 html {
     background-image: url("/img/wallpaper.png");
     background-attachment: fixed;
@@ -189,9 +155,9 @@ html {
     background-position: center;
     background-repeat: no-repeat;
 }
-*/
+
 body {
-    background: var(--ifm-background-color);
+    background: transparent;
     display: flex;
     flex-direction: column;
 }
@@ -236,12 +202,29 @@ nav.navbar-sidebar--show {
     background-color: var(--ifm-background-color);
 }
 
+#__docusaurus:has(.layout--homepage) main {
+    --ifm-background-color: none !important;
+    background-color: none !important;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid var(--ifm-toc-border-color);
+    --ifm-footer-title-color: #1a1a1a;
+    --ifm-footer-background-color: none !important;
+    background-color: none !important;
+}
+
 [data-theme="dark"] nav.navbar {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
 [data-theme="dark"] .main-wrapper {
     background-color: var(--ifm-background-color);
+}
+
+[data-theme="dark"] .footer {
+    --ifm-footer-title-color: #e5e7eb;
 }
 
 /* Dark mode adjustments */
