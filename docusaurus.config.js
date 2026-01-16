@@ -73,7 +73,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: "img/port-dive-social-card.jpg",
+      image: "img/portdive-social-card.jpg",
       colorMode: {
         respectPrefersColorScheme: true,
       },
