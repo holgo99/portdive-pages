@@ -12,22 +12,30 @@ function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
-      <div className="container">
-        {/* Centered image */}
-        <img src={heroImg} alt="Hero" className={styles.heroImage} />
-        <Heading as="h1" className="hero__title">
-          <span>PortDive</span>
-          <span>—</span>
-          <span>AI driven portfolio deep dives.</span>
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro"
-          >
-            Lets f*cking go - LFG 🚀
-          </Link>
+      <div className={styles.heroContainer}>
+        {/* Left side - Text content */}
+        <div className={styles.heroContent}>
+          <Heading as="h1" className={styles.heroTitle}>
+            {siteConfig.tagline}
+          </Heading>
+          <h2 className={styles.heroTagline}>AI-driven Portfolio Deep Dives</h2>
+          <h3 className={styles.heroSubheading}>
+            Consensus analysis. Clear entries. Disciplined exits. Better
+            returns.
+          </h3>
+          <div className={styles.ctaButtons}>
+            <div className={styles.ctaPrimary}>
+              <Link to="/docs/intro">Start Deep Diving</Link>
+            </div>
+            <div className={styles.ctaSecondary}>
+              <Link to="/docs/intro">Explore Analytics Directory</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Right side - Hero image */}
+        <div className={styles.heroImageWrapper}>
+          <img src={heroImg} alt="Hero" className={styles.heroImage} />
         </div>
       </div>
     </header>

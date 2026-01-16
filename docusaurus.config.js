@@ -10,9 +10,8 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "PortDive — AI driven portfolio deep-dives.",
-  tagline:
-    "Get the facts straight, build conviction, find your entries + exits and gain from your investments.",
+  title: "PortDive",
+  tagline: "Build Conviction, Not Anxiety",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -24,11 +23,11 @@ const config = {
   url: "https://holgo99.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/port-dive-pages/",
+  baseUrl: "/portdive-pages/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "RetailRebels UG.", // Usually your GitHub org/user name.
+  organizationName: "PortDive UG.", // Usually your GitHub org/user name.
   projectName: "PortDive", // Usually your repo name.
 
   onBrokenLinks: "throw",
@@ -74,7 +73,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: "img/port-dive-social-card.jpg",
+      image: "img/portdive-social-card.jpg",
       colorMode: {
         respectPrefersColorScheme: true,
       },
@@ -85,8 +84,8 @@ const config = {
       navbar: {
         title: "PortDive",
         logo: {
-          alt: "port-dive Logo",
-          src: "img/logo.svg",
+          alt: "portdive Logo",
+          src: "img/portdive-logo-primary.svg",
         },
         // Auto-hide navbar on scroll (optional)
         hideOnScroll: false,
@@ -112,7 +111,7 @@ const config = {
           // Right items
           { to: "/blog", label: "Blog", position: "left" },
           {
-            href: "https://github.com/holgo99/port-dive-pages",
+            href: "https://github.com/holgo99/portdive-pages",
             label: "GitHub",
             position: "right",
           },
@@ -153,7 +152,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} RetailRebels, UG. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} PortDive. All rights reserved. Built with Docusaurus.`,
       },
       // Theme config
       prism: {

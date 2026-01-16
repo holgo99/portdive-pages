@@ -3,44 +3,197 @@
  * and scoped locally.
  */
 
-.heroImage {
-    max-width: 480px;
-    max-height: 320px;
-    width: 100%;
-    object-fit: contain;
+.heroBanner {
+    background: linear-gradient(135deg, #0d2b2b 0%, #101f2e 100%);
+    padding: 4rem 2rem;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
 }
 
-.heroBanner {
-    padding: 4rem 0;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background: none;
-    margin-bottom: 1em;
+.heroContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 3rem;
+    width: 100%;
+}
+
+.heroContent {
+    flex: 1;
+    max-width: 540px;
+}
+
+.heroTitle {
+    color: var(--ifm-color-primary-light);
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.heroTagline {
+    color: var(--ifm-heading-color);
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.heroSubheading {
+    color: var(--ifm-heading-color);
+    font-size: 2.4rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.heroImageWrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heroImage {
+    max-width: 100%;
+    height: auto;
 }
 
 .heroBanner h1 {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    align-items: left;
+    justify-content: left;
     gap: 0.33em;
 }
 
-@media (max-width: 996px) {
-    .heroBanner h1 {
-        flex-direction: column;
-    }
-}
-
-@media screen and (max-width: 996px) {
-    .heroBanner {
-        padding: 2rem;
-    }
-}
-
-.buttons {
+/* CTA Button styling */
+.ctaButtons {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.ctaButtons div {
+    display: inline-block;
+}
+
+.ctaButtons a {
+    display: inline-block;
+    cursor: pointer;
+    padding: 12px 24px;
+    font-size: var(--ifm-h4-font-size) !important;
+    font-weight: var(--ifm-font-weight-semibold);
+    font-family: var(--ifm-font-family-base);
+    border-radius: var(--ifm-button-border-radius, 50px);
+}
+
+/* Primary filled button */
+.ctaPrimary a {
+    background: linear-gradient(
+        135deg,
+        var(--ifm-color-primary),
+        var(--ifm-color-primary-light)
+    );
+    color: var(--ifm-background-color);
+    border: none;
+    transition: all var(--ifm-transition-fast)
+        var(--ifm-transition-timing-default);
+    box-shadow: 0 0 20px rgba(var(--ifm-color-primary-rgb), 0.3);
+}
+
+.ctaPrimary a:hover {
+    box-shadow: 0 0 30px rgba(var(--ifm-color-primary-rgb), 0.5);
+    transform: translateY(-2px);
+    background: linear-gradient(
+        135deg,
+        var(--ifm-color-primary-dark),
+        var(--ifm-color-primary)
+    );
+}
+
+/* Secondary outline button */
+.ctaSecondary a {
+    background: transparent;
+    color: var(--ifm-color-primary);
+    border: 1.5px solid var(--ifm-color-primary);
+    transition: all var(--ifm-transition-fast)
+        var(--ifm-transition-timing-default);
+}
+
+.ctaSecondary a:hover {
+    color: var(--ifm-color-primary-darkest);
+    background: var(--ifm-color-primary-lightest);
+    box-shadow: 0 0 20px rgba(var(--ifm-color-primary-rgb), 0.2);
+}
+
+.ctaButtons .ctaPrimary a,
+.ctaButtons .ctaPrimary a:hover {
+    text-decoration: none;
+}
+
+.ctaButtons .ctaSecondary a,
+.ctaButtons .ctaSecondary a:hover {
+    text-decoration: none;
+}
+
+/* light theme overrides */
+[data-theme="light"] .heroBanner {
+    background: linear-gradient(135deg, #f8fbfb 0%, #ddf3f3 100%);
+}
+
+/* Additional utility classes for PortDive brand elements */
+.portdive-card {
+    background: var(--ifm-card-background-color);
+    border: 1px solid var(--ifm-card-border-color);
+    border-radius: var(--ifm-global-border-radius);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .portdive-card {
+    box-shadow: var(--ifm-card-glow-shadow);
+}
+
+.portdive-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--ifm-global-shadow-md);
+}
+
+[data-theme="dark"] .portdive-card:hover {
+    box-shadow: 0 0 30px var(--ifm-card-glow-color);
+}
+
+/* Accent gradient for special elements */
+.portdive-accent-gradient {
+    background: linear-gradient(
+        135deg,
+        var(--ifm-color-primary),
+        var(--ifm-color-secondary)
+    );
+}
+
+/* Responsive - stack on mobile */
+@media (max-width: 768px) {
+    .heroContainer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .heroContent {
+        max-width: 100%;
+    }
+
+    .heroTitle {
+        font-size: 2rem;
+    }
+
+    .heroBanner h1 {
+        align-items: center;
+        justify-content: center;
+    }
 }
