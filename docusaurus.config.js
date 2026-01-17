@@ -84,7 +84,7 @@ const config = {
       navbar: {
         title: "PortDive",
         logo: {
-          alt: "portdive Logo",
+          alt: "PortDive Logo",
           src: "img/portdive-logo-primary.svg",
         },
         // Auto-hide navbar on scroll (optional)
