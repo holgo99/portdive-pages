@@ -1892,7 +1892,6 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const prevClose = OHLCV_DATA[OHLCV_DATA.length - 2].close;
   const priceChange = ((currentPrice - prevClose) / prevClose) * 100;
   const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
-  const targetPrice = 135.83;
 
   return (
     <div
@@ -2216,7 +2215,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         <CurrentPriceCard
           price={currentPrice}
           change={priceChange}
-          target={targetPrice}
+          target={activeCount.projectedTarget}
           theme={theme}
           isDarkMode={isDarkMode}
         />
