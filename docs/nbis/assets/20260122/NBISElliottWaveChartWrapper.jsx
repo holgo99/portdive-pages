@@ -1,8 +1,8 @@
 import NBISElliottWaveChart from "./OpenAI-NBISElliottWaveChart.jsx";
-//import { useColorModeWrapper } from "@site/hooks/useColorModeWrapper.js";
+import { useColorMode } from "@docusaurus/theme-common";
 
 export default function NBISElliottWaveChartWrapper(props) {
-  //const { colorMode } = useColorModeWrapper();
-  //return <NBISElliottWaveChart {...props} colorMode={colorMode} />;
-  return <NBISElliottWaveChart {...props} colorMode="dark" />;
+  const { colorMode } = useColorMode();
+
+  return <NBISElliottWaveChart {...props} colorMode={colorMode} />;
 }
