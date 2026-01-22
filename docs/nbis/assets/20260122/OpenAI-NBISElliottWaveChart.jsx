@@ -2110,7 +2110,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           background: theme.surface,
           borderRadius: "12px",
           border: `1px solid ${theme.border}`,
-          marginBottom: "8px",
+          marginBottom: "20px",
         }}
       >
         <div
@@ -2228,19 +2228,6 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         <FibonacciLevelsPanel currentPrice={currentPrice} theme={theme} />
         <AnalysisMetricsRow theme={theme} />
         <TechnicalAlertsPanel theme={theme} />
-      </div>
-
-      {/* Attribution */}
-      <div
-        style={{
-          marginTop: "16px",
-          textAlign: "center",
-          fontSize: "11px",
-          color: theme.textMuted,
-        }}
-      >
-        PortDive Elliott Wave Analysis • {OHLCV_DATA.length} daily candles •
-        Projection to Jun 2026 • Last updated: Jan 22, 2026
       </div>
     </div>
   );
