@@ -1154,6 +1154,698 @@ const ChartCanvas = memo(
 );
 
 // ============================================================================
+// CURRENT PRICE CARD COMPONENT
+// ============================================================================
+const CurrentPriceCard = memo(
+  ({ price, change, target, theme, isDarkMode }) => {
+    const progressToTarget = Math.min(
+      ((price - 18.31) / (target - 18.31)) * 100,
+      100,
+    );
+    const isPositive = change >= 0;
+
+    return (
+      <div
+        style={{
+          background: isDarkMode
+            ? "linear-gradient(135deg, #1a2a35 0%, #0f1a1f 100%)"
+            : "linear-gradient(135deg, #ffffff 0%, #f0f4f2 100%)",
+          borderRadius: "12px",
+          padding: "24px",
+          border: `1px solid ${theme.border}`,
+          marginBottom: "16px",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "11px",
+            color: theme.textSecondary,
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+            marginBottom: "8px",
+            fontWeight: 600,
+          }}
+        >
+          Current Price
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "8px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "48px",
+              fontWeight: 700,
+              color: PORTDIVE_COLORS.primary,
+              fontFamily: "system-ui, -apple-system, sans-serif",
+            }}
+          >
+            ${price.toFixed(2)}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              padding: "6px 12px",
+              borderRadius: "6px",
+              background: isPositive
+                ? "rgba(31, 163, 155, 0.15)"
+                : "rgba(255, 107, 107, 0.15)",
+              color: isPositive
+                ? PORTDIVE_COLORS.primary
+                : PORTDIVE_COLORS.secondary,
+              fontSize: "14px",
+              fontWeight: 600,
+            }}
+          >
+            {isPositive ? "↑" : "↓"} {Math.abs(change).toFixed(2)}%
+          </div>
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <div
+            style={{
+              height: "8px",
+              background: theme.border,
+              borderRadius: "4px",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: `${progressToTarget}%`,
+                height: "100%",
+                background: `linear-gradient(90deg, ${PORTDIVE_COLORS.primary} 0%, rgba(31, 163, 155, 0.5) 100%)`,
+                borderRadius: "4px",
+                transition: "width 0.5s ease",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "10px",
+              fontSize: "12px",
+              color: theme.textSecondary,
+            }}
+          >
+            <span>{progressToTarget.toFixed(0)}% to Target</span>
+            <span>Target: ${target.toFixed(2)}</span>
+          </div>
+        </div>
+        <div
+          style={{
+            marginTop: "12px",
+            fontSize: "11px",
+            color: theme.textSecondary,
+          }}
+        >
+          Today's Close • Jan 22, 2026
+        </div>
+      </div>
+    );
+  },
+);
+
+// ============================================================================
+// WAVE COUNT SELECTOR COMPONENT
+// ============================================================================
+const WaveCountSelector = memo(({ activeCount, onChange, theme }) => {
+  const counts = [
+    { id: "primary", label: "Primary", probability: "60%" },
+    { id: "alt1", label: "Alt 3 Extension", probability: "STUDIES" },
+    { id: "alt2", label: "Alt#2", probability: "10%", sublabel: "PANCROSS" },
+    { id: "minor", label: "Minor", probability: "" },
+  ];
+
+  return (
+    <div
+      style={{
+        background: theme.surface,
+        borderRadius: "12px",
+        padding: "16px",
+        border: `1px solid ${theme.border}`,
+        marginBottom: "16px",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "11px",
+          color: theme.textSecondary,
+          textTransform: "uppercase",
+          letterSpacing: "1px",
+          marginBottom: "12px",
+          fontWeight: 600,
+        }}
+      >
+        Wave Count Selector
+      </div>
+      <div
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}
+      >
+        {counts.map((count) => (
+          <button
+            key={count.id}
+            onClick={() => onChange(count.id)}
+            aria-pressed={activeCount === count.id}
+            style={{
+              padding: "14px 12px",
+              borderRadius: "8px",
+              border:
+                activeCount === count.id
+                  ? `2px solid ${PORTDIVE_COLORS.primary}`
+                  : `1px solid ${theme.border}`,
+              background:
+                activeCount === count.id
+                  ? count.id === "alt1"
+                    ? "linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%)"
+                    : "rgba(31, 163, 155, 0.15)"
+                  : "transparent",
+              cursor: "pointer",
+              textAlign: "left",
+              transition: "all 0.2s ease",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color:
+                    activeCount === count.id
+                      ? count.id === "alt1"
+                        ? "#fff"
+                        : PORTDIVE_COLORS.primary
+                      : theme.text,
+                  fontWeight: 600,
+                  fontSize: "13px",
+                }}
+              >
+                {count.label}
+              </span>
+              <span
+                style={{
+                  color:
+                    activeCount === count.id && count.id === "alt1"
+                      ? "rgba(255,255,255,0.8)"
+                      : theme.textSecondary,
+                  fontSize: "11px",
+                }}
+              >
+                {count.probability}
+              </span>
+            </div>
+            {count.sublabel && (
+              <div
+                style={{
+                  fontSize: "9px",
+                  color: theme.textSecondary,
+                  marginTop: "2px",
+                }}
+              >
+                {count.sublabel}
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+});
+
+// ============================================================================
+// FIBONACCI LEVELS PANEL
+// ============================================================================
+const FibonacciLevelsPanel = memo(({ currentPrice, theme }) => {
+  const peak = 141.1;
+  const low = 75.25;
+  const range = peak - low;
+
+  const levels = [
+    { ratio: 0, price: peak, label: "0%" },
+    { ratio: 0.236, price: peak - range * 0.236, label: "23.6%" },
+    { ratio: 0.382, price: peak - range * 0.382, label: "38.2%" },
+    { ratio: 0.5, price: peak - range * 0.5, label: "50%" },
+    { ratio: 0.618, price: peak - range * 0.618, label: "61.8%" },
+    { ratio: 0.786, price: peak - range * 0.786, label: "78.6%" },
+    { ratio: 1, price: low, label: "100%" },
+  ];
+
+  const getCurrentLevel = () => {
+    for (let i = 0; i < levels.length - 1; i++) {
+      if (currentPrice <= levels[i].price && currentPrice > levels[i + 1].price)
+        return i;
+    }
+    return levels.length - 1;
+  };
+
+  const currentLevelIdx = getCurrentLevel();
+
+  return (
+    <div
+      style={{
+        background: theme.surface,
+        borderRadius: "12px",
+        padding: "16px",
+        border: `1px solid ${theme.border}`,
+        marginBottom: "16px",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "11px",
+          color: theme.textSecondary,
+          textTransform: "uppercase",
+          letterSpacing: "1px",
+          marginBottom: "12px",
+          fontWeight: 600,
+        }}
+      >
+        Fibonacci Levels
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+        {levels.map((level, idx) => {
+          const isCurrentLevel = idx === currentLevelIdx;
+          const isSolid =
+            level.ratio === 0 || level.ratio === 1 || level.ratio === 0.618;
+
+          return (
+            <div
+              key={level.label}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px",
+                borderRadius: "4px",
+                background: isCurrentLevel
+                  ? "rgba(255, 107, 107, 0.1)"
+                  : "transparent",
+              }}
+            >
+              <span
+                style={{
+                  width: "45px",
+                  fontSize: "11px",
+                  color: isCurrentLevel
+                    ? PORTDIVE_COLORS.secondary
+                    : theme.textSecondary,
+                  fontWeight: isCurrentLevel ? 600 : 400,
+                }}
+              >
+                {level.label}
+              </span>
+              <div
+                style={{
+                  flex: 1,
+                  height: "1px",
+                  background: isSolid
+                    ? PORTDIVE_COLORS.primary
+                    : `repeating-linear-gradient(90deg, ${PORTDIVE_COLORS.primary} 0px, ${PORTDIVE_COLORS.primary} 4px, transparent 4px, transparent 8px)`,
+                  opacity: isSolid ? 0.6 : 0.4,
+                }}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "monospace",
+                  color: isCurrentLevel
+                    ? PORTDIVE_COLORS.secondary
+                    : theme.text,
+                  fontWeight: isCurrentLevel ? 600 : 400,
+                }}
+              >
+                ${level.price.toFixed(2)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+});
+
+// ============================================================================
+// ANALYSIS METRICS ROW
+// ============================================================================
+const AnalysisMetricsRow = memo(({ theme }) => {
+  const metrics = [
+    {
+      label: "Expected Value",
+      value: "+45.2%",
+      sublabel: "MACD Divergence",
+      indicator: true,
+    },
+    {
+      label: "Sharpe Ratio",
+      value: "2.1",
+      sublabel: "MACD Crossdown",
+      color: "gradient",
+    },
+    {
+      label: "Price Momentum",
+      value: "-18%",
+      sublabel: "Risk-Adjusted",
+      negative: true,
+    },
+    {
+      label: "Risk",
+      value: "-18%",
+      sublabel: "Probability-Weighted",
+      negative: true,
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        background: theme.surface,
+        borderRadius: "12px",
+        padding: "16px",
+        border: `1px solid ${theme.border}`,
+        marginBottom: "16px",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "11px",
+          color: theme.textSecondary,
+          textTransform: "uppercase",
+          letterSpacing: "1px",
+          marginBottom: "12px",
+          fontWeight: 600,
+        }}
+      >
+        Analysis Metrics
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+          gap: "12px",
+        }}
+      >
+        {metrics.map((m, idx) => (
+          <div
+            key={idx}
+            style={{
+              padding: "12px",
+              borderRadius: "8px",
+              background: "rgba(31, 163, 155, 0.05)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "10px",
+                color: theme.textSecondary,
+                textTransform: "uppercase",
+                marginBottom: "4px",
+              }}
+            >
+              {m.label}
+            </div>
+            <div
+              style={{
+                fontSize: "24px",
+                fontWeight: 700,
+                color: m.negative
+                  ? PORTDIVE_COLORS.secondary
+                  : PORTDIVE_COLORS.primary,
+              }}
+            >
+              {m.value}
+            </div>
+            <div
+              style={{
+                fontSize: "9px",
+                color: theme.textSecondary,
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+              }}
+            >
+              {m.indicator && (
+                <span
+                  style={{
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: PORTDIVE_COLORS.primary,
+                  }}
+                />
+              )}
+              {m.sublabel}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+});
+
+// ============================================================================
+// TECHNICAL ALERTS PANEL
+// ============================================================================
+const TechnicalAlertsPanel = memo(({ theme }) => {
+  const waves = [
+    {
+      label: "WAVE 1",
+      range: "$88.65 → $82.89",
+      status: "COMPLETE",
+      color: PORTDIVE_COLORS.primary,
+    },
+    {
+      label: "WAVE 3",
+      range: "$86.00 → $0.00",
+      status: "IN PROGRESS",
+      color: "#F59E0B",
+    },
+    {
+      label: "WAVE 3",
+      range: "$85.95 → $71.78",
+      status: "PROJECTED",
+      color: PORTDIVE_COLORS.secondary,
+    },
+    {
+      label: "WAVE 5",
+      range: "$72.65 → $93.00",
+      status: "PROJECTED",
+      color: theme.textSecondary,
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        background: theme.surface,
+        borderRadius: "12px",
+        padding: "16px",
+        border: `1px solid ${theme.border}`,
+      }}
+    >
+      <div
+        style={{
+          fontSize: "11px",
+          color: theme.textSecondary,
+          textTransform: "uppercase",
+          letterSpacing: "1px",
+          marginBottom: "12px",
+          fontWeight: 600,
+        }}
+      >
+        Technical Alerts
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+          gap: "10px",
+        }}
+      >
+        {waves.map((wave, idx) => (
+          <div
+            key={idx}
+            style={{
+              padding: "12px",
+              borderRadius: "8px",
+              background: `${wave.color}15`,
+              borderLeft: `3px solid ${wave.color}`,
+            }}
+          >
+            <div
+              style={{ fontSize: "12px", fontWeight: 600, color: wave.color }}
+            >
+              {wave.label}
+            </div>
+            <div
+              style={{
+                fontSize: "10px",
+                color: theme.textSecondary,
+                marginTop: "4px",
+              }}
+            >
+              {wave.range}
+            </div>
+            <div
+              style={{
+                marginTop: "8px",
+                fontSize: "9px",
+                padding: "3px 8px",
+                borderRadius: "4px",
+                background: wave.color,
+                color: "#fff",
+                display: "inline-block",
+              }}
+            >
+              {wave.status}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          marginTop: "16px",
+          display: "flex",
+          alignItems: "center",
+          gap: "16px",
+          fontSize: "10px",
+          color: theme.textSecondary,
+        }}
+      >
+        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <span
+            style={{ width: "12px", height: "2px", background: theme.text }}
+          />{" "}
+          Price
+        </span>
+        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <span
+            style={{
+              width: "12px",
+              height: "2px",
+              background: PORTDIVE_COLORS.primary,
+            }}
+          />{" "}
+          20 SMA
+        </span>
+        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <span
+            style={{
+              width: "12px",
+              height: "2px",
+              background: theme.textSecondary,
+              opacity: 0.5,
+            }}
+          />{" "}
+          Minor
+        </span>
+      </div>
+      <div
+        style={{
+          marginTop: "10px",
+          fontSize: "10px",
+          color: theme.textSecondary,
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+        }}
+      >
+        <span
+          style={{
+            width: "8px",
+            height: "8px",
+            borderRadius: "50%",
+            background: PORTDIVE_COLORS.primary,
+          }}
+        />
+        #1 WMS PROGRESSION
+      </div>
+    </div>
+  );
+});
+
+// ============================================================================
+// WAVE TIMELINE COMPONENT
+// ============================================================================
+const WaveTimeline = memo(({ theme }) => {
+  const waves = [
+    {
+      label: "Wave 1",
+      range: "$88.65 - $93.56",
+      status: "complete",
+      color: PORTDIVE_COLORS.primary,
+    },
+    {
+      label: "Wave 2",
+      range: "$20.90 - $92.68",
+      status: "complete",
+      color: PORTDIVE_COLORS.primary,
+    },
+    {
+      label: "Wave 3",
+      range: "$20.50 - $141.08",
+      status: "progress",
+      color: "#F59E0B",
+    },
+    {
+      label: "Wave 5",
+      range: "",
+      status: "projected",
+      color: PORTDIVE_COLORS.secondary,
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "8px",
+        overflowX: "auto",
+        paddingBottom: "8px",
+      }}
+    >
+      {waves.map((wave, idx) => (
+        <div
+          key={idx}
+          style={{
+            flex: "1 0 auto",
+            minWidth: "120px",
+            padding: "12px",
+            borderRadius: "8px",
+            background:
+              wave.status === "progress" ? `${wave.color}15` : theme.surface,
+            border: `1px solid ${wave.status === "progress" ? wave.color : theme.border}`,
+          }}
+        >
+          <div style={{ fontSize: "13px", fontWeight: 600, color: wave.color }}>
+            {wave.label}
+          </div>
+          <div
+            style={{
+              fontSize: "10px",
+              color: theme.textSecondary,
+              marginTop: "4px",
+            }}
+          >
+            {wave.range}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+});
+
+// ============================================================================
 // MAIN COMPONENT - REFACTORED
 // ============================================================================
 export default function NBISElliottWaveChart({ colorMode = "dark" }) {
@@ -1200,6 +1892,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const prevClose = OHLCV_DATA[OHLCV_DATA.length - 2].close;
   const priceChange = ((currentPrice - prevClose) / prevClose) * 100;
   const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
+  const targetPrice = 135.83;
 
   return (
     <div
@@ -1391,7 +2084,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
       {/* Main Chart */}
       <div
         style={{
-          marginBottom: "24px",
+          marginBottom: "8px",
           width: "100%",
         }}
       >
@@ -1405,7 +2098,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         />
       </div>
 
-      {/* Footer Legend */}
+      {/* Chart Footer Legend */}
       <footer
         style={{
           display: "flex",
@@ -1417,6 +2110,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           background: theme.surface,
           borderRadius: "12px",
           border: `1px solid ${theme.border}`,
+          marginBottom: "8px",
         }}
       >
         <div
@@ -1509,6 +2203,32 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           </span>
         </div>
       </footer>
+
+      {/* Info Panel */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "16px",
+          width: "100%",
+        }}
+      >
+        <CurrentPriceCard
+          price={currentPrice}
+          change={priceChange}
+          target={targetPrice}
+          theme={theme}
+          isDarkMode={isDarkMode}
+        />
+        <WaveCountSelector
+          activeCount={activeWaveCount}
+          onChange={setActiveWaveCount}
+          theme={theme}
+        />
+        <FibonacciLevelsPanel currentPrice={currentPrice} theme={theme} />
+        <AnalysisMetricsRow theme={theme} />
+        <TechnicalAlertsPanel theme={theme} />
+      </div>
 
       {/* Attribution */}
       <div
