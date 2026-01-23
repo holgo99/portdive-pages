@@ -30,7 +30,7 @@ const PORTDIVE_COLORS = {
     grid: "rgba(10, 26, 31, 0.06)",
     hover: "rgba(31, 163, 155, 0.08)",
     primaryGradient: "linear-gradient(135deg, #ffffff 0%, #f0f4f2 100%)",
-    secondaryGradient: "linear-gradient(135deg, #fecdd5 0%, #fa8e8e 100%)",
+    secondaryGradient: "linear-gradient(135deg, #fa8e8e 0%, #ffffff 100%)",
   },
   dark: {
     bg: "#0a1a1f",
@@ -43,7 +43,7 @@ const PORTDIVE_COLORS = {
     grid: "rgba(248, 250, 249, 0.04)",
     hover: "rgba(31, 163, 155, 0.15)",
     primaryGradient: "linear-gradient(135deg, #1a2a35 0%, #0f1a1f 100%)",
-    secondaryGradient: "linear-gradient(135deg, #1a2a35 0%, #fa3b57 100%)",
+    secondaryGradient: "linear-gradient(135deg, #fa3b57  0%, #1a2a35 100%)",
   },
   primary: "#1FA39B",
   primaryLight: "#25b8ae",
@@ -67,6 +67,7 @@ const WAVE_COUNTS = {
     id: "primary",
     label: "Bullish continuation",
     probability: "60%",
+    mode: "MOTIVE",
     color: PORTDIVE_COLORS.primary,
     pivots: {
       wave1Start: { idx: 1, price: 18.31 },
@@ -82,6 +83,7 @@ const WAVE_COUNTS = {
     projectedTarget: 150.13,
     projectedLabel: "5",
     projectedStart: { idx: 177, price: 75.25 },
+    projectedTargetBand: { startPrice: 135.83, endPrice: 158.45 },
     description:
       "5-wave impulse (1)-(2)-(3)-(4) complete, now in (5) early stages",
   },
@@ -89,6 +91,7 @@ const WAVE_COUNTS = {
     id: "alt1",
     label: "Corrective regime",
     probability: "30%",
+    mode: "CORRECTIVE",
     color: PORTDIVE_COLORS.secondary,
     pivots: {
       wave1Start: { idx: 130, price: 141.1 },
@@ -99,12 +102,14 @@ const WAVE_COUNTS = {
     projectedTarget: 64,
     projectedLabel: "C",
     projectedStart: { idx: 197, price: 110.5 },
+    projectedTargetBand: { startPrice: 60, endPrice: 75.25 },
     description: "A–B–C / W–X–Y corrective regime",
   },
   alt2: {
     id: "alt2",
     label: "Wave (4) complex not finished (triangle/combination)",
     probability: "10%",
+    mode: "MOTIVE",
     color: PORTDIVE_COLORS.primary,
     pivots: {
       wave1Start: { idx: 1, price: 18.31 },
@@ -116,6 +121,7 @@ const WAVE_COUNTS = {
     projectedTarget: 72,
     projectedLabel: "4",
     projectedStart: { idx: 130, price: 141.1 },
+    projectedTargetBand: { startPrice: 65, endPrice: 75.25 },
     description: "Wave (4) complex not finished (triangle/combination)",
   },
 };
@@ -526,7 +532,7 @@ const ChartCanvas = memo(
           </linearGradient>
           {/* Target zone gradient */}
           <linearGradient
-            id="targetZoneGradient"
+            id="primaryTargetZoneGradient"
             x1="0%"
             y1="0%"
             x2="0%"
@@ -539,7 +545,26 @@ const ChartCanvas = memo(
             />
             <stop
               offset="100%"
-              stopColor={PORTDIVE_COLORS.primary}
+              stopColor={PORTDIVE_COLORS.primaryLight}
+              stopOpacity="0.02"
+            />
+          </linearGradient>
+          {/* Target zone gradient */}
+          <linearGradient
+            id="secondaryTargetZoneGradient"
+            x1="0%"
+            y1="100%"
+            x2="0%"
+            y2="0%"
+          >
+            <stop
+              offset="0%"
+              stopColor={PORTDIVE_COLORS.secondaryLight}
+              stopOpacity="0.12"
+            />
+            <stop
+              offset="100%"
+              stopColor={PORTDIVE_COLORS.secondary}
               stopOpacity="0.02"
             />
           </linearGradient>
@@ -715,17 +740,27 @@ const ChartCanvas = memo(
           <g>
             <rect
               x={idxToX(data.length - 20)}
-              y={priceToY(145)}
-              width={cW - (idxToX(data.length - 20) - M.l) - 60}
-              height={priceToY(125) - priceToY(145)}
-              fill="url(#targetZoneGradient)"
+              y={priceToY(activeCount.projectedTargetBand.endPrice)}
+              width={cW - (idxToX(data.length - 20) - M.l) - 20}
+              height={
+                priceToY(activeCount.projectedTargetBand.startPrice) -
+                priceToY(activeCount.projectedTargetBand.endPrice)
+              }
+              fill={
+                activeCount.projectedTarget >= currentPrice
+                  ? "url(#primaryTargetZoneGradient)"
+                  : "url(#secondaryTargetZoneGradient)"
+              }
               rx={4}
             />
             <text
-              x={idxToX(data.length + projectionBars * 0.5)}
-              y={priceToY(140)}
+              x={idxToX(data.length + projectionBars * 0.25)}
+              y={
+                priceToY(activeCount.projectedTarget) -
+                (10 * activeCount.projectedTarget >= currentPrice ? 1.0 : -1.0)
+              }
               textAnchor="middle"
-              fill={PORTDIVE_COLORS.primary}
+              fill={activeCount.color}
               fontSize="11"
               fontWeight="600"
               opacity={0.8}
@@ -828,7 +863,7 @@ const ChartCanvas = memo(
           );
         })}
 
-        {/* Wave lines based on active count */}
+        {/* Motive Wave lines based on active count */}
         {analysisState.showMotiveWaves && (
           <g>
             {activeWaveCount === "primary" && (
@@ -877,7 +912,50 @@ const ChartCanvas = memo(
                 )}
               </>
             )}
+            {activeWaveCount === "alt2" && (
+              <>
+                {/* Alt 2 wave path */}
+                <path
+                  d={`M ${idxToX(activeCount.pivots.wave1Start.idx)},${priceToY(activeCount.pivots.wave1Start.price)}
+                    L ${idxToX(activeCount.pivots.wave1Peak.idx)},${priceToY(activeCount.pivots.wave1Peak.price)}
+                    L ${idxToX(activeCount.pivots.wave2Low.idx)},${priceToY(activeCount.pivots.wave2Low.price)}
+                    L ${idxToX(activeCount.pivots.wave3ExtPeak.idx)},${priceToY(activeCount.pivots.wave3ExtPeak.price)}`}
+                  fill="none"
+                  stroke={activeCount.color}
+                  strokeWidth="2.5"
+                  opacity="0.8"
+                  strokeLinejoin="round"
+                />
+                {/* Wave labels */}
+                {renderWaveLabel(
+                  idxToX(activeCount.pivots.wave1Peak.idx),
+                  priceToY(activeCount.pivots.wave1Peak.price),
+                  activeCount.pivots.wave1Peak.label,
+                  true,
+                  activeCount.color,
+                )}
+                {renderWaveLabel(
+                  idxToX(activeCount.pivots.wave2Low.idx),
+                  priceToY(activeCount.pivots.wave2Low.price),
+                  activeCount.pivots.wave2Low.label,
+                  false,
+                  activeCount.color,
+                )}
+                {renderWaveLabel(
+                  idxToX(activeCount.pivots.wave3ExtPeak.idx),
+                  priceToY(activeCount.pivots.wave3ExtPeak.price),
+                  activeCount.pivots.wave3ExtPeak.label,
+                  true,
+                  activeCount.color,
+                )}
+              </>
+            )}
+          </g>
+        )}
 
+        {/* Corrective Wave lines based on active count */}
+        {analysisState.showCorrectiveWaves && (
+          <g>
             {activeWaveCount === "alt1" && (
               <>
                 {/* Alt 1 wave path (correction) */}
@@ -908,45 +986,6 @@ const ChartCanvas = memo(
               </>
             )}
           </g>
-        )}
-
-        {activeWaveCount === "alt2" && (
-          <>
-            {/* Alt 2 wave path */}
-            <path
-              d={`M ${idxToX(activeCount.pivots.wave1Start.idx)},${priceToY(activeCount.pivots.wave1Start.price)}
-                L ${idxToX(activeCount.pivots.wave1Peak.idx)},${priceToY(activeCount.pivots.wave1Peak.price)}
-                L ${idxToX(activeCount.pivots.wave2Low.idx)},${priceToY(activeCount.pivots.wave2Low.price)}
-                L ${idxToX(activeCount.pivots.wave3ExtPeak.idx)},${priceToY(activeCount.pivots.wave3ExtPeak.price)}`}
-              fill="none"
-              stroke={activeCount.color}
-              strokeWidth="2.5"
-              opacity="0.8"
-              strokeLinejoin="round"
-            />
-            {/* Wave labels */}
-            {renderWaveLabel(
-              idxToX(activeCount.pivots.wave1Peak.idx),
-              priceToY(activeCount.pivots.wave1Peak.price),
-              activeCount.pivots.wave1Peak.label,
-              true,
-              activeCount.color,
-            )}
-            {renderWaveLabel(
-              idxToX(activeCount.pivots.wave2Low.idx),
-              priceToY(activeCount.pivots.wave2Low.price),
-              activeCount.pivots.wave2Low.label,
-              false,
-              activeCount.color,
-            )}
-            {renderWaveLabel(
-              idxToX(activeCount.pivots.wave3ExtPeak.idx),
-              priceToY(activeCount.pivots.wave3ExtPeak.price),
-              activeCount.pivots.wave3ExtPeak.label,
-              true,
-              activeCount.color,
-            )}
-          </>
         )}
 
         {/* Minor waves - Only for primary count */}
@@ -1140,8 +1179,8 @@ const ChartCanvas = memo(
           y={H - M.b - vH - 5}
           width={cW}
           height={vH + 5}
-          fill={isDarkMode ? "#081015" : "#f5f7f6"}
           rx={4}
+          fill="none"
         />
         {processedData.map((d, i) => {
           const x = idxToX(i);
@@ -1253,7 +1292,7 @@ const ChartCanvas = memo(
 
         {/* Projection zone label */}
         <g
-          transform={`translate(${idxToX(data.length + 5)}, ${H - M.b - vH - 20})`}
+          transform={`translate(${idxToX(data.length + 10)}, ${H - M.b - vH - 20})`}
         >
           <rect
             x={-40}
