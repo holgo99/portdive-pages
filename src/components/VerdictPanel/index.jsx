@@ -11,7 +11,6 @@
  * />
  */
 
-import React, { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./styles.module.css";
 

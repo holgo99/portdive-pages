@@ -23,9 +23,13 @@
     --color-orange-400: rgba(230, 129, 97, 1);
     --color-orange-500: rgba(168, 75, 47, 1);
 
+    /* PortDive Brand Colors */
+    --portdive-primary: #1FA39B;
+    --portdive-primary-rgb: 31, 163, 155;
+
     /* RGB versions for opacity control */
     --color-brown-600-rgb: 94, 82, 64;
-    --color-teal-500-rgb: 33, 128, 141;
+    --color-teal-500-rgb: 31, 163, 155;
     --color-slate-900-rgb: 19, 52, 59;
     --color-slate-500-rgb: 98, 108, 113;
     --color-red-500-rgb: 192, 21, 47;
@@ -149,11 +153,15 @@
 
 /* Dark theme */
 [data-theme="dark"] {
-    /* RGB versions for opacity control (dark mode) */
-    --color-gray-400-rgb: 119, 124, 124;
-    --color-teal-300-rgb: 50, 184, 198;
-    --color-gray-300-rgb: 167, 169, 169;
-    --color-gray-200-rgb: 245, 245, 245;
+    /* RGB versions for opacity control (dark mode) - PortDive colors */
+    --color-gray-400-rgb: 106, 122, 132;
+    --color-teal-300-rgb: 31, 163, 155;
+    --color-gray-300-rgb: 168, 180, 188;
+    --color-gray-200-rgb: 248, 250, 249;
+    --portdive-bg-rgb: 10, 26, 31;
+    --portdive-surface-rgb: 15, 32, 40;
+    --portdive-text-rgb: 248, 250, 249;
+    --portdive-border-rgb: 248, 250, 249;
 
     /* Colorful background palette - Dark Mode */
     --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
@@ -165,30 +173,30 @@
     --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
     --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
 
-    /* Semantic Color Tokens (Dark Mode) */
-    --color-background: var(--color-charcoal-700);
-    --color-surface: var(--color-charcoal-800);
-    --color-text: var(--color-gray-200);
-    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-    --color-primary: var(--color-teal-300);
-    --color-primary-hover: var(--color-teal-400);
-    --color-primary-active: var(--color-teal-800);
+    /* Semantic Color Tokens (Dark Mode) - PortDive colors */
+    --color-background: #0a1a1f;
+    --color-surface: #0f2028;
+    --color-text: #f8faf9;
+    --color-text-secondary: #a8b4bc;
+    --color-primary: #1FA39B;
+    --color-primary-hover: #25b8ae;
+    --color-primary-active: #1a8e87;
     --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
     --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
     --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--portdive-border-rgb), 0.12);
     --color-error: var(--color-red-400);
-    --color-success: var(--color-teal-300);
+    --color-success: #1FA39B;
     --color-warning: var(--color-orange-400);
     --color-info: var(--color-gray-300);
-    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-    --color-btn-primary-text: var(--color-slate-900);
-    --color-card-border: rgba(var(--color-gray-400-rgb), 0.15);
-    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-focus-ring: rgba(var(--portdive-primary-rgb), 0.4);
+    --color-btn-primary-text: #0a1a1f;
+    --color-card-border: rgba(var(--portdive-border-rgb), 0.12);
+    --color-card-border-inner: rgba(var(--portdive-border-rgb), 0.12);
     --shadow-inset-sm:
         inset 0 1px 0 rgba(255, 255, 255, 0.1),
         inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-border-secondary: rgba(var(--portdive-border-rgb), 0.08);
     --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
 
     /* Common style patterns - updated for dark mode */
@@ -200,41 +208,46 @@
     --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 
     /* RGB versions for dark mode */
-    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-success-rgb: var(--portdive-primary-rgb);
     --color-error-rgb: var(--color-red-400-rgb);
     --color-warning-rgb: var(--color-orange-400-rgb);
     --color-info-rgb: var(--color-gray-300-rgb);
+    --color-teal-500-rgb: 31, 163, 155;
 }
 
 [data-theme="light"] {
-    /* RGB versions for opacity control (light mode) */
+    /* RGB versions for opacity control (light mode) - PortDive colors */
     --color-brown-600-rgb: 94, 82, 64;
-    --color-teal-500-rgb: 33, 128, 141;
-    --color-slate-900-rgb: 19, 52, 59;
+    --color-teal-500-rgb: 31, 163, 155;
+    --color-slate-900-rgb: 10, 26, 31;
+    --portdive-bg-rgb: 248, 250, 249;
+    --portdive-surface-rgb: 255, 255, 255;
+    --portdive-text-rgb: 10, 26, 31;
+    --portdive-border-rgb: 10, 26, 31;
 
-    /* Semantic Color Tokens (Light Mode) */
-    --color-background: var(--color-cream-50);
-    --color-surface: var(--color-cream-100);
-    --color-text: var(--color-slate-900);
-    --color-text-secondary: var(--color-slate-500);
-    --color-primary: var(--color-teal-500);
-    --color-primary-hover: var(--color-teal-600);
-    --color-primary-active: var(--color-teal-700);
+    /* Semantic Color Tokens (Light Mode) - PortDive colors */
+    --color-background: #f8faf9;
+    --color-surface: #ffffff;
+    --color-text: #0a1a1f;
+    --color-text-secondary: #5a6570;
+    --color-primary: #1FA39B;
+    --color-primary-hover: #1a8e87;
+    --color-primary-active: #158179;
     --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
     --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
     --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-    --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-    --color-btn-primary-text: var(--color-cream-50);
-    --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-    --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+    --color-border: rgba(var(--portdive-border-rgb), 0.12);
+    --color-btn-primary-text: #ffffff;
+    --color-card-border: rgba(var(--portdive-border-rgb), 0.12);
+    --color-card-border-inner: rgba(var(--portdive-border-rgb), 0.12);
     --color-error: var(--color-red-500);
-    --color-success: var(--color-teal-500);
+    --color-success: #1FA39B;
     --color-warning: var(--color-orange-500);
     --color-info: var(--color-slate-500);
-    --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+    --color-focus-ring: rgba(var(--portdive-primary-rgb), 0.4);
 
     /* RGB versions for light mode */
-    --color-success-rgb: var(--color-teal-500-rgb);
+    --color-success-rgb: var(--portdive-primary-rgb);
     --color-error-rgb: var(--color-red-500-rgb);
     --color-warning-rgb: var(--color-orange-500-rgb);
     --color-info-rgb: var(--color-slate-500-rgb);
@@ -727,8 +740,8 @@ select.form-control {
     border-bottom: 2px solid var(--color-card-border-inner);
     background: linear-gradient(
         135deg,
-        rgba(var(--color-teal-500-rgb), 0.04) 0%,
-        rgba(var(--color-teal-500-rgb), 0.02) 100%
+        rgba(var(--portdive-primary-rgb), 0.04) 0%,
+        rgba(var(--portdive-primary-rgb), 0.02) 100%
     );
 }
 
@@ -739,7 +752,7 @@ select.form-control {
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: rgba(var(--color-teal-500-rgb), 0.1);
+    background: rgba(var(--portdive-primary-rgb), 0.1);
     border-radius: var(--radius-sm);
     color: var(--color-primary);
 }
@@ -833,7 +846,7 @@ select.form-control {
 .verdictStrong {
     font-weight: var(--font-weight-semibold);
     color: var(--color-primary);
-    background: rgba(var(--color-teal-500-rgb), 0.08);
+    background: rgba(var(--portdive-primary-rgb), 0.08);
     padding: 0 var(--space-2);
     border-radius: var(--radius-sm);
 }
@@ -865,7 +878,7 @@ select.form-control {
 
 /* Code */
 .verdictCode {
-    background: rgba(var(--color-teal-500-rgb), 0.08);
+    background: rgba(var(--portdive-primary-rgb), 0.08);
     color: var(--color-primary);
     padding: var(--space-2) var(--space-6);
     border-radius: var(--radius-sm);
@@ -881,7 +894,7 @@ select.form-control {
 .verdictFooter {
     padding: var(--space-12) var(--space-20);
     border-top: 1px solid var(--color-card-border-inner);
-    background: rgba(var(--color-teal-500-rgb), 0.02);
+    background: rgba(var(--portdive-primary-rgb), 0.02);
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -890,7 +903,7 @@ select.form-control {
 .verdictBadge {
     display: inline-block;
     padding: var(--space-4) var(--space-12);
-    background: rgba(var(--color-teal-500-rgb), 0.1);
+    background: rgba(var(--portdive-primary-rgb), 0.1);
     color: var(--color-primary);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);
@@ -1032,90 +1045,61 @@ select.form-control {
     }
 }
 
-/* Dark mode specific adjustments */
+/* Dark mode specific adjustments - PortDive colors */
 @media (prefers-color-scheme: dark) {
     .verdictHeader {
         background: linear-gradient(
             135deg,
-            rgba(var(--color-teal-300-rgb), 0.04) 0%,
-            rgba(var(--color-teal-300-rgb), 0.02) 100%
+            rgba(var(--portdive-primary-rgb), 0.04) 0%,
+            rgba(var(--portdive-primary-rgb), 0.02) 100%
         );
     }
 
     .verdictHeaderIcon {
-        background: rgba(var(--color-teal-300-rgb), 0.15);
+        background: rgba(var(--portdive-primary-rgb), 0.15);
     }
 
     .verdictStrong {
-        background: rgba(var(--color-teal-300-rgb), 0.1);
+        background: rgba(var(--portdive-primary-rgb), 0.08);
     }
 
     .verdictCode {
-        background: rgba(var(--color-teal-300-rgb), 0.1);
+        background: rgba(var(--portdive-primary-rgb), 0.08);
     }
 
     .verdictFooter {
-        background: rgba(var(--color-teal-300-rgb), 0.03);
+        background: rgba(var(--portdive-primary-rgb), 0.02);
     }
 
     .verdictBadge {
-        background: rgba(var(--color-teal-300-rgb), 0.15);
+        background: rgba(var(--portdive-primary-rgb), 0.1);
     }
 }
 
 [data-theme="dark"] .verdictHeader {
     background: linear-gradient(
         135deg,
-        rgba(var(--color-teal-300-rgb), 0.04) 0%,
-        rgba(var(--color-teal-300-rgb), 0.02) 100%
+        rgba(var(--portdive-primary-rgb), 0.04) 0%,
+        rgba(var(--portdive-primary-rgb), 0.02) 100%
     );
 }
 
 [data-theme="dark"] .verdictHeaderIcon {
-    background: rgba(var(--color-teal-300-rgb), 0.15);
+    background: rgba(var(--portdive-primary-rgb), 0.15);
 }
 
 [data-theme="dark"] .verdictStrong {
-    background: rgba(var(--color-teal-300-rgb), 0.1);
+    background: rgba(var(--portdive-primary-rgb), 0.08);
 }
 
 [data-theme="dark"] .verdictCode {
-    background: rgba(var(--color-teal-300-rgb), 0.1);
+    background: rgba(var(--portdive-primary-rgb), 0.08);
 }
 
 [data-theme="dark"] .verdictFooter {
-    background: rgba(var(--color-teal-300-rgb), 0.03);
+    background: rgba(var(--portdive-primary-rgb), 0.02);
 }
 
 [data-theme="dark"] .verdictBadge {
-    background: rgba(var(--color-teal-300-rgb), 0.15);
-}
-
-/* Docusaurus theme support */
-[data-theme="dark"] .verdictHeader {
-    background: linear-gradient(
-        135deg,
-        rgba(var(--color-teal-300-rgb), 0.04) 0%,
-        rgba(var(--color-teal-300-rgb), 0.02) 100%
-    );
-}
-
-[data-theme="dark"] .verdictHeaderIcon {
-    background: rgba(var(--color-teal-300-rgb), 0.15);
-}
-
-[data-theme="dark"] .verdictStrong {
-    background: rgba(var(--color-teal-300-rgb), 0.1);
-}
-
-[data-theme="dark"] .verdictCode {
-    background: rgba(var(--color-teal-300-rgb), 0.1);
-}
-
-[data-theme="dark"] .verdictFooter {
-    background: rgba(var(--color-teal-300-rgb), 0.03);
-}
-
-[data-theme="dark"] .verdictBadge {
-    background: rgba(var(--color-teal-300-rgb), 0.15);
+    background: rgba(var(--portdive-primary-rgb), 0.1);
 }
