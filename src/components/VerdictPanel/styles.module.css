@@ -879,6 +879,52 @@ select.form-control {
     border-bottom: 2px solid rgba(var(--portdive-secondary-rgb), 0.3);
 }
 
+/* Content within success sections */
+.inSuccessSection {
+    /* Paragraph in success section - inherits base styling */
+}
+
+.strongSuccess {
+    color: var(--portdive-primary) !important;
+    background: rgba(var(--portdive-primary-rgb), 0.08) !important;
+}
+
+.listSuccess {
+    /* List in success section */
+}
+
+.listItemSuccess::before {
+    color: var(--portdive-primary) !important;
+}
+
+.codeSuccess {
+    background: rgba(var(--portdive-primary-rgb), 0.08) !important;
+    color: var(--portdive-primary) !important;
+}
+
+/* Content within warning sections */
+.inWarningSection {
+    /* Paragraph in warning section - inherits base styling */
+}
+
+.strongWarning {
+    color: var(--portdive-secondary) !important;
+    background: rgba(var(--portdive-secondary-rgb), 0.08) !important;
+}
+
+.listWarning {
+    /* List in warning section */
+}
+
+.listItemWarning::before {
+    color: var(--portdive-secondary) !important;
+}
+
+.codeWarning {
+    background: rgba(var(--portdive-secondary-rgb), 0.08) !important;
+    color: var(--portdive-secondary) !important;
+}
+
 .sectionHeading {
     font-size: var(--font-size-md);
     color: var(--color-text);

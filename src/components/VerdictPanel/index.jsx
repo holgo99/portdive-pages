@@ -22,30 +22,59 @@ const createMarkdownComponents = (isCorrective) => {
   // Track current section context for styling
   let currentSection = null;
 
+  /**
+   * Extract plain text from children (handles nested elements and bold markdown)
+   */
+  const getPlainText = (children) => {
+    if (typeof children === 'string') return children;
+    if (Array.isArray(children)) {
+      return children.map(getPlainText).join('');
+    }
+    if (children?.props?.children) {
+      return getPlainText(children.props.children);
+    }
+    return String(children);
+  };
+
+  /**
+   * Get section-specific class based on current section and wave type
+   * Returns: "success" or "warning"
+   */
+  const getSectionStyle = () => {
+    if (!currentSection) return "";
+
+    // Motive waves (isCorrective=false): Validation=success, Invalidation=warning
+    // Corrective waves (isCorrective=true): Validation=warning, Invalidation=success
+    if (currentSection === "validation") {
+      return isCorrective ? "warning" : "success";
+    } else if (currentSection === "invalidation") {
+      return isCorrective ? "success" : "warning";
+    }
+    return "";
+  };
+
   return {
     h2: ({ node, children, ...props }) => {
-      const text = String(children);
+      const text = getPlainText(children);
 
-      // Detect Validation/Invalidation sections
-      if (text.includes("Validation")) {
-        currentSection = "validation";
-      } else if (text.includes("Invalidation")) {
+      // Detect Validation/Invalidation sections (case-insensitive)
+      // IMPORTANT: Check "invalidation" BEFORE "validation" since "validation" is a substring
+      if (/invalidation/i.test(text)) {
         currentSection = "invalidation";
+      } else if (/validation/i.test(text)) {
+        currentSection = "validation";
       } else {
         currentSection = null;
       }
 
-      // Apply section-specific classes
+      // Apply section-specific classes based on detected section
       let sectionClass = styles.verdictTitle;
+      const style = getSectionStyle();
 
-      if (currentSection === "validation") {
-        sectionClass += isCorrective
-          ? ` ${styles.sectionWarning}`
-          : ` ${styles.sectionSuccess}`;
-      } else if (currentSection === "invalidation") {
-        sectionClass += isCorrective
-          ? ` ${styles.sectionSuccess}`
-          : ` ${styles.sectionWarning}`;
+      if (style === "success") {
+        sectionClass += ` ${styles.sectionSuccess}`;
+      } else if (style === "warning") {
+        sectionClass += ` ${styles.sectionWarning}`;
       }
 
       return (
@@ -57,17 +86,36 @@ const createMarkdownComponents = (isCorrective) => {
     h3: ({ node, ...props }) => (
       <h3 className={styles.sectionHeading} {...props} />
     ),
-    p: ({ node, ...props }) => <p className={styles.verdictText} {...props} />,
-    strong: ({ node, ...props }) => (
-      <strong className={styles.verdictStrong} {...props} />
-    ),
-    ul: ({ node, ...props }) => <ul className={styles.verdictList} {...props} />,
-    li: ({ node, ...props }) => (
-      <li className={styles.verdictListItem} {...props} />
-    ),
-    code: ({ node, ...props }) => (
-      <code className={styles.verdictCode} {...props} />
-    ),
+    p: ({ node, ...props }) => {
+      const style = getSectionStyle();
+      const sectionClass = style === "success" ? styles.inSuccessSection : style === "warning" ? styles.inWarningSection : "";
+      return <p className={`${styles.verdictText} ${sectionClass}`} {...props} />;
+    },
+    strong: ({ node, ...props }) => {
+      const style = getSectionStyle();
+      const sectionClass = style === "success" ? styles.strongSuccess : style === "warning" ? styles.strongWarning : "";
+      return <strong className={`${styles.verdictStrong} ${sectionClass}`} {...props} />;
+    },
+    ul: ({ node, ...props }) => {
+      const style = getSectionStyle();
+      const sectionClass = style === "success" ? styles.listSuccess : style === "warning" ? styles.listWarning : "";
+      return <ul className={`${styles.verdictList} ${sectionClass}`} {...props} />;
+    },
+    ol: ({ node, ...props }) => {
+      const style = getSectionStyle();
+      const sectionClass = style === "success" ? styles.listSuccess : style === "warning" ? styles.listWarning : "";
+      return <ol className={`${styles.verdictList} ${sectionClass}`} {...props} />;
+    },
+    li: ({ node, ...props }) => {
+      const style = getSectionStyle();
+      const sectionClass = style === "success" ? styles.listItemSuccess : style === "warning" ? styles.listItemWarning : "";
+      return <li className={`${styles.verdictListItem} ${sectionClass}`} {...props} />;
+    },
+    code: ({ node, ...props }) => {
+      const style = getSectionStyle();
+      const sectionClass = style === "success" ? styles.codeSuccess : style === "warning" ? styles.codeWarning : "";
+      return <code className={`${styles.verdictCode} ${sectionClass}`} {...props} />;
+    },
   };
 };
 
