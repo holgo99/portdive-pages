@@ -26,6 +26,8 @@
     /* PortDive Brand Colors */
     --portdive-primary: #1FA39B;
     --portdive-primary-rgb: 31, 163, 155;
+    --portdive-secondary: #FF6B6B;
+    --portdive-secondary-rgb: 255, 107, 107;
 
     /* RGB versions for opacity control */
     --color-brown-600-rgb: 94, 82, 64;
@@ -729,6 +731,50 @@ select.form-control {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CORRECTIVE VARIANT (Coral/Warning colors) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.verdictPanelCorrective:hover {
+    border-color: var(--portdive-secondary);
+}
+
+.verdictPanelCorrective .verdictHeader {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-secondary-rgb), 0.04) 0%,
+        rgba(var(--portdive-secondary-rgb), 0.02) 100%
+    );
+}
+
+.verdictPanelCorrective .verdictHeaderIcon {
+    background: rgba(var(--portdive-secondary-rgb), 0.1);
+    color: var(--portdive-secondary);
+}
+
+.verdictPanelCorrective .verdictStrong {
+    color: var(--portdive-secondary);
+    background: rgba(var(--portdive-secondary-rgb), 0.08);
+}
+
+.verdictPanelCorrective .verdictCode {
+    background: rgba(var(--portdive-secondary-rgb), 0.08);
+    color: var(--portdive-secondary);
+}
+
+.verdictPanelCorrective .verdictListItem::before {
+    color: var(--portdive-secondary);
+}
+
+.verdictPanelCorrective .verdictFooter {
+    background: rgba(var(--portdive-secondary-rgb), 0.02);
+}
+
+.verdictPanelCorrective .verdictBadge {
+    background: rgba(var(--portdive-secondary-rgb), 0.1);
+    color: var(--portdive-secondary);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 /* HEADER */
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -1027,6 +1073,12 @@ select.form-control {
         background: var(--color-primary);
         color: var(--color-btn-primary-text);
         border: 1px solid var(--color-primary);
+    }
+
+    .verdictPanelCorrective .verdictBadge {
+        background: var(--portdive-secondary);
+        color: #ffffff;
+        border: 1px solid var(--portdive-secondary);
     }
 
     .verdictStrong {

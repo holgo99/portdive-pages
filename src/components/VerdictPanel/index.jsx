@@ -38,11 +38,20 @@ const markdownComponents = {
 /**
  * VerdictPanel Component
  * @param {string} verdict - Markdown string with analysis verdict
+ * @param {boolean} isCorrective - If true, displays coral/warning color scheme
  * @param {string} className - Optional CSS class names
  */
-export default function VerdictPanel({ verdict, theme, className = "" }) {
+export default function VerdictPanel({
+  verdict,
+  isCorrective = false,
+  className = "",
+}) {
+  const wrapperClass = `${styles.verdictPanelWrapper} ${
+    isCorrective ? styles.verdictPanelCorrective : ""
+  } ${className}`;
+
   return (
-    <div className={`${styles.verdictPanelWrapper} ${className}`}>
+    <div className={wrapperClass}>
       {/* Main content */}
       <div className={styles.verdictContent}>
         <ReactMarkdown components={markdownComponents}>{verdict}</ReactMarkdown>
@@ -50,7 +59,10 @@ export default function VerdictPanel({ verdict, theme, className = "" }) {
 
       {/* Footer badge */}
       <div className={styles.verdictFooter}>
-        <span className={styles.verdictBadge}>Analysis Verdict</span>
+        <span className={styles.verdictBadge}>
+          {isCorrective ? "⚠️ " : "✓ "}
+          Analysis Verdict
+        </span>
       </div>
     </div>
   );

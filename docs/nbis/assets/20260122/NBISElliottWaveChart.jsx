@@ -2379,7 +2379,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         }}
       >
         {activeCount.verdict.length > 0 && (
-          <VerdictPanel verdict={activeCount.verdict} theme={theme} />
+          <VerdictPanel verdict={activeCount.verdict} isCorrective={activeCount.mode === "CORRECTIVE"} />
         )}
       </div>
     </div>
