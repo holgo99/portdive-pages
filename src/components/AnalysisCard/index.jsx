@@ -1,3 +1,5 @@
+import styles from "./styles.module.css";
+
 export function AnalysisCard({
   title,
   description,
