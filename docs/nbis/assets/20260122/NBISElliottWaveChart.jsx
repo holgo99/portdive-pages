@@ -87,6 +87,38 @@ const WAVE_COUNTS = {
     projectedTargetBand: { startPrice: 135.83, endPrice: 158.45 },
     description:
       "5-wave impulse (1)-(2)-(3)-(4) complete, now in (5) early stages",
+    waves: [
+      {
+        label: "WAVE (1)",
+        range: "$18.31 → $55.75",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.primary,
+      },
+      {
+        label: "WAVE (2)",
+        range: "$55.75 → $43.89",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.primary,
+      },
+      {
+        label: "WAVE (3)",
+        range: "$43.89 → $141.10",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.primary,
+      },
+      {
+        label: "WAVE (4)",
+        range: "$141.10 → $75.25",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.primary,
+      },
+      {
+        label: "WAVE (5)",
+        range: "$75.25 → >$135.83",
+        status: "IN PROGRESS",
+        color: "#F59E0B",
+      },
+    ],
     metrics: [
       {
         label: "Expected Value",
@@ -130,6 +162,32 @@ const WAVE_COUNTS = {
     projectedStart: { idx: 197, price: 110.5 },
     projectedTargetBand: { startPrice: 60, endPrice: 75.25 },
     description: "A–B–C / W–X–Y corrective regime",
+    waves: [
+      {
+        label: "WAVE (A)",
+        range: "$141.10 → $75.25",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.secondary,
+      },
+      {
+        label: "WAVE (B)",
+        range: "$75.25 → $110.50",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.secondary,
+      },
+      {
+        label: "WAVE (C)",
+        range: "$110.50 → <$75.25",
+        status: "PROJECTED",
+        color: "#F59E0B",
+      },
+      {
+        label: "INVALIDATION",
+        range: "$98.87 → $141.10",
+        status: "CLEAN IMPULSIVE BREAK",
+        color: PORTDIVE_COLORS.primary,
+      },
+    ],
     metrics: [
       {
         label: "Expected Value",
@@ -170,11 +228,43 @@ const WAVE_COUNTS = {
       wave3ExtPeak: { idx: 130, price: 141.1, label: "3" },
     },
     minorWaves: {},
-    projectedTarget: 72,
+    projectedTarget: 92.5,
     projectedLabel: "4",
     projectedStart: { idx: 130, price: 141.1 },
-    projectedTargetBand: { startPrice: 65, endPrice: 75.25 },
+    projectedTargetBand: { startPrice: 75.25, endPrice: 92.5 },
     description: "Wave (4) complex not finished (triangle/combination)",
+    waves: [
+      {
+        label: "WAVE (W)",
+        range: "$141.10 → $75.25",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.secondary,
+      },
+      {
+        label: "WAVE (X)",
+        range: "$75.25 → $110.50",
+        status: "COMPLETE",
+        color: PORTDIVE_COLORS.secondary,
+      },
+      {
+        label: "WAVE (Y)",
+        range: "$110.50 → $92.50",
+        status: "PROJECTED",
+        color: "#F59E0B",
+      },
+      {
+        label: "WAVE (5)",
+        range: "$92.50 → $135.83",
+        status: "PROJECTED",
+        color: PORTDIVE_COLORS.primary,
+      },
+      {
+        label: "INVALIDATION",
+        range: "$125–133 and especially $141",
+        status: "CLEAN 5-WAVE RISE ON 1D",
+        color: PORTDIVE_COLORS.primary,
+      },
+    ],
     metrics: [],
   },
 };
@@ -1378,9 +1468,10 @@ const ChartCanvas = memo(
 const CurrentPriceCard = memo(
   ({ price, change, target, theme, isDarkMode }) => {
     const isTargetPositive = target >= price;
-    const progressToTarget = isTargetPositive
-      ? Math.min(((price - 18.31) / (target - 18.31)) * 100, 100)
-      : Math.min(((target - 18.31) / (price - 18.31)) * 100, 100);
+    const progressToTarget = Math.min(
+      Math.max(((target - price) / price) * 100, -100),
+      100,
+    );
     const isPositive = change >= 0;
 
     return (
@@ -1475,10 +1566,7 @@ const CurrentPriceCard = memo(
               fontSize: "12px",
             }}
           >
-            <span>
-              {isTargetPositive ? "+" : "-"}
-              {progressToTarget.toFixed(0)}% to Target
-            </span>
+            <span>{progressToTarget.toFixed(0)}% to Target</span>
             <span>Target: ${target.toFixed(2)}</span>
           </div>
         </div>
@@ -1700,36 +1788,9 @@ const AnalysisMetricsRow = memo(({ metrics, theme }) => {
 });
 
 // ============================================================================
-// TECHNICAL ALERTS PANEL
+// WAVE TIMELINE PANEL
 // ============================================================================
-const TechnicalAlertsPanel = memo(({ theme }) => {
-  const waves = [
-    {
-      label: "WAVE 1",
-      range: "$88.65 → $82.89",
-      status: "COMPLETE",
-      color: PORTDIVE_COLORS.primary,
-    },
-    {
-      label: "WAVE 3",
-      range: "$86.00 → $0.00",
-      status: "IN PROGRESS",
-      color: "#F59E0B",
-    },
-    {
-      label: "WAVE 3",
-      range: "$85.95 → $71.78",
-      status: "PROJECTED",
-      color: PORTDIVE_COLORS.secondary,
-    },
-    {
-      label: "WAVE 5",
-      range: "$72.65 → $93.00",
-      status: "PROJECTED",
-      color: theme.textSecondary,
-    },
-  ];
-
+const WaveTimelinePanel = memo(({ waves, theme }) => {
   return (
     <div
       style={{
@@ -1737,6 +1798,7 @@ const TechnicalAlertsPanel = memo(({ theme }) => {
         borderRadius: "12px",
         padding: "16px",
         border: `1px solid ${theme.border}`,
+        width: "100%",
       }}
     >
       <div
@@ -1749,12 +1811,12 @@ const TechnicalAlertsPanel = memo(({ theme }) => {
           fontWeight: 600,
         }}
       >
-        Technical Alerts
+        Wave Timeline
       </div>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 3fr))",
           gap: "10px",
         }}
       >
@@ -1800,44 +1862,6 @@ const TechnicalAlertsPanel = memo(({ theme }) => {
       </div>
       <div
         style={{
-          marginTop: "16px",
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-          fontSize: "10px",
-          color: theme.textSecondary,
-        }}
-      >
-        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <span
-            style={{ width: "12px", height: "2px", background: theme.text }}
-          />{" "}
-          Price
-        </span>
-        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <span
-            style={{
-              width: "12px",
-              height: "2px",
-              background: PORTDIVE_COLORS.primary,
-            }}
-          />{" "}
-          20 SMA
-        </span>
-        <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <span
-            style={{
-              width: "12px",
-              height: "2px",
-              background: theme.textSecondary,
-              opacity: 0.5,
-            }}
-          />{" "}
-          Minor
-        </span>
-      </div>
-      <div
-        style={{
           marginTop: "10px",
           fontSize: "10px",
           color: theme.textSecondary,
@@ -1856,77 +1880,6 @@ const TechnicalAlertsPanel = memo(({ theme }) => {
         />
         #1 WMS PROGRESSION
       </div>
-    </div>
-  );
-});
-
-// ============================================================================
-// WAVE TIMELINE COMPONENT
-// ============================================================================
-const WaveTimeline = memo(({ theme }) => {
-  const waves = [
-    {
-      label: "Wave 1",
-      range: "$88.65 - $93.56",
-      status: "complete",
-      color: PORTDIVE_COLORS.primary,
-    },
-    {
-      label: "Wave 2",
-      range: "$20.90 - $92.68",
-      status: "complete",
-      color: PORTDIVE_COLORS.primary,
-    },
-    {
-      label: "Wave 3",
-      range: "$20.50 - $141.08",
-      status: "progress",
-      color: "#F59E0B",
-    },
-    {
-      label: "Wave 5",
-      range: "",
-      status: "projected",
-      color: PORTDIVE_COLORS.secondary,
-    },
-  ];
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        gap: "8px",
-        overflowX: "auto",
-        paddingBottom: "8px",
-      }}
-    >
-      {waves.map((wave, idx) => (
-        <div
-          key={idx}
-          style={{
-            flex: "1 0 auto",
-            minWidth: "120px",
-            padding: "12px",
-            borderRadius: "8px",
-            background:
-              wave.status === "progress" ? `${wave.color}15` : theme.surface,
-            border: `1px solid ${wave.status === "progress" ? wave.color : theme.border}`,
-          }}
-        >
-          <div style={{ fontSize: "13px", fontWeight: 600, color: wave.color }}>
-            {wave.label}
-          </div>
-          <div
-            style={{
-              fontSize: "10px",
-              color: theme.textSecondary,
-              marginTop: "4px",
-            }}
-          >
-            {wave.range}
-          </div>
-        </div>
-      ))}
     </div>
   );
 });
@@ -2306,10 +2259,21 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           isDarkMode={isDarkMode}
         />
         <FibonacciLevelsPanel currentPrice={currentPrice} theme={theme} />
-        {activeCount.metrics.length && (
+        {activeCount.metrics.length > 0 && (
           <AnalysisMetricsRow metrics={activeCount.metrics} theme={theme} />
         )}
-        <TechnicalAlertsPanel theme={theme} />
+      </div>
+      {/* Info Panel 2 */}
+      <div
+        style={{
+          display: "flex",
+          gap: "16px",
+          width: "100%",
+        }}
+      >
+        {activeCount.waves.length && (
+          <WaveTimelinePanel waves={activeCount.waves} theme={theme} />
+        )}
       </div>
     </div>
   );
