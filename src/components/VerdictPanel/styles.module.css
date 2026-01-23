@@ -866,6 +866,19 @@ select.form-control {
     line-height: var(--line-height-tight);
 }
 
+/* Section-specific styling for Validation/Invalidation */
+.sectionSuccess {
+    color: var(--portdive-primary);
+    padding-bottom: var(--space-8);
+    border-bottom: 2px solid rgba(var(--portdive-primary-rgb), 0.3);
+}
+
+.sectionWarning {
+    color: var(--portdive-secondary);
+    padding-bottom: var(--space-8);
+    border-bottom: 2px solid rgba(var(--portdive-secondary-rgb), 0.3);
+}
+
 .sectionHeading {
     font-size: var(--font-size-md);
     color: var(--color-text);
@@ -983,6 +996,12 @@ select.form-control {
 
     .verdictTitle {
         font-size: var(--font-size-md);
+    }
+
+    .sectionSuccess,
+    .sectionWarning {
+        font-size: var(--font-size-md);
+        padding-bottom: var(--space-6);
     }
 
     .sectionHeading {

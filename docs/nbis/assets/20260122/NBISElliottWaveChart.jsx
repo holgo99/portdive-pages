@@ -151,7 +151,7 @@ const WAVE_COUNTS = {
 
 **Most likely path (60%):** minor iii lifts toward **128 → 135/141**, then minor iv pulls back (ideally holds above ~110 or ~103), then minor v attempts **141+** and potentially **150–158**.
 
-## **Invalidations**
+## Invalidation
 
 * **Minor degree invalidation:** Below **75.25** breaks structure
 * **Structural warning:** Loss of **93.10** increases bearish odds`
@@ -235,7 +235,7 @@ The vertical Sep–Oct expansion behaves like a terminal/mania leg. Under this c
 * **75.25** = Wave A (or W) low
 * The current rise is **Wave B (or X)**, and **another Wave C (or Y)** down can still occur after B matures.
 
-## **Validation**
+## Validation
 
 **What would validate this alternative**
 
@@ -246,7 +246,7 @@ The vertical Sep–Oct expansion behaves like a terminal/mania leg. Under this c
 
 * A typical C target = **A length equality** or **1.272×A** from B high (We need the eventual B high to compute precisely, but likely downside zones would be **81.0**, then **64.7** as the deeper “78.6% shelf” of the prior Wave (3) retrace grid.)
 
-## **Invalidation**
+## Invalidation
 
 * Clean impulsive break and hold **above 141.10** with rising momentum (would strongly favor the primary “(5)” continuation).`
   },
@@ -310,14 +310,14 @@ This is a “time-correction” scenario:
 * 75.25 was not the final (4) low, just **C of W** (or A of a larger flat)
 * Price chops upward (B/X), then fades again to retest **80–75** before a true (5) begins.
 
-## **Validation**
+## Validation
 
 **What would validate**
 
 * Sideways-to-down behavior below ~110–113, with overlapping 1D swings (no clean 5-wave lift)
 * MACD/RSI staying rangebound
 
-## **Invalidation**
+## Invalidation
 
 * A clean 5-wave rise on 1D through **125–133** and especially **141**.`
   }
