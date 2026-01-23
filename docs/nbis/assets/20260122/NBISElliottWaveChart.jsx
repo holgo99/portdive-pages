@@ -14,7 +14,7 @@ import OHLCV_DATA from "./ohlcv-data.json";
 
 const tickerIconUrl = "/portdive-pages/img/nbis/nbis-icon.svg";
 const portdiveLogoUrl = "/portdive-pages/img/portdive-logo-primary.svg";
-
+const dateString = formatTimestamp(OHLCV_DATA.at(-1).timestamp);
 // ============================================================================
 // PORTDIVE BRAND COLORS - LOCKED (DO NOT CHANGE)
 // ============================================================================
@@ -268,6 +268,14 @@ const WAVE_COUNTS = {
     metrics: [],
   },
 };
+
+function formatTimestamp(timestamp) {
+  return new Date(timestamp * 1000).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+}
 
 // ============================================================================
 // PORTDIVE LOGO COMPONENT
@@ -1132,7 +1140,7 @@ const ChartCanvas = memo(
         )}
 
         {/* Minor waves - Only for primary count */}
-        {analysisState.showCorrectiveWaves &&
+        {analysisState.showMinorWaves &&
           activeWaveCount === "primary" &&
           activeCount.minorWaves && (
             <g>
@@ -1585,7 +1593,7 @@ const CurrentPriceCard = memo(
             color: theme.textSecondary,
           }}
         >
-          Today's Close • Jan 23, 2026
+          Daily Close • Last updated at: { dateString }
         </div>
       </div>
     );
@@ -1907,6 +1915,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const [analysisState, setAnalysisState] = useState({
     showMotiveWaves: true,
     showCorrectiveWaves: true,
+    showMinorWaves: true,
     showFibRetracements: false,
     showFibExtensions: true,
     showInvalidationLevel: true,
@@ -2109,6 +2118,13 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           checked={analysisState.showCorrectiveWaves}
           onChange={() => toggleAnalysis("showCorrectiveWaves")}
           color={PORTDIVE_COLORS.secondary}
+          theme={theme}
+        />
+        <CheckboxToggle
+          label="Minor Waves"
+          checked={analysisState.showMinorWaves}
+          onChange={() => toggleAnalysis("showMinorWaves")}
+          color={PORTDIVE_COLORS.primary}
           theme={theme}
         />
         <CheckboxToggle
