@@ -12,6 +12,9 @@ import React, {
 // ============================================================================
 import OHLCV_DATA from "./ohlcv-data.json";
 
+const tickerIconUrl = "/portdive-pages/img/nbis/nbis-icon.svg";
+const portdiveLogoUrl = "/portdive-pages/img/portdive-logo-primary.svg";
+
 // ============================================================================
 // PORTDIVE BRAND COLORS - LOCKED (DO NOT CHANGE)
 // ============================================================================
@@ -26,6 +29,8 @@ const PORTDIVE_COLORS = {
     border: "rgba(10, 26, 31, 0.12)",
     grid: "rgba(10, 26, 31, 0.06)",
     hover: "rgba(31, 163, 155, 0.08)",
+    primaryGradient: "linear-gradient(135deg, #ffffff 0%, #f0f4f2 100%)",
+    secondaryGradient: "linear-gradient(135deg, #fecdd5 0%, #fa8e8e 100%)",
   },
   dark: {
     bg: "#0a1a1f",
@@ -37,6 +42,8 @@ const PORTDIVE_COLORS = {
     border: "rgba(248, 250, 249, 0.12)",
     grid: "rgba(248, 250, 249, 0.04)",
     hover: "rgba(31, 163, 155, 0.15)",
+    primaryGradient: "linear-gradient(135deg, #1a2a35 0%, #0f1a1f 100%)",
+    secondaryGradient: "linear-gradient(135deg, #1a2a35 0%, #fa3b57 100%)",
   },
   primary: "#1FA39B",
   primaryLight: "#25b8ae",
@@ -58,51 +65,58 @@ const PORTDIVE_COLORS = {
 const WAVE_COUNTS = {
   primary: {
     id: "primary",
-    label: "Primary",
+    label: "Bullish continuation",
     probability: "60%",
     color: PORTDIVE_COLORS.primary,
     pivots: {
       wave1Start: { idx: 1, price: 18.31 },
-      wave1Peak: { idx: 58, price: 55.75, label: "①" },
-      wave2Low: { idx: 66, price: 43.89, label: "②" },
-      wave3Peak: { idx: 130, price: 141.1, label: "③" },
-      wave4Low: { idx: 177, price: 75.25, label: "④" },
+      wave1Peak: { idx: 58, price: 55.75, label: "1" },
+      wave2Low: { idx: 66, price: 43.89, label: "2" },
+      wave3Peak: { idx: 130, price: 141.1, label: "3" },
+      wave4Low: { idx: 177, price: 75.25, label: "4" },
     },
     minorWaves: {
       minorIPeak: { idx: 197, price: 110.5, label: "i" },
       minorIILow: { idx: 199, price: 93.1, label: "ii" },
     },
-    projectedTarget: 135.83,
+    projectedTarget: 150.13,
+    projectedLabel: "5",
+    projectedStart: { idx: 177, price: 75.25 },
+    description:
+      "5-wave impulse (1)-(2)-(3)-(4) complete, now in (5) early stages",
   },
   alt1: {
     id: "alt1",
-    label: "Alt 3 Extension",
+    label: "Corrective regime",
     probability: "30%",
     color: PORTDIVE_COLORS.secondary,
     pivots: {
-      wave1Start: { idx: 1, price: 18.31 },
-      wave1Peak: { idx: 58, price: 55.75, label: "①" },
-      wave2Low: { idx: 66, price: 43.89, label: "②" },
-      wave3ExtPeak: { idx: 130, price: 141.1, label: "③ ext" },
-      wave4Low: { idx: 177, price: 75.25, label: "④" },
+      wave1Start: { idx: 130, price: 141.1 },
+      waveALow: { idx: 177, price: 75.25, label: "A" },
+      waveBPeak: { idx: 197, price: 110.5, label: "B" },
     },
     minorWaves: {},
-    projectedTarget: 165.0,
-    description: "Wave 3 extended count",
+    projectedTarget: 64,
+    projectedLabel: "C",
+    projectedStart: { idx: 197, price: 110.5 },
+    description: "A–B–C / W–X–Y corrective regime",
   },
   alt2: {
     id: "alt2",
-    label: "Alt Flat",
+    label: "Wave (4) complex not finished (triangle/combination)",
     probability: "10%",
-    color: "#F59E0B",
+    color: PORTDIVE_COLORS.primary,
     pivots: {
       wave1Start: { idx: 1, price: 18.31 },
-      waveAPeak: { idx: 130, price: 141.1, label: "A" },
-      waveBLow: { idx: 177, price: 75.25, label: "B" },
+      wave1Peak: { idx: 58, price: 55.75, label: "1" },
+      wave2Low: { idx: 66, price: 43.89, label: "2" },
+      wave3ExtPeak: { idx: 130, price: 141.1, label: "3" },
     },
     minorWaves: {},
-    projectedTarget: 95.0,
-    description: "Flat correction scenario",
+    projectedTarget: 72,
+    projectedLabel: "4",
+    projectedStart: { idx: 130, price: 141.1 },
+    description: "Wave (4) complex not finished (triangle/combination)",
   },
 };
 
@@ -111,21 +125,38 @@ const WAVE_COUNTS = {
 // ============================================================================
 const PortDiveLogo = memo(({ size = 60, showWordmark = false, theme }) => (
   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-    <img
-      src="/portdive-pages/img/portdive-logo-primary.svg"
-      alt="Logo"
-      width="48px"
-    />
+    <img src={portdiveLogoUrl} alt="PortDive Logo" width="48px" />
     {showWordmark && (
       <span
         style={{
           fontSize: size * 0.6,
           fontWeight: 700,
-          color: PORTDIVE_COLORS.primary,
+          color: theme.text,
           letterSpacing: "-0.02em",
         }}
       >
         PortDive
+      </span>
+    )}
+  </div>
+));
+
+// ============================================================================
+// TICKER ICON COMPONENT
+// ============================================================================
+const TickerIcon = memo(({ size = 48, showWordmark = false, theme }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <img src={tickerIconUrl} alt="NBIS Icon" width="48px" />
+    {showWordmark && (
+      <span
+        style={{
+          fontSize: size * 0.6,
+          fontWeight: 700,
+          color: theme.text,
+          letterSpacing: "-0.02em",
+        }}
+      >
+        NBIS, Nebius Group N.V.
       </span>
     )}
   </div>
@@ -143,9 +174,8 @@ const CheckboxToggle = memo(
         gap: "8px",
         cursor: "pointer",
         padding: "8px 14px",
-        borderRadius: "6px",
-        background: checked ? `${color}15` : "transparent",
-        border: `1px solid ${checked ? color : theme.border}`,
+        border: "none",
+        background: "transparent",
         transition: "all 0.15s ease",
         userSelect: "none",
       }}
@@ -287,6 +317,7 @@ const ChartCanvas = memo(
 
     // Add projection space (25% extra for future projection to June 2026)
     const projectionBars = Math.floor(data.length * 0.25);
+    const projectionBarsScale = 0.75;
     const totalBars = data.length + projectionBars;
 
     const cW = W - M.l - M.r;
@@ -434,14 +465,16 @@ const ChartCanvas = memo(
               strokeDasharray={isMinor ? "3,2" : ""}
             />
             {/* Label pill */}
-            <ellipse
-              cx={x}
-              cy={y + yOffset}
-              rx={size * 0.55}
-              ry={size * 0.45}
-              fill={color}
-              filter="url(#labelShadow)"
-            />
+            {!isMinor && (
+              <ellipse
+                cx={x}
+                cy={y + yOffset}
+                rx={size * 0.55}
+                ry={size * 0.55}
+                stroke={color}
+                filter="url(#labelShadow)"
+              />
+            )}
             <text
               x={x}
               y={y + yOffset + fontSize * 0.35}
@@ -847,58 +880,11 @@ const ChartCanvas = memo(
 
             {activeWaveCount === "alt1" && (
               <>
-                {/* Alt 1 wave path */}
+                {/* Alt 1 wave path (correction) */}
                 <path
                   d={`M ${idxToX(activeCount.pivots.wave1Start.idx)},${priceToY(activeCount.pivots.wave1Start.price)}
-                    L ${idxToX(activeCount.pivots.wave1Peak.idx)},${priceToY(activeCount.pivots.wave1Peak.price)}
-                    L ${idxToX(activeCount.pivots.wave2Low.idx)},${priceToY(activeCount.pivots.wave2Low.price)}
-                    L ${idxToX(activeCount.pivots.wave3ExtPeak.idx)},${priceToY(activeCount.pivots.wave3ExtPeak.price)}
-                    L ${idxToX(activeCount.pivots.wave4Low.idx)},${priceToY(activeCount.pivots.wave4Low.price)}`}
-                  fill="none"
-                  stroke={activeCount.color}
-                  strokeWidth="2.5"
-                  opacity="0.8"
-                  strokeLinejoin="round"
-                />
-                {/* Wave labels */}
-                {renderWaveLabel(
-                  idxToX(activeCount.pivots.wave1Peak.idx),
-                  priceToY(activeCount.pivots.wave1Peak.price),
-                  activeCount.pivots.wave1Peak.label,
-                  true,
-                  activeCount.color,
-                )}
-                {renderWaveLabel(
-                  idxToX(activeCount.pivots.wave2Low.idx),
-                  priceToY(activeCount.pivots.wave2Low.price),
-                  activeCount.pivots.wave2Low.label,
-                  false,
-                  activeCount.color,
-                )}
-                {renderWaveLabel(
-                  idxToX(activeCount.pivots.wave3ExtPeak.idx),
-                  priceToY(activeCount.pivots.wave3ExtPeak.price),
-                  activeCount.pivots.wave3ExtPeak.label,
-                  true,
-                  activeCount.color,
-                )}
-                {renderWaveLabel(
-                  idxToX(activeCount.pivots.wave4Low.idx),
-                  priceToY(activeCount.pivots.wave4Low.price),
-                  activeCount.pivots.wave4Low.label,
-                  false,
-                  activeCount.color,
-                )}
-              </>
-            )}
-
-            {activeWaveCount === "alt2" && (
-              <>
-                {/* Alt 2 wave path (Flat correction) */}
-                <path
-                  d={`M ${idxToX(activeCount.pivots.wave1Start.idx)},${priceToY(activeCount.pivots.wave1Start.price)}
-                    L ${idxToX(activeCount.pivots.waveAPeak.idx)},${priceToY(activeCount.pivots.waveAPeak.price)}
-                    L ${idxToX(activeCount.pivots.waveBLow.idx)},${priceToY(activeCount.pivots.waveBLow.price)}`}
+                    L ${idxToX(activeCount.pivots.waveALow.idx)},${priceToY(activeCount.pivots.waveALow.price)}
+                    L ${idxToX(activeCount.pivots.waveBPeak.idx)},${priceToY(activeCount.pivots.waveBPeak.price)}`}
                   fill="none"
                   stroke={activeCount.color}
                   strokeWidth="2.5"
@@ -906,22 +892,61 @@ const ChartCanvas = memo(
                   strokeLinejoin="round"
                 />
                 {renderWaveLabel(
-                  idxToX(activeCount.pivots.waveAPeak.idx),
-                  priceToY(activeCount.pivots.waveAPeak.price),
-                  activeCount.pivots.waveAPeak.label,
-                  true,
+                  idxToX(activeCount.pivots.waveALow.idx),
+                  priceToY(activeCount.pivots.waveALow.price),
+                  activeCount.pivots.waveALow.label,
+                  false,
                   activeCount.color,
                 )}
                 {renderWaveLabel(
-                  idxToX(activeCount.pivots.waveBLow.idx),
-                  priceToY(activeCount.pivots.waveBLow.price),
-                  activeCount.pivots.waveBLow.label,
-                  false,
+                  idxToX(activeCount.pivots.waveBPeak.idx),
+                  priceToY(activeCount.pivots.waveBPeak.price),
+                  activeCount.pivots.waveBPeak.label,
+                  true,
                   activeCount.color,
                 )}
               </>
             )}
           </g>
+        )}
+
+        {activeWaveCount === "alt2" && (
+          <>
+            {/* Alt 2 wave path */}
+            <path
+              d={`M ${idxToX(activeCount.pivots.wave1Start.idx)},${priceToY(activeCount.pivots.wave1Start.price)}
+                L ${idxToX(activeCount.pivots.wave1Peak.idx)},${priceToY(activeCount.pivots.wave1Peak.price)}
+                L ${idxToX(activeCount.pivots.wave2Low.idx)},${priceToY(activeCount.pivots.wave2Low.price)}
+                L ${idxToX(activeCount.pivots.wave3ExtPeak.idx)},${priceToY(activeCount.pivots.wave3ExtPeak.price)}`}
+              fill="none"
+              stroke={activeCount.color}
+              strokeWidth="2.5"
+              opacity="0.8"
+              strokeLinejoin="round"
+            />
+            {/* Wave labels */}
+            {renderWaveLabel(
+              idxToX(activeCount.pivots.wave1Peak.idx),
+              priceToY(activeCount.pivots.wave1Peak.price),
+              activeCount.pivots.wave1Peak.label,
+              true,
+              activeCount.color,
+            )}
+            {renderWaveLabel(
+              idxToX(activeCount.pivots.wave2Low.idx),
+              priceToY(activeCount.pivots.wave2Low.price),
+              activeCount.pivots.wave2Low.label,
+              false,
+              activeCount.color,
+            )}
+            {renderWaveLabel(
+              idxToX(activeCount.pivots.wave3ExtPeak.idx),
+              priceToY(activeCount.pivots.wave3ExtPeak.price),
+              activeCount.pivots.wave3ExtPeak.label,
+              true,
+              activeCount.color,
+            )}
+          </>
         )}
 
         {/* Minor waves - Only for primary count */}
@@ -963,8 +988,8 @@ const ChartCanvas = memo(
         {analysisState.showMotiveWaves && activeWaveCount === "primary" && (
           <g>
             <path
-              d={`M ${idxToX(data.length - 1)},${priceToY(currentPrice)}
-                L ${idxToX(data.length + projectionBars * 0.7)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
               fill="none"
               stroke={activeCount.color}
               strokeWidth="2"
@@ -974,27 +999,129 @@ const ChartCanvas = memo(
             {/* Wave 5 projected label */}
             <g>
               <ellipse
-                cx={idxToX(data.length + projectionBars * 0.7)}
+                cx={idxToX(data.length + projectionBars * projectionBarsScale)}
                 cy={priceToY(activeCount.projectedTarget) - 28}
                 rx={16}
-                ry={14}
-                fill={activeCount.color}
+                ry={16}
+                stroke={activeCount.color}
+                strokeWidth={1.5}
+                strokeDasharray="5,3"
                 opacity={0.6}
                 filter="url(#labelShadow)"
               />
               <text
-                x={idxToX(data.length + projectionBars * 0.7)}
+                x={idxToX(data.length + projectionBars * projectionBarsScale)}
                 y={priceToY(activeCount.projectedTarget) - 23}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                ⑤
+                {activeCount.projectedLabel}
               </text>
               <text
-                x={idxToX(data.length + projectionBars * 0.7)}
-                y={priceToY(activeCount.projectedTarget) - 8}
+                x={idxToX(data.length + projectionBars * projectionBarsScale)}
+                y={priceToY(activeCount.projectedTarget)}
+                textAnchor="middle"
+                fill={activeCount.color}
+                fontSize="10"
+                fontWeight="600"
+                opacity={0.8}
+              >
+                ${activeCount.projectedTarget}
+              </text>
+            </g>
+          </g>
+        )}
+
+        {/* Projected Wave C path */}
+        {analysisState.showCorrectiveWaves && activeWaveCount === "alt1" && (
+          <g>
+            <path
+              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              fill="none"
+              stroke={activeCount.color}
+              strokeWidth="2"
+              strokeDasharray="8,6"
+              opacity="0.5"
+            />
+            {/* Wave C projected label */}
+            <g>
+              <ellipse
+                cx={idxToX(data.length + projectionBars * projectionBarsScale)}
+                cy={priceToY(activeCount.projectedTarget) + 23}
+                rx={16}
+                ry={16}
+                stroke={activeCount.color}
+                strokeWidth={1.5}
+                strokeDasharray="5,3"
+                opacity={0.6}
+                filter="url(#labelShadow)"
+              />
+              <text
+                x={idxToX(data.length + projectionBars * projectionBarsScale)}
+                y={priceToY(activeCount.projectedTarget) + 28}
+                textAnchor="middle"
+                fill="#fff"
+                fontSize="14"
+                fontWeight="700"
+              >
+                {activeCount.projectedLabel}
+              </text>
+              <text
+                x={idxToX(data.length + projectionBars * projectionBarsScale)}
+                y={priceToY(activeCount.projectedTarget)}
+                textAnchor="middle"
+                fill={activeCount.color}
+                fontSize="10"
+                fontWeight="600"
+                opacity={0.8}
+              >
+                ${activeCount.projectedTarget}
+              </text>
+            </g>
+          </g>
+        )}
+
+        {/* Projected Wave 4 path */}
+        {analysisState.showMotiveWaves && activeWaveCount === "alt2" && (
+          <g>
+            <path
+              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              fill="none"
+              stroke={activeCount.color}
+              strokeWidth="2"
+              strokeDasharray="8,6"
+              opacity="0.5"
+            />
+            {/* Wave C projected label */}
+            <g>
+              <ellipse
+                cx={idxToX(data.length + projectionBars * projectionBarsScale)}
+                cy={priceToY(activeCount.projectedTarget) + 23}
+                rx={16}
+                ry={16}
+                stroke={activeCount.color}
+                strokeWidth={1.5}
+                strokeDasharray="5,3"
+                opacity={0.6}
+                filter="url(#labelShadow)"
+              />
+              <text
+                x={idxToX(data.length + projectionBars * projectionBarsScale)}
+                y={priceToY(activeCount.projectedTarget) + 28}
+                textAnchor="middle"
+                fill="#fff"
+                fontSize="14"
+                fontWeight="700"
+              >
+                {activeCount.projectedLabel}
+              </text>
+              <text
+                x={idxToX(data.length + projectionBars * projectionBarsScale)}
+                y={priceToY(activeCount.projectedTarget)}
                 textAnchor="middle"
                 fill={activeCount.color}
                 fontSize="10"
@@ -1158,18 +1285,18 @@ const ChartCanvas = memo(
 // ============================================================================
 const CurrentPriceCard = memo(
   ({ price, change, target, theme, isDarkMode }) => {
-    const progressToTarget = Math.min(
-      ((price - 18.31) / (target - 18.31)) * 100,
-      100,
-    );
+    const isTargetPositive = target >= price;
+    const progressToTarget = isTargetPositive
+      ? Math.min(((price - 18.31) / (target - 18.31)) * 100, 100)
+      : Math.min(((target - 18.31) / (price - 18.31)) * 100, 100);
     const isPositive = change >= 0;
 
     return (
       <div
         style={{
-          background: isDarkMode
-            ? "linear-gradient(135deg, #1a2a35 0%, #0f1a1f 100%)"
-            : "linear-gradient(135deg, #ffffff 0%, #f0f4f2 100%)",
+          background: isTargetPositive
+            ? theme.primaryGradient
+            : theme.secondaryGradient,
           borderRadius: "12px",
           padding: "24px",
           border: `1px solid ${theme.border}`,
@@ -1240,7 +1367,7 @@ const CurrentPriceCard = memo(
               style={{
                 width: `${progressToTarget}%`,
                 height: "100%",
-                background: `linear-gradient(90deg, ${PORTDIVE_COLORS.primary} 0%, rgba(31, 163, 155, 0.5) 100%)`,
+                background: `linear-gradient(90deg, ${isTargetPositive ? PORTDIVE_COLORS.primary : PORTDIVE_COLORS.secondary} 0%, ${isTargetPositive ? PORTDIVE_COLORS.primaryLight : PORTDIVE_COLORS.secondaryLight} 100%)`,
                 borderRadius: "4px",
                 transition: "width 0.5s ease",
               }}
@@ -1252,10 +1379,12 @@ const CurrentPriceCard = memo(
               justifyContent: "space-between",
               marginTop: "10px",
               fontSize: "12px",
-              color: theme.textSecondary,
             }}
           >
-            <span>{progressToTarget.toFixed(0)}% to Target</span>
+            <span>
+              {isTargetPositive ? "+" : "-"}
+              {progressToTarget.toFixed(0)}% to Target
+            </span>
             <span>Target: ${target.toFixed(2)}</span>
           </div>
         </div>
@@ -1272,116 +1401,6 @@ const CurrentPriceCard = memo(
     );
   },
 );
-
-// ============================================================================
-// WAVE COUNT SELECTOR COMPONENT
-// ============================================================================
-const WaveCountSelector = memo(({ activeCount, onChange, theme }) => {
-  const counts = [
-    { id: "primary", label: "Primary", probability: "60%" },
-    { id: "alt1", label: "Alt 3 Extension", probability: "STUDIES" },
-    { id: "alt2", label: "Alt#2", probability: "10%", sublabel: "PANCROSS" },
-    { id: "minor", label: "Minor", probability: "" },
-  ];
-
-  return (
-    <div
-      style={{
-        background: theme.surface,
-        borderRadius: "12px",
-        padding: "16px",
-        border: `1px solid ${theme.border}`,
-        marginBottom: "16px",
-      }}
-    >
-      <div
-        style={{
-          fontSize: "11px",
-          color: theme.textSecondary,
-          textTransform: "uppercase",
-          letterSpacing: "1px",
-          marginBottom: "12px",
-          fontWeight: 600,
-        }}
-      >
-        Wave Count Selector
-      </div>
-      <div
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}
-      >
-        {counts.map((count) => (
-          <button
-            key={count.id}
-            onClick={() => onChange(count.id)}
-            aria-pressed={activeCount === count.id}
-            style={{
-              padding: "14px 12px",
-              borderRadius: "8px",
-              border:
-                activeCount === count.id
-                  ? `2px solid ${PORTDIVE_COLORS.primary}`
-                  : `1px solid ${theme.border}`,
-              background:
-                activeCount === count.id
-                  ? count.id === "alt1"
-                    ? "linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%)"
-                    : "rgba(31, 163, 155, 0.15)"
-                  : "transparent",
-              cursor: "pointer",
-              textAlign: "left",
-              transition: "all 0.2s ease",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span
-                style={{
-                  color:
-                    activeCount === count.id
-                      ? count.id === "alt1"
-                        ? "#fff"
-                        : PORTDIVE_COLORS.primary
-                      : theme.text,
-                  fontWeight: 600,
-                  fontSize: "13px",
-                }}
-              >
-                {count.label}
-              </span>
-              <span
-                style={{
-                  color:
-                    activeCount === count.id && count.id === "alt1"
-                      ? "rgba(255,255,255,0.8)"
-                      : theme.textSecondary,
-                  fontSize: "11px",
-                }}
-              >
-                {count.probability}
-              </span>
-            </div>
-            {count.sublabel && (
-              <div
-                style={{
-                  fontSize: "9px",
-                  color: theme.textSecondary,
-                  marginTop: "2px",
-                }}
-              >
-                {count.sublabel}
-              </div>
-            )}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-});
 
 // ============================================================================
 // FIBONACCI LEVELS PANEL
@@ -1860,7 +1879,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const [analysisState, setAnalysisState] = useState({
     showMotiveWaves: true,
     showCorrectiveWaves: true,
-    showFibRetracements: true,
+    showFibRetracements: false,
     showFibExtensions: true,
     showInvalidationLevel: true,
     showTargetBand: true,
@@ -1917,7 +1936,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <PortDiveLogo size={40} showWordmark={true} theme={theme} />
+          <TickerIcon showWordmark={true} theme={theme} />
           <div
             style={{
               borderLeft: `2px solid ${theme.border}`,
@@ -1935,7 +1954,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
                 gap: "10px",
               }}
             >
-              NBIS Elliott Wave Analysis
+              Elliott Wave Analysis
               <span
                 style={{
                   fontSize: "11px",
@@ -2218,11 +2237,6 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           target={activeCount.projectedTarget}
           theme={theme}
           isDarkMode={isDarkMode}
-        />
-        <WaveCountSelector
-          activeCount={activeWaveCount}
-          onChange={setActiveWaveCount}
-          theme={theme}
         />
         <FibonacciLevelsPanel currentPrice={currentPrice} theme={theme} />
         <AnalysisMetricsRow theme={theme} />
