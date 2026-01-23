@@ -53,7 +53,7 @@ const PORTDIVE_COLORS = {
   candleUp: "#1FA39B",
   candleDown: "#FF6B6B",
   volume: { up: "rgba(31, 163, 155, 0.45)", down: "rgba(255, 107, 107, 0.45)" },
-  movingAverage: { fast: "#1FA39B", slow: "#A84B2F" },
+  movingAverage: { fast: "#3D72FF", slow: "#F9E95E" },
   fibonacci: { primary: "#1FA39B", extension: "#00D9D9" },
   invalidation: "#FF6B6B",
   target: "#1FA39B",
@@ -1397,40 +1397,48 @@ const ChartCanvas = memo(
             fill={theme.surface}
             opacity={0.9}
           />
-          <line
-            x1="0"
-            y1="0"
-            x2="20"
-            y2="0"
-            stroke={PORTDIVE_COLORS.movingAverage.fast}
-            strokeWidth="2.5"
-          />
-          <text
-            x="26"
-            y="4"
-            fill={theme.textSecondary}
-            fontSize="11"
-            fontWeight="500"
-          >
-            50-MA
-          </text>
-          <line
-            x1="75"
-            y1="0"
-            x2="95"
-            y2="0"
-            stroke={PORTDIVE_COLORS.movingAverage.slow}
-            strokeWidth="2.5"
-          />
-          <text
-            x="101"
-            y="4"
-            fill={theme.textSecondary}
-            fontSize="11"
-            fontWeight="500"
-          >
-            200-MA
-          </text>
+          {ma50.length > 1 && (
+            <>
+              <line
+                x1="0"
+                y1="0"
+                x2="20"
+                y2="0"
+                stroke={PORTDIVE_COLORS.movingAverage.fast}
+                strokeWidth="2.5"
+              />
+              <text
+                x="26"
+                y="4"
+                fill={theme.textSecondary}
+                fontSize="11"
+                fontWeight="500"
+              >
+                50-MA
+              </text>
+            </>
+          )}
+          { ma200.length > 1 && (
+            <>
+              <line
+                x1="75"
+                y1="0"
+                x2="95"
+                y2="0"
+                stroke={PORTDIVE_COLORS.movingAverage.slow}
+                strokeWidth="2.5"
+              />)}
+              <text
+                x="101"
+                y="4"
+                fill={theme.textSecondary}
+                fontSize="11"
+                fontWeight="500"
+              >
+                200-MA
+              </text>
+            </>
+          )}
         </g>
 
         {/* Projection zone label */}
@@ -2247,7 +2255,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "16px",
+          gap: "8px",
           width: "100%",
         }}
       >
@@ -2267,7 +2275,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
       <div
         style={{
           display: "flex",
-          gap: "16px",
+          gap: "8px",
           width: "100%",
         }}
       >
