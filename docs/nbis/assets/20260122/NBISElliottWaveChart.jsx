@@ -1595,7 +1595,7 @@ const CurrentPriceCard = memo(
             fontWeight: 600,
           }}
         >
-          Current Price
+          Last close
         </div>
         <div
           style={{
