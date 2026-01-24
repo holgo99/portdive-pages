@@ -1564,124 +1564,126 @@ const ChartCanvas = memo(
 // ============================================================================
 // CURRENT PRICE CARD COMPONENT
 // ============================================================================
-const CurrentPriceCard = memo(
-  ({ price, change, target, theme, isDarkMode }) => {
-    const isTargetPositive = target >= price;
-    const progressToTarget = Math.min(
-      Math.max(((target - price) / price) * 100, -100),
-      100,
-    );
-    const isPositive = change >= 0;
+const CurrentPriceCard = ({ price, change, target, theme, isDarkMode }) => {
+  const isTargetPositive = useMemo(() => {
+    return target >= price;
+  }, [target, price]);
+  const progressToTarget = useMemo(() => {
+    return Math.min(Math.max(((target - price) / price) * 100, -100), 100);
+  }, [target, price]);
+  const isPositive = change >= 0;
 
-    return (
+  return (
+    <div
+      style={{
+        background: isTargetPositive
+          ? theme.primaryGradient
+          : theme.secondaryGradient,
+        borderRadius: "12px",
+        padding: "24px",
+        border: `1px solid ${theme.border}`,
+        marginBottom: "16px",
+      }}
+    >
       <div
         style={{
-          background: isTargetPositive
-            ? theme.primaryGradient
-            : theme.secondaryGradient,
-          borderRadius: "12px",
-          padding: "24px",
-          border: `1px solid ${theme.border}`,
-          marginBottom: "16px",
+          fontSize: "11px",
+          color: theme.textSecondary,
+          textTransform: "uppercase",
+          letterSpacing: "1px",
+          marginBottom: "8px",
+          fontWeight: 600,
+        }}
+      >
+        Last close
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <div
           style={{
-            fontSize: "11px",
-            color: theme.textSecondary,
-            textTransform: "uppercase",
-            letterSpacing: "1px",
-            marginBottom: "8px",
-            fontWeight: 600,
+            fontSize: "48px",
+            fontWeight: 700,
+            color: isTargetPositive
+              ? PORTDIVE_COLORS.primaryLight
+              : PORTDIVE_COLORS.secondary,
+            fontFamily: "system-ui, -apple-system, sans-serif",
           }}
         >
-          Last close
+          ${price.toFixed(2)}
         </div>
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "8px",
+            gap: "4px",
+            padding: "6px 12px",
+            borderRadius: "6px",
+            background: isPositive
+              ? "rgba(31, 163, 155, 0.15)"
+              : "rgba(255, 107, 107, 0.15)",
+            color: isPositive
+              ? PORTDIVE_COLORS.primary
+              : PORTDIVE_COLORS.secondary,
+            fontSize: "14px",
+            fontWeight: 600,
+          }}
+        >
+          {isPositive ? "↑" : "↓"} {Math.abs(change).toFixed(2)}%
+        </div>
+      </div>
+      <div style={{ marginTop: "20px" }}>
+        <div
+          style={{
+            height: "8px",
+            background: theme.border,
+            borderRadius: "4px",
+            overflow: "hidden",
           }}
         >
           <div
+            key={`progress-${progressToTarget}`}
             style={{
-              fontSize: "48px",
-              fontWeight: 700,
-              color: isTargetPositive
-                ? PORTDIVE_COLORS.primaryLight
-                : PORTDIVE_COLORS.secondary,
-              fontFamily: "system-ui, -apple-system, sans-serif",
-            }}
-          >
-            ${price.toFixed(2)}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              padding: "6px 12px",
-              borderRadius: "6px",
-              background: isPositive
-                ? "rgba(31, 163, 155, 0.15)"
-                : "rgba(255, 107, 107, 0.15)",
-              color: isPositive
-                ? PORTDIVE_COLORS.primary
-                : PORTDIVE_COLORS.secondary,
-              fontSize: "14px",
-              fontWeight: 600,
-            }}
-          >
-            {isPositive ? "↑" : "↓"} {Math.abs(change).toFixed(2)}%
-          </div>
-        </div>
-        <div style={{ marginTop: "20px" }}>
-          <div
-            style={{
-              height: "8px",
-              background: theme.border,
+              width: `${Math.abs(progressToTarget)}%`,
+              marginLeft: isTargetPositive ? "0" : "auto",
+              height: "100%",
+              background: `linear-gradient(90deg, ${isTargetPositive ? PORTDIVE_COLORS.primary : PORTDIVE_COLORS.secondaryLight} 0%, ${isTargetPositive ? PORTDIVE_COLORS.primaryLight : PORTDIVE_COLORS.secondary} 100%)`,
               borderRadius: "4px",
-              overflow: "hidden",
+              transition: "width 0.5s ease",
+              willChange: "width",
             }}
-          >
-            <div
-              style={{
-                width: `${progressToTarget}%`,
-                height: "100%",
-                background: `linear-gradient(90deg, ${isTargetPositive ? PORTDIVE_COLORS.primary : PORTDIVE_COLORS.secondary} 0%, ${isTargetPositive ? PORTDIVE_COLORS.primaryLight : PORTDIVE_COLORS.secondaryLight} 100%)`,
-                borderRadius: "4px",
-                transition: "width 0.5s ease",
-              }}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "10px",
-              fontSize: "12px",
-            }}
-          >
-            <span>{progressToTarget.toFixed(0)}% to Target</span>
-            <span>Target: ${target.toFixed(2)}</span>
-          </div>
+          />
         </div>
         <div
           style={{
-            marginTop: "12px",
-            fontSize: "11px",
-            color: theme.textSecondary,
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "10px",
+            fontSize: "12px",
           }}
         >
-          Daily Close • Last updated at: {dateString}
+          <span>{progressToTarget.toFixed(0)}% to Target</span>
+          <span>Target: ${target.toFixed(2)}</span>
         </div>
       </div>
-    );
-  },
-);
+      <div
+        style={{
+          marginTop: "12px",
+          fontSize: "11px",
+          color: theme.textSecondary,
+        }}
+      >
+        Daily Close • Last updated at: {dateString}
+      </div>
+    </div>
+  );
+};
 
 // ============================================================================
 // FIBONACCI LEVELS PANEL
