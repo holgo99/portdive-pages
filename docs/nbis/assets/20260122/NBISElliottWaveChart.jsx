@@ -729,16 +729,21 @@ const ChartCanvas = memo(
       [],
     );
 
+    // Calculate aspect ratio for responsive scaling
+    const aspectRatio = W / H;
+
     return (
       <svg
         width="100%"
-        height={H}
         viewBox={`0 0 ${W} ${H}`}
         style={{
           background: theme.surface,
           borderRadius: "12px",
           border: `1px solid ${theme.border}`,
           display: "block",
+          aspectRatio: `${aspectRatio}`,
+          height: "auto",
+          maxHeight: `${H}px`,
         }}
       >
         <defs>
