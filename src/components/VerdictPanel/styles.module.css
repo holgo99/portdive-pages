@@ -758,18 +758,18 @@
 
     /* Mobile content wrapper - tighter padding on small screens */
     .mobileContentWrapper {
-        padding: 0 28px;
+        padding: 0 12px;
     }
 
     .branchCards {
-        gap: 0px 28px;
+        gap: 0px 24px;
     }
 
     .branchCard {
         padding: 12px 14px;
         width: 80%;
         max-width: none;
-        margin-bottom: 28px;
+        margin-bottom: 12px;
     }
 
     .branchTitle {
@@ -781,7 +781,6 @@
     }
 
     .outcomeContainer {
-        margin-top: 40px;
         padding-top: 16px;
     }
 
@@ -911,14 +910,4 @@
     .outcomeCard {
         border-width: 2px;
     }
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-/* FONT */
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-
-@font-face {
-    font-family: "FKGroteskNeue";
-    src: url("https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2")
-        format("woff2");
 }
