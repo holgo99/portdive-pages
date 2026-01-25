@@ -331,6 +331,191 @@ const BottomConnectionSVG = ({ isCorrective, outcomeState }) => {
 };
 
 /**
+ * Mobile Connection SVG - Disconnected line segments for mobile layout
+ * Based on sketch (mobile-draft2):
+ *
+ * SEGMENT 1: Confidence → Validation (LEFT)
+ * - Line from Confidence bottom-left to above Validation
+ * - Nodes at both ends
+ *
+ * SEGMENT 2: Confidence → Invalidation (RIGHT)
+ * - Line from Confidence bottom-right to above Invalidation
+ * - Nodes at both ends
+ *
+ * SEGMENT 3: Below Validation → Outcome center (LEFT)
+ * - Line from below Validation curving to center
+ * - Node at start, meets convergence node
+ *
+ * SEGMENT 4: Below Invalidation → Outcome center (RIGHT)
+ * - Line from below Invalidation curving to center
+ * - Node at start, meets convergence node
+ *
+ * Layout (percentages of container height):
+ * - Confidence box: ~0-12%
+ * - Gap: ~12-16%
+ * - Validation card: ~16-36% (left-aligned at 61.4% width)
+ * - Gap: ~36-42%
+ * - Invalidation card: ~42-66% (right-aligned at 61.4% width)
+ * - Gap: ~66-76%
+ * - Convergence node: ~76%
+ * - Outcome: ~80-100%
+ */
+const MobileConnectionSVG = ({ isCorrective, outcomeState }) => {
+  const validationColor = isCorrective ? "#FF6B6B" : "#1FA39B";
+  const invalidationColor = isCorrective ? "#1FA39B" : "#FF6B6B";
+
+  const validationActive = outcomeState === "validated";
+  const invalidationActive = outcomeState === "invalidated";
+
+  // X positions - box width is 61.4%
+  // Validation (left-aligned): center at 30.7%
+  // Invalidation (right-aligned): center at 69.3%
+  const valBoxCenterX = 30.7;
+  const invalBoxCenterX = 69.3;
+
+  // Y positions for segments
+  const confidenceBottomY = 12;      // Bottom of Confidence box
+  const valCardTopY = 16;            // Top of Validation card (where line ends)
+  const valCardBottomY = 36;         // Bottom of Validation card (where new line starts)
+  const invalCardTopY = 42;          // Top of Invalidation card (where line ends)
+  const invalCardBottomY = 66;       // Bottom of Invalidation card (where new line starts)
+  const convergenceY = 76;           // Where both bottom lines meet
+
+  return (
+    <svg
+      className={styles.mobileTreeSvg}
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <filter id="glowMobile" x="-100%" y="-50%" width="300%" height="200%">
+          <feGaussianBlur stdDeviation="0.8" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* ===== SEGMENT 1: Confidence → Validation (LEFT) ===== */}
+      {/* Node at Confidence bottom-left */}
+      <circle
+        cx={valBoxCenterX}
+        cy={confidenceBottomY}
+        r="1.2"
+        fill={validationColor}
+        opacity={invalidationActive ? "0.3" : "0.9"}
+      />
+      {/* Line from Confidence to above Validation */}
+      <line
+        x1={valBoxCenterX}
+        y1={confidenceBottomY}
+        x2={valBoxCenterX}
+        y2={valCardTopY}
+        stroke={validationColor}
+        strokeWidth={validationActive ? "0.8" : "0.5"}
+        opacity={invalidationActive ? "0.3" : "0.8"}
+        filter={validationActive ? "url(#glowMobile)" : "none"}
+        vectorEffect="non-scaling-stroke"
+      />
+      {/* Node at top of Validation card */}
+      <circle
+        cx={valBoxCenterX}
+        cy={valCardTopY}
+        r="1.2"
+        fill={validationColor}
+        opacity={invalidationActive ? "0.3" : "0.9"}
+      />
+
+      {/* ===== SEGMENT 2: Confidence → Invalidation (RIGHT) ===== */}
+      {/* Node at Confidence bottom-right */}
+      <circle
+        cx={invalBoxCenterX}
+        cy={confidenceBottomY}
+        r="1.2"
+        fill={invalidationColor}
+        opacity={validationActive ? "0.3" : "0.9"}
+      />
+      {/* Line from Confidence to above Invalidation */}
+      <line
+        x1={invalBoxCenterX}
+        y1={confidenceBottomY}
+        x2={invalBoxCenterX}
+        y2={invalCardTopY}
+        stroke={invalidationColor}
+        strokeWidth={invalidationActive ? "0.8" : "0.5"}
+        opacity={validationActive ? "0.3" : "0.8"}
+        filter={invalidationActive ? "url(#glowMobile)" : "none"}
+        vectorEffect="non-scaling-stroke"
+      />
+      {/* Node at top of Invalidation card */}
+      <circle
+        cx={invalBoxCenterX}
+        cy={invalCardTopY}
+        r="1.2"
+        fill={invalidationColor}
+        opacity={validationActive ? "0.3" : "0.9"}
+      />
+
+      {/* ===== SEGMENT 3: Below Validation → Outcome (LEFT) ===== */}
+      {/* Node at bottom of Validation card */}
+      <circle
+        cx={valBoxCenterX}
+        cy={valCardBottomY}
+        r="1.2"
+        fill={validationColor}
+        opacity={invalidationActive ? "0.3" : "0.9"}
+      />
+      {/* Line from below Validation curving to center */}
+      <path
+        className={styles.connectionPath}
+        d={`M${valBoxCenterX},${valCardBottomY} L${valBoxCenterX},${convergenceY - 4} Q${valBoxCenterX},${convergenceY} 50,${convergenceY}`}
+        fill="none"
+        stroke={validationActive ? validationColor : undefined}
+        strokeWidth={validationActive ? "0.8" : "0.5"}
+        opacity={invalidationActive ? "0.3" : undefined}
+        filter={validationActive ? "url(#glowMobile)" : "none"}
+        vectorEffect="non-scaling-stroke"
+      />
+
+      {/* ===== SEGMENT 4: Below Invalidation → Outcome (RIGHT) ===== */}
+      {/* Node at bottom of Invalidation card */}
+      <circle
+        cx={invalBoxCenterX}
+        cy={invalCardBottomY}
+        r="1.2"
+        fill={invalidationColor}
+        opacity={validationActive ? "0.3" : "0.9"}
+      />
+      {/* Line from below Invalidation curving to center */}
+      <path
+        className={styles.connectionPath}
+        d={`M${invalBoxCenterX},${invalCardBottomY} L${invalBoxCenterX},${convergenceY - 4} Q${invalBoxCenterX},${convergenceY} 50,${convergenceY}`}
+        fill="none"
+        stroke={invalidationActive ? invalidationColor : undefined}
+        strokeWidth={invalidationActive ? "0.8" : "0.5"}
+        opacity={validationActive ? "0.3" : undefined}
+        filter={invalidationActive ? "url(#glowMobile)" : "none"}
+        vectorEffect="non-scaling-stroke"
+      />
+
+      {/* Center convergence node - where both bottom lines meet, ABOVE Outcome box */}
+      <circle
+        className={styles.connectionNode}
+        cx="50"
+        cy={convergenceY}
+        r="2"
+        fill={
+          validationActive ? validationColor :
+          invalidationActive ? invalidationColor :
+          undefined
+        }
+      />
+    </svg>
+  );
+};
+
+/**
  * Outcome Card Component
  */
 const OutcomeCard = ({ outcomeState, isCorrective }) => {
@@ -479,8 +664,8 @@ export default function VerdictPanel({
       <div className={styles.decisionTreeContainer}>
         <h2 className={styles.sectionTitle}>Scenario Decision Tree</h2>
 
-        {/* Probability Card */}
-        <div className={styles.probabilityCard}>
+        {/* Probability Card - Outside mobile wrapper for desktop */}
+        <div className={`${styles.probabilityCard} ${styles.desktopOnly}`}>
           <div className={styles.probabilityDisplay}>
             <span className={styles.probabilityValue}>{displayProbability}%</span>
             <span className={styles.probabilityLabel}>Confidence</span>
@@ -493,60 +678,83 @@ export default function VerdictPanel({
           )}
         </div>
 
-        {/* Top Decision Tree SVG */}
+        {/* Top Decision Tree SVG (desktop only) */}
         <DecisionTreeSVG isCorrective={isCorrective} outcomeState={outcomeState} />
 
-        {/* Branch Cards */}
-        <div className={styles.branchCards}>
-          {/* Validation Branch */}
-          <div className={`${styles.branchCard} ${validationColorClass} ${outcomeState === "validated" ? styles.activeCard : ""} ${outcomeState === "invalidated" ? styles.fadedCard : ""}`}>
-            <div className={styles.branchHeader}>
-              <span className={`${styles.branchIcon} ${validationColorClass}`}>
-                <CheckIcon />
-              </span>
-              <span className={styles.branchTitle}>Validation</span>
+        {/* Mobile Layout Wrapper - contains Confidence, SVG, cards, and Outcome */}
+        <div className={styles.mobileLayoutWrapper}>
+          {/* Mobile Side Connection SVG */}
+          <MobileConnectionSVG isCorrective={isCorrective} outcomeState={outcomeState} />
+
+          {/* Probability Card - Inside mobile wrapper for mobile */}
+          <div className={`${styles.probabilityCard} ${styles.mobileOnly}`}>
+            <div className={styles.probabilityDisplay}>
+              <span className={styles.probabilityValue}>{displayProbability}%</span>
+              <span className={styles.probabilityLabel}>Confidence</span>
             </div>
-            <ul className={styles.branchList}>
-              {displayValidation.map((item, idx) => (
-                <li key={idx} className={styles.branchItem}>
-                  <span className={`${styles.bulletDot} ${validationColorClass}`} />
-                  <InlineMarkdown
-                    text={typeof item === 'string' ? item : item.text}
-                    highlightClass={`${styles.highlight} ${validationColorClass}`}
-                  />
-                </li>
-              ))}
-            </ul>
+
+            {(displayPriceTargets.low || displayPriceTargets.high) && (
+              <div className={styles.priceTargets}>
+                Price Targets: ${displayPriceTargets.low?.toFixed(2) || "—"} - ${displayPriceTargets.high?.toFixed(2) || "—"}
+              </div>
+            )}
           </div>
 
-          {/* Invalidation Branch */}
-          <div className={`${styles.branchCard} ${invalidationColorClass} ${outcomeState === "invalidated" ? styles.activeCard : ""} ${outcomeState === "validated" ? styles.fadedCard : ""}`}>
-            <div className={styles.branchHeader}>
-              <span className={`${styles.branchIcon} ${invalidationColorClass}`}>
-                <XIcon />
-              </span>
-              <span className={styles.branchTitle}>Invalidation</span>
+          {/* Branch Cards and Outcome Container */}
+          <div className={styles.mobileContentWrapper}>
+            {/* Branch Cards */}
+            <div className={styles.branchCards}>
+              {/* Validation Branch */}
+              <div className={`${styles.branchCard} ${validationColorClass} ${outcomeState === "validated" ? styles.activeCard : ""} ${outcomeState === "invalidated" ? styles.fadedCard : ""}`}>
+                <div className={styles.branchHeader}>
+                  <span className={`${styles.branchIcon} ${validationColorClass}`}>
+                    <CheckIcon />
+                  </span>
+                  <span className={styles.branchTitle}>Validation</span>
+                </div>
+                <ul className={styles.branchList}>
+                  {displayValidation.map((item, idx) => (
+                    <li key={idx} className={styles.branchItem}>
+                      <span className={`${styles.bulletDot} ${validationColorClass}`} />
+                      <InlineMarkdown
+                        text={typeof item === 'string' ? item : item.text}
+                        highlightClass={`${styles.highlight} ${validationColorClass}`}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Invalidation Branch */}
+              <div className={`${styles.branchCard} ${invalidationColorClass} ${outcomeState === "invalidated" ? styles.activeCard : ""} ${outcomeState === "validated" ? styles.fadedCard : ""}`}>
+                <div className={styles.branchHeader}>
+                  <span className={`${styles.branchIcon} ${invalidationColorClass}`}>
+                    <XIcon />
+                  </span>
+                  <span className={styles.branchTitle}>Invalidation</span>
+                </div>
+                <ul className={styles.branchList}>
+                  {displayInvalidation.map((item, idx) => (
+                    <li key={idx} className={styles.branchItem}>
+                      <span className={`${styles.bulletDot} ${invalidationColorClass}`} />
+                      <InlineMarkdown
+                        text={typeof item === 'string' ? item : item.text}
+                        highlightClass={`${styles.highlight} ${invalidationColorClass}`}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <ul className={styles.branchList}>
-              {displayInvalidation.map((item, idx) => (
-                <li key={idx} className={styles.branchItem}>
-                  <span className={`${styles.bulletDot} ${invalidationColorClass}`} />
-                  <InlineMarkdown
-                    text={typeof item === 'string' ? item : item.text}
-                    highlightClass={`${styles.highlight} ${invalidationColorClass}`}
-                  />
-                </li>
-              ))}
-            </ul>
+
+            {/* Bottom Connection SVG (desktop only) */}
+            <BottomConnectionSVG isCorrective={isCorrective} outcomeState={outcomeState} />
+
+            {/* Outcome State */}
+            <div className={styles.outcomeContainer}>
+              <OutcomeCard outcomeState={outcomeState} isCorrective={isCorrective} />
+            </div>
           </div>
-        </div>
-
-        {/* Bottom Connection SVG */}
-        <BottomConnectionSVG isCorrective={isCorrective} outcomeState={outcomeState} />
-
-        {/* Outcome State */}
-        <div className={styles.outcomeContainer}>
-          <OutcomeCard outcomeState={outcomeState} isCorrective={isCorrective} />
         </div>
       </div>
 

@@ -220,6 +220,32 @@
   display: block;
 }
 
+/* Mobile Tree SVG - hidden on desktop */
+.mobileTreeSvg {
+  display: none;
+}
+
+/* Mobile Layout Wrapper - contains SVG overlay and content */
+.mobileLayoutWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Mobile Content Wrapper */
+.mobileContentWrapper {
+  display: contents;
+}
+
+/* Desktop/Mobile visibility helpers */
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
 /* Connection paths - default inactive state */
 .connectionPath {
   stroke: rgba(255, 255, 255, 0.15);
@@ -565,24 +591,92 @@
 
   .probabilityCard {
     padding: 16px 24px;
+    margin-bottom: 0;
+    max-width: 200px;
   }
 
   .probabilityValue {
     font-size: 40px;
   }
 
-  .branchCards {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
+  /* Hide desktop SVGs and desktop-only elements on mobile */
   .treeSvg,
   .bottomTreeSvg {
     display: none;
   }
 
+  .desktopOnly {
+    display: none !important;
+  }
+
+  .mobileOnly {
+    display: block !important;
+  }
+
+  /* Mobile Layout - contains Confidence, SVG, cards, Outcome */
+  .mobileLayoutWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Mobile SVG - positioned absolutely, spans full height */
+  .mobileTreeSvg {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Mobile Probability Card inside wrapper */
+  .mobileLayoutWrapper .probabilityCard {
+    margin-bottom: 24px;
+    z-index: 1;
+  }
+
+  /* Mobile Content - stacks vertically with increased gaps */
+  .mobileContentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    z-index: 1;
+    /* No horizontal padding - let cards align to edges */
+    padding: 0;
+  }
+
+  .branchCards {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+  }
+
+  /* Make branch cards smaller with side margins for visible lines */
   .branchCard {
     border-left-width: 3px;
+    position: relative;
+    width: 61.4%;
+    max-width: none;
+    padding: 14px 16px;
+  }
+
+  /* Validation card - align LEFT */
+  .branchCard.teal {
+    align-self: flex-start;
+    margin-left: 0;
+  }
+
+  /* Invalidation card - align RIGHT */
+  .branchCard.coral {
+    align-self: flex-end;
+    margin-right: 0;
   }
 
   .branchCard.activeCard {
@@ -591,6 +685,11 @@
 
   .branchCard.fadedCard {
     transform: none;
+  }
+
+  .outcomeContainer {
+    margin-top: 48px;
+    padding-top: 16px;
   }
 }
 
@@ -626,7 +725,7 @@
   }
 
   .decisionTreeContainer {
-    padding: 20px 16px;
+    padding: 20px 12px;
   }
 
   .sectionTitle {
@@ -636,6 +735,8 @@
 
   .probabilityCard {
     padding: 14px 20px;
+    margin-bottom: 0;
+    max-width: 180px;
   }
 
   .probabilityValue {
@@ -650,8 +751,19 @@
     font-size: 11px;
   }
 
+  /* Mobile content wrapper - tighter padding on small screens */
+  .mobileContentWrapper {
+    padding: 0 28px;
+  }
+
+  .branchCards {
+    gap: 28px;
+  }
+
   .branchCard {
-    padding: 16px;
+    padding: 12px 14px;
+    width: 61.4%;
+    max-width: none;
   }
 
   .branchTitle {
@@ -660,6 +772,11 @@
 
   .branchItem {
     font-size: 12px;
+  }
+
+  .outcomeContainer {
+    margin-top: 40px;
+    padding-top: 12px;
   }
 
   .outcomeCard {
