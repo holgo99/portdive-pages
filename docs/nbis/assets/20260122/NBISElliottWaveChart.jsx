@@ -312,19 +312,19 @@ The vertical Sep–Oct expansion behaves like a terminal/mania leg. Under this c
 
 This is a “time-correction” scenario:
 
-* 75.25 was not the final (4) low, just **C of W** (or A of a larger flat)
-* Price chops upward (B/X), then fades again to retest **80–75** before a true (5) begins.
+* **$75.25** was not the final (4) low, just **C of W** (or A of a larger flat)
+* Price chops upward (B/X), then fades again to retest **$80–$75** before a true (5) begins.
 
 ## **Validation**
 
 **What would validate**
 
-* Sideways-to-down behavior below ~110–113, with overlapping 1D swings (no clean 5-wave lift)
+* Sideways-to-down behavior below ~$110–$113, with overlapping 1D swings (no clean 5-wave lift)
 * MACD/RSI staying rangebound
 
 ## **Invalidation**
 
-* A clean 5-wave rise on 1D through **125–133** and especially **141**.`,
+* A clean 5-wave rise on 1D through **$125–$133** and especially **$141**.`,
   },
 };
 

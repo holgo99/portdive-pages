@@ -10,6 +10,7 @@
  *   scenario="Bullish Continuation"
  *   probability={60}
  *   priceTargets={{ low: 64.70, high: 81.00 }}
+ *   thesis="The vertical Sep–Oct expansion behaves like a terminal/mania leg..."
  *   validation={[
  *     "Failure below **$93**",
  *     "Momentum Divergence at **141**"
@@ -85,40 +86,74 @@ const parseVerdictMarkdown = (markdown) => {
 
   const lines = markdown.split("\n");
   let scenario = "";
+  let probability = null;
+  let thesisContent = [];
   let validation = [];
   let invalidation = [];
   let currentSection = null;
+  let currentSubsection = null;
 
   for (const line of lines) {
     const trimmed = line.trim();
 
     if (!trimmed) continue;
 
+    // Detect main title (scenario name) - # Primary scenario: ...
     if (trimmed.startsWith("# ")) {
       scenario = trimmed.replace(/^#\s*/, "").replace(/\*([^*]+)\*/g, "$1");
       continue;
     }
 
-    if (/^##\s*\**\s*(thesis|validation|invalidation)/i.test(trimmed)) {
-      const sectionMatch = trimmed.match(/^##\s*\**\s*(thesis|validation|invalidation)/i);
-      if (sectionMatch) {
-        currentSection = sectionMatch[1].toLowerCase();
-      }
+    // Detect Thesis section with probability - ## Thesis (60%)
+    const thesisMatch = trimmed.match(/^##\s*\**\s*Thesis\s*\((\d+)%?\)\**\s*$/i);
+    if (thesisMatch) {
+      probability = parseInt(thesisMatch[1], 10);
+      currentSection = "thesis";
+      currentSubsection = null;
       continue;
     }
 
+    // Detect Validation section
+    if (/^##\s*\**\s*Validation\s*\**\s*$/i.test(trimmed)) {
+      currentSection = "validation";
+      currentSubsection = null;
+      continue;
+    }
+
+    // Detect Invalidation section
+    if (/^##\s*\**\s*Invalidation\s*\**\s*$/i.test(trimmed)) {
+      currentSection = "invalidation";
+      currentSubsection = null;
+      continue;
+    }
+
+    // Detect subsection headers (bold text on its own line)
     if (trimmed.startsWith("**") && trimmed.endsWith("**")) {
+      currentSubsection = trimmed.slice(2, -2);
       continue;
     }
 
-    if (currentSection === "validation" && trimmed.startsWith("*")) {
+    // Add content to current section
+    // Note: We need to distinguish between bullet points (* item) and bold text (**bold**)
+    // Bullet points start with "* " (asterisk followed by space)
+    // Bold text starts with "**" (two asterisks)
+    const isBulletPoint = trimmed.startsWith("* ") || (trimmed.startsWith("*") && !trimmed.startsWith("**"));
+
+    if (currentSection === "thesis") {
+      // For thesis, collect all content (including bullet points)
+      if (isBulletPoint) {
+        thesisContent.push(trimmed.replace(/^\*\s*/, ""));
+      } else {
+        thesisContent.push(trimmed);
+      }
+    } else if (currentSection === "validation" && isBulletPoint) {
       validation.push(trimmed.replace(/^\*\s*/, ""));
-    } else if (currentSection === "invalidation" && trimmed.startsWith("*")) {
+    } else if (currentSection === "invalidation" && isBulletPoint) {
       invalidation.push(trimmed.replace(/^\*\s*/, ""));
     }
   }
 
-  return { scenario, validation, invalidation };
+  return { scenario, probability, thesisContent, validation, invalidation };
 };
 
 /**
@@ -164,10 +199,8 @@ const DecisionTreeSVG = ({ isCorrective, outcomeState }) => {
   const validationColor = isCorrective ? "#FF6B6B" : "#1FA39B";
   const invalidationColor = isCorrective ? "#1FA39B" : "#FF6B6B";
 
-  // Determine which path is "active" based on outcome
   const validationActive = outcomeState === "validated";
   const invalidationActive = outcomeState === "invalidated";
-  const isUndecidable = outcomeState === "undecidable";
 
   return (
     <svg
@@ -176,19 +209,16 @@ const DecisionTreeSVG = ({ isCorrective, outcomeState }) => {
       preserveAspectRatio="xMidYMid meet"
     >
       <defs>
-        {/* Validation gradient */}
         <linearGradient id="validationGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={validationColor} stopOpacity={validationActive ? "1" : "0.7"} />
           <stop offset="100%" stopColor={validationColor} stopOpacity={validationActive ? "0.6" : "0.2"} />
         </linearGradient>
 
-        {/* Invalidation gradient */}
         <linearGradient id="invalidationGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={invalidationColor} stopOpacity={invalidationActive ? "1" : "0.7"} />
           <stop offset="100%" stopColor={invalidationColor} stopOpacity={invalidationActive ? "0.6" : "0.2"} />
         </linearGradient>
 
-        {/* Glow filter */}
         <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
           <feMerge>
@@ -198,7 +228,7 @@ const DecisionTreeSVG = ({ isCorrective, outcomeState }) => {
         </filter>
       </defs>
 
-      {/* Top center node (connects from thesis) */}
+      {/* Top center node */}
       <circle cx="200" cy="8" r="4" fill="#fff" opacity="0.5" />
 
       {/* Left branch - Validation path */}
@@ -210,7 +240,6 @@ const DecisionTreeSVG = ({ isCorrective, outcomeState }) => {
         filter={validationActive ? "url(#glowFilter)" : "none"}
         opacity={invalidationActive ? "0.3" : "1"}
       />
-      {/* Left branch node */}
       <circle
         cx="120"
         cy="45"
@@ -228,7 +257,6 @@ const DecisionTreeSVG = ({ isCorrective, outcomeState }) => {
         filter={invalidationActive ? "url(#glowFilter)" : "none"}
         opacity={validationActive ? "0.3" : "1"}
       />
-      {/* Right branch node */}
       <circle
         cx="280"
         cy="45"
@@ -268,31 +296,34 @@ const BottomConnectionSVG = ({ isCorrective, outcomeState }) => {
 
       {/* Left path - from validation card to center */}
       <path
+        className={styles.connectionPath}
         d="M60,0 C60,20 120,40 200,55"
         fill="none"
-        stroke={validationActive ? validationColor : "rgba(255,255,255,0.12)"}
+        stroke={validationActive ? validationColor : undefined}
         strokeWidth={validationActive ? "3" : "2"}
         filter={validationActive ? "url(#glowBottom)" : "none"}
       />
 
       {/* Right path - from invalidation card to center */}
       <path
+        className={styles.connectionPath}
         d="M340,0 C340,20 280,40 200,55"
         fill="none"
-        stroke={invalidationActive ? invalidationColor : "rgba(255,255,255,0.12)"}
+        stroke={invalidationActive ? invalidationColor : undefined}
         strokeWidth={invalidationActive ? "3" : "2"}
         filter={invalidationActive ? "url(#glowBottom)" : "none"}
       />
 
       {/* Center convergence node */}
       <circle
+        className={styles.connectionNode}
         cx="200"
         cy="55"
         r="4"
         fill={
           validationActive ? validationColor :
           invalidationActive ? invalidationColor :
-          "rgba(255,255,255,0.3)"
+          undefined
         }
       />
     </svg>
@@ -313,24 +344,18 @@ const OutcomeCard = ({ outcomeState, isCorrective }) => {
           label: "Validated",
           icon: <CheckIcon size={20} />,
           color: validationColor,
-          bgColor: `${validationColor}15`,
-          borderColor: validationColor,
         };
       case "invalidated":
         return {
           label: "Invalidated",
           icon: <XIcon size={20} />,
           color: invalidationColor,
-          bgColor: `${invalidationColor}15`,
-          borderColor: invalidationColor,
         };
       default:
         return {
           label: "Undecidable",
           icon: <HourglassIcon size={20} />,
           color: "#6a7a84",
-          bgColor: "rgba(106, 122, 132, 0.1)",
-          borderColor: "#6a7a84",
         };
     }
   };
@@ -338,17 +363,35 @@ const OutcomeCard = ({ outcomeState, isCorrective }) => {
   const config = getOutcomeConfig();
 
   return (
-    <div
-      className={`${styles.outcomeCard} ${styles[outcomeState]}`}
-      style={{
-        '--outcome-color': config.color,
-        '--outcome-bg': config.bgColor,
-        '--outcome-border': config.borderColor,
-      }}
-    >
+    <div className={`${styles.outcomeCard} ${styles[outcomeState]}`}>
       <span className={styles.outcomeLabel}>Outcome State:</span>
       <span className={styles.outcomeValue}>{config.label}</span>
       <span className={styles.outcomeIcon}>{config.icon}</span>
+    </div>
+  );
+};
+
+/**
+ * Hero Thesis Card Component
+ */
+const ThesisHeroCard = ({ scenario, thesisContent, isCorrective }) => {
+  const highlightClass = isCorrective
+    ? `${styles.highlight} ${styles.coral}`
+    : `${styles.highlight} ${styles.teal}`;
+
+  return (
+    <div className={`${styles.thesisHeroCard} ${isCorrective ? styles.corrective : ""}`}>
+      <div className={styles.thesisHeroHeader}>
+        <span className={styles.thesisHeroLabel}>Thesis</span>
+        <h3 className={styles.thesisHeroTitle}>{scenario}</h3>
+      </div>
+      <div className={styles.thesisHeroContent}>
+        {thesisContent.map((line, idx) => (
+          <p key={idx} className={styles.thesisHeroParagraph}>
+            <InlineMarkdown text={line} highlightClass={highlightClass} />
+          </p>
+        ))}
+      </div>
     </div>
   );
 };
@@ -360,6 +403,7 @@ export default function VerdictPanel({
   scenario,
   probability,
   priceTargets,
+  thesis,
   validation,
   invalidation,
   outcomeState = "undecidable",
@@ -368,16 +412,21 @@ export default function VerdictPanel({
   className = "",
 }) {
   const parsedContent = useMemo(() => {
-    if (verdict && !scenario) {
+    if (verdict) {
       return parseVerdictMarkdown(verdict);
     }
     return null;
-  }, [verdict, scenario]);
+  }, [verdict]);
 
+  // Use parsed content or props, with parsed taking precedence for legacy support
   const displayScenario = scenario || parsedContent?.scenario || "Scenario Analysis";
+  const displayThesisContent = thesis
+    ? (Array.isArray(thesis) ? thesis : [thesis])
+    : parsedContent?.thesisContent || [];
   const displayValidation = validation || parsedContent?.validation || [];
   const displayInvalidation = invalidation || parsedContent?.invalidation || [];
-  const displayProbability = probability || 60;
+  // Parse probability from markdown or use prop
+  const displayProbability = parsedContent?.probability || probability || 60;
   const displayPriceTargets = priceTargets || { low: null, high: null };
 
   const validationColorClass = isCorrective ? styles.coral : styles.teal;
@@ -417,18 +466,21 @@ export default function VerdictPanel({
         <span className={styles.logoText}>VerdictPanel</span>
       </div>
 
-      {/* Main Content */}
+      {/* Hero Thesis Card */}
+      {displayThesisContent.length > 0 && (
+        <ThesisHeroCard
+          scenario={displayScenario}
+          thesisContent={displayThesisContent}
+          isCorrective={isCorrective}
+        />
+      )}
+
+      {/* Scenario Decision Tree Section */}
       <div className={styles.decisionTreeContainer}>
-        {/* Section Title */}
         <h2 className={styles.sectionTitle}>Scenario Decision Tree</h2>
 
-        {/* Thesis Hero Card */}
-        <div className={styles.thesisCard}>
-          <div className={styles.thesisHeader}>
-            <span className={styles.thesisLabel}>Main Scenario:</span>
-            <span className={styles.thesisScenario}>{displayScenario}</span>
-          </div>
-
+        {/* Probability Card */}
+        <div className={styles.probabilityCard}>
           <div className={styles.probabilityDisplay}>
             <span className={styles.probabilityValue}>{displayProbability}%</span>
             <span className={styles.probabilityLabel}>Confidence</span>
