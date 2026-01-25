@@ -20,7 +20,7 @@
  *     "Impulsive Momentum"
  *   ]}
  *   isCorrective={false}
- *   outcomeState="undecidable" // "validated" | "invalidated" | "undecidable"
+ *   outcomeState="balanced" // "validated" | "invalidated" | "balanced"
  * />
  */
 
@@ -381,7 +381,7 @@ const OutcomeCard = ({ outcomeState, isCorrective }) => {
         };
       default:
         return {
-          label: "Undecidable",
+          label: "Pending Confirmation",
           icon: <HourglassIcon size={20} />,
           color: "#6a7a84",
         };
@@ -436,7 +436,7 @@ export default function VerdictPanel({
   thesis,
   validation,
   invalidation,
-  outcomeState = "undecidable",
+  outcomeState = "balanced",
   verdict,
   isCorrective = false,
   className = "",
@@ -624,7 +624,7 @@ export default function VerdictPanel({
         <span className={`${styles.verdictBadge} ${styles[outcomeState]}`}>
           {outcomeState === "validated" && <CheckIcon size={14} />}
           {outcomeState === "invalidated" && <XIcon size={14} />}
-          {outcomeState === "undecidable" && <WarningIcon />}
+          {outcomeState === "balanced" && <WarningIcon />}
           <span>Analysis Verdict</span>
         </span>
       </div>
