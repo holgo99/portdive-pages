@@ -239,17 +239,12 @@ The vertical Sep–Oct expansion behaves like a terminal/mania leg. Under this c
 * **$141.10** = terminal top (end of a higher-degree 5 or C)
 * **$75.25** = Wave A (or W) low
 * The current rise is **Wave B (or X)**, and **another Wave C (or Y)** down can still occur after B matures.
+* A typical C target = **A length equality** or **1.272×A** from B high (We need the eventual B high to compute precisely, but likely downside zones would be **$81.0**, then **$64.7** as the deeper “78.6% shelf” of the prior Wave (3) retrace grid.)
 
 ## **Validation**
 
-**What would validate this alternative**
-
 * Failure/rejection in **$135–141** zone with momentum divergence
 * Subsequent breakdown below **$93 → $88 → $81** (key fib shelves), turning the structure into a clear 3-wave.
-
-**Alt #1 targets (if C down triggers)**
-
-* A typical C target = **A length equality** or **1.272×A** from B high (We need the eventual B high to compute precisely, but likely downside zones would be **$81.0**, then **$64.7** as the deeper “78.6% shelf” of the prior Wave (3) retrace grid.)
 
 ## **Invalidation**
 
