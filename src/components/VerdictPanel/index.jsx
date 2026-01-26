@@ -218,7 +218,10 @@ const InlineMarkdown = ({ text, highlightClass }) => {
         }
         if (/^\$[\d,.]+$/.test(part)) {
           return (
-            <span key={i} className={`${highlightClass} ${styles.priceTargetHighlight}`}>
+            <span
+              key={i}
+              className={`${highlightClass} ${styles.priceTargetHighlight}`}
+            >
               {part}
             </span>
           );
@@ -462,7 +465,7 @@ const ThesisHeroCard = ({ scenario, thesisContent, isCorrective }) => {
 /**
  * VerdictPanel Component - Scenario Decision Tree
  */
-export default function VerdictPanel({
+export function VerdictPanel({
   scenario,
   probability,
   priceTargets,
