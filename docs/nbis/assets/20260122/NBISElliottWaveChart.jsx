@@ -6,320 +6,44 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import VerdictPanel from "@site/src/components/VerdictPanel";
+import { VerdictPanel } from "@site/src/components/VerdictPanel";
+import { PORTDIVE_THEME } from "@site/src/components/PortDiveTheme";
 
 // ============================================================================
-// OHLCV DATA - DO NOT MODIFY VALUES
+// OHLCV DATA WITH PRE-CALCULATED INDICATORS - DO NOT MODIFY VALUES
 // ============================================================================
-import OHLCV_DATA from "./ohlcv-data.json";
-
-const tickerIconUrl = "/portdive-pages/img/nbis/nbis-icon.svg";
-const portdiveLogoUrl = "/portdive-pages/img/portdive-logo-primary.svg";
-const dateString = formatTimestamp(OHLCV_DATA.at(-1).timestamp);
-// ============================================================================
-// PORTDIVE BRAND COLORS - LOCKED (DO NOT CHANGE)
-// ============================================================================
-const PORTDIVE_COLORS = {
-  light: {
-    bg: "#f8faf9",
-    surface: "#ffffff",
-    surfaceAlt: "#f0f4f2",
-    text: "#0a1a1f",
-    textSecondary: "#5a6570",
-    textMuted: "#8a9199",
-    border: "rgba(10, 26, 31, 0.12)",
-    grid: "rgba(10, 26, 31, 0.06)",
-    hover: "rgba(31, 163, 155, 0.08)",
-    primaryGradient: "linear-gradient(135deg, #ffffff 0%, #f0f4f2 100%)",
-    secondaryGradient:
-      "linear-gradient(135deg, rgba(255, 107, 107, 0.25) 0%, #ffffff 100%)",
-  },
-  dark: {
-    bg: "#0a1a1f",
-    surface: "#0f2028",
-    surfaceAlt: "#142830",
-    text: "#f8faf9",
-    textSecondary: "#a8b4bc",
-    textMuted: "#6a7a84",
-    border: "rgba(248, 250, 249, 0.12)",
-    grid: "rgba(248, 250, 249, 0.04)",
-    hover: "rgba(31, 163, 155, 0.15)",
-    primaryGradient: "linear-gradient(135deg, #1a2a35 0%, #0f1a1f 100%)",
-    secondaryGradient:
-      "linear-gradient(135deg, rgba(255, 107, 107, 0.25) 0%, #1a2a35 100%)",
-  },
-  primary: "#1FA39B",
-  primaryLight: "#25b8ae",
-  secondary: "#FF6B6B",
-  secondaryLight: "#FF8E8E",
-  candleUp: "#1FA39B",
-  candleDown: "#FF6B6B",
-  volume: { up: "rgba(31, 163, 155, 0.45)", down: "rgba(255, 107, 107, 0.45)" },
-  movingAverage: { fast: "#3D72FF", slow: "#F9E95E" },
-  fibonacci: { primary: "#1FA39B", extension: "#00D9D9" },
-  invalidation: "#FF6B6B",
-  target: "#1FA39B",
-  altCount: "#FF6B6B",
-};
+import OHLCV_DATA from "./nasdaq-nbis-1d-ohlcv_indicators.json";
 
 // ============================================================================
 // WAVE COUNT CONFIGURATIONS
 // ============================================================================
-const WAVE_COUNTS = {
-  primary: {
-    id: "primary",
-    label: "Bullish continuation",
-    probability: "60%",
-    mode: "MOTIVE",
-    color: PORTDIVE_COLORS.primary,
-    pivots: {
-      wave1Start: { idx: 1, price: 18.31 },
-      wave1Peak: { idx: 58, price: 55.75, label: "1" },
-      wave2Low: { idx: 66, price: 43.89, label: "2" },
-      wave3Peak: { idx: 130, price: 141.1, label: "3" },
-      wave4Low: { idx: 177, price: 75.25, label: "4" },
-    },
-    minorWaves: {
-      minorIPeak: { idx: 197, price: 110.5, label: "i" },
-      minorIILow: { idx: 199, price: 93.1, label: "ii" },
-    },
-    projectedTarget: 150.13,
-    projectedLabel: "5",
-    projectedStart: { idx: 177, price: 75.25 },
-    projectedTargetBand: { startPrice: 135.83, endPrice: 158.45 },
-    description:
-      "5-wave impulse (1)-(2)-(3)-(4) complete, now in (5) early stages",
-    waves: [
-      {
-        label: "WAVE (1)",
-        range: "$18.31 → $55.75",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.primary,
-      },
-      {
-        label: "WAVE (2)",
-        range: "$55.75 → $43.89",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.primary,
-      },
-      {
-        label: "WAVE (3)",
-        range: "$43.89 → $141.10",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.primary,
-      },
-      {
-        label: "WAVE (4)",
-        range: "$141.10 → $75.25",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.primary,
-      },
-      {
-        label: "WAVE (5)",
-        range: "$75.25 → >$135.83",
-        status: "IN PROGRESS",
-        color: "#F59E0B",
-      },
-    ],
-    metrics: [
-      {
-        label: "Expected Value",
-        value: "+12.9%",
-        sublabel: "Wave (5) Continuation",
-        indicator: true,
-      },
-      {
-        label: "Sharpe Ratio",
-        value: "0.54",
-        sublabel: "EV / Hard-Stop Risk",
-        color: "gradient",
-      },
-      {
-        label: "Price Momentum",
-        value: "+6.2%",
-        sublabel: "From minor ii low ($93.10)",
-      },
-      {
-        label: "Risk",
-        value: "-9.6%",
-        sublabel: "Probability-Weighted (Hard Stop)",
-        isNegative: true,
-      },
-    ],
-    verdict: `# Primary scenario: Bullish Continuation
+import WAVE_COUNTS_JSON from "./nbis-wave-counts.json";
 
-## Thesis (60%)
+const resolveThemeReferences = (obj) => {
+  if (typeof obj !== "object" || obj === null) return obj;
 
-**Most likely path:** minor iii lifts toward **$128 → $135/$141**, then minor iv pulls back (ideally holds above ~$110 or ~$103), then minor v attempts **$141+** and potentially **$150–158**.
+  if (Array.isArray(obj)) {
+    return obj.map(resolveThemeReferences);
+  }
 
-## **Validation**
-
-* Clean impulsive break and hold above **$141.10**
-
-## **Invalidation**
-
-* **Structural warning:** Loss of **$93.10** increases bearish odds
-* **Minor degree invalidation:** Below **$75.25** breaks structure`,
-  },
-  alt1: {
-    id: "alt1",
-    label: "Corrective regime",
-    probability: "30%",
-    mode: "CORRECTIVE",
-    color: PORTDIVE_COLORS.secondary,
-    pivots: {
-      wave1Start: { idx: 130, price: 141.1 },
-      waveALow: { idx: 177, price: 75.25, label: "A" },
-      waveBPeak: { idx: 197, price: 110.5, label: "B" },
-    },
-    minorWaves: {},
-    projectedTarget: 64,
-    projectedLabel: "C",
-    projectedStart: { idx: 197, price: 110.5 },
-    projectedTargetBand: { startPrice: 60, endPrice: 75.25 },
-    description: "A–B–C / W–X–Y corrective regime",
-    waves: [
-      {
-        label: "WAVE (A)",
-        range: "$141.10 → $75.25",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.secondary,
-      },
-      {
-        label: "WAVE (B)",
-        range: "$75.25 → $110.50",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.secondary,
-      },
-      {
-        label: "WAVE (C)",
-        range: "$110.50 → <$75.25",
-        status: "PROJECTED",
-        color: "#F59E0B",
-      },
-      {
-        label: "INVALIDATION",
-        range: "$98.87 → $141.10",
-        status: "CLEAN IMPULSIVE BREAK",
-        color: PORTDIVE_COLORS.primary,
-      },
-    ],
-    metrics: [
-      {
-        label: "Expected Value",
-        value: "-9.1%",
-        sublabel: "ABC / WXY Downside Risk",
-        indicator: true,
-      },
-      {
-        label: "Sharpe Ratio",
-        value: "-0.38",
-        sublabel: "EV / Worst-Case Risk",
-        color: "gradient",
-      },
-      {
-        label: "Price Momentum",
-        value: "-10.5%",
-        sublabel: "Below prior swing high ($110.50)",
-        isNegative: true,
-      },
-      {
-        label: "Risk",
-        value: "-12.6%",
-        sublabel: "Probability-Weighted (C Target)",
-        isNegative: true,
-      },
-    ],
-    verdict: `# Oct high was a completed 5-wave *blowoff*, and we’re in an A–B–C / W–X–Y corrective regime
-
-## Thesis (30%)
-
-The vertical Sep–Oct expansion behaves like a terminal/mania leg. Under this count:
-
-* **$141.10** = terminal top (end of a higher-degree 5 or C)
-* **$75.25** = Wave A (or W) low
-* The current rise is **Wave B (or X)**, and **another Wave C (or Y)** down can still occur after B matures.
-* A typical C target = **A length equality** or **1.272×A** from B high (We need the eventual B high to compute precisely, but likely downside zones would be **$81.0**, then **$64.7** as the deeper “78.6% shelf” of the prior Wave (3) retrace grid.)
-
-## **Validation**
-
-* Failure/rejection in **$135 – $141** zone with momentum divergence
-* Subsequent breakdown below **$93 → $88 → $81** (key fib shelves), turning the structure into a clear 3-wave.
-
-## **Invalidation**
-
-* Clean impulsive break and hold above **$141.10** with rising momentum (would strongly favor the primary “(5)” continuation).`,
-  },
-  alt2: {
-    id: "alt2",
-    label: "Wave (4) complex not finished (triangle/combination)",
-    probability: "10%",
-    mode: "CORRECTIVE",
-    color: PORTDIVE_COLORS.secondary,
-    pivots: {
-      wave1Start: { idx: 1, price: 18.31 },
-      wave1Peak: { idx: 58, price: 55.75, label: "1" },
-      wave2Low: { idx: 66, price: 43.89, label: "2" },
-      wave3ExtPeak: { idx: 130, price: 141.1, label: "3" },
-    },
-    minorWaves: {},
-    projectedTarget: 92.5,
-    projectedLabel: "4",
-    projectedStart: { idx: 130, price: 141.1 },
-    projectedTargetBand: { startPrice: 75.25, endPrice: 92.5 },
-    description: "Wave (4) complex not finished (triangle/combination)",
-    waves: [
-      {
-        label: "WAVE (W)",
-        range: "$141.10 → $75.25",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.secondary,
-      },
-      {
-        label: "WAVE (X)",
-        range: "$75.25 → $110.50",
-        status: "COMPLETE",
-        color: PORTDIVE_COLORS.secondary,
-      },
-      {
-        label: "WAVE (Y)",
-        range: "$110.50 → $92.50",
-        status: "PROJECTED",
-        color: "#F59E0B",
-      },
-      {
-        label: "WAVE (5)",
-        range: "$92.50 → $135.83",
-        status: "PROJECTED",
-        color: PORTDIVE_COLORS.primary,
-      },
-      {
-        label: "INVALIDATION",
-        range: "$125–133 and especially $141",
-        status: "CLEAN 5-WAVE RISE ON 1D",
-        color: PORTDIVE_COLORS.primary,
-      },
-    ],
-    metrics: [],
-    verdict: `# Wave (4) is not finished (triangle/complex combination), and current rally is a B/X leg inside it
-
-## Thesis (10%)
-
-This is a “time-correction” scenario:
-
-* **$75.25** was not the final (4) low, just **C of W** (or A of a larger flat)
-* Price chops upward (B/X), then fades again to retest **$80 – $75** before a true (5) begins.
-
-## **Validation**
-
-* Sideways-to-down behavior below **$110 – $113** with overlapping 1D swings (no clean 5-wave lift)
-* MACD/RSI staying rangebound
-
-## **Invalidation**
-
-* A clean 5-wave rise on 1D through **$125 – $133** and especially **$141**`,
-  },
+  const resolved = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === "string" && value.startsWith("PORTDIVE_THEME.")) {
+      const themeKey = value.replace("PORTDIVE_THEME.", "");
+      resolved[key] = PORTDIVE_THEME[themeKey] || value;
+    } else if (typeof value === "object") {
+      resolved[key] = resolveThemeReferences(value);
+    } else {
+      resolved[key] = value;
+    }
+  }
+  return resolved;
 };
+
+// Process on import
+const WAVE_COUNTS = resolveThemeReferences(WAVE_COUNTS_JSON);
+
+const dateString = formatTimestamp(OHLCV_DATA.at(-1).timestamp);
 
 function formatTimestamp(timestamp) {
   return new Date(timestamp * 1000).toLocaleDateString("en-US", {
@@ -330,80 +54,10 @@ function formatTimestamp(timestamp) {
 }
 
 // ============================================================================
-// PORTDIVE LOGO COMPONENT
-// ============================================================================
-const PortDiveLogo = memo(({ size = 48, showWordmark = false, theme }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-    <img src={portdiveLogoUrl} alt="PortDive Logo" width="48px" />
-    {showWordmark && (
-      <span
-        style={{
-          fontSize: size * 0.6,
-          fontWeight: 700,
-          color: theme.text,
-          letterSpacing: "-0.02em",
-        }}
-      >
-        PortDive
-      </span>
-    )}
-  </div>
-));
-
-// ============================================================================
-// TICKER ICON COMPONENT
-// ============================================================================
-const TickerIcon = memo(({ size = 48, showWordmark = false, theme }) => (
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "10px",
-      whiteSpace: "nowrap",
-      flexShrink: 0,
-    }}
-  >
-    <img
-      src={tickerIconUrl}
-      alt="NBIS Icon"
-      width="48px"
-      style={{ flexShrink: 0 }}
-    />
-    <span
-      style={{
-        fontSize: size * 0.6,
-        fontWeight: 700,
-        color: theme.text,
-        letterSpacing: "-0.02em",
-        flexShrink: 0,
-      }}
-    >
-      NBIS
-    </span>
-    {showWordmark && (
-      <>
-        &nbsp;•&nbsp;
-        <span
-          style={{
-            fontSize: size * 0.6,
-            fontWeight: 700,
-            color: theme.text,
-            letterSpacing: "-0.02em",
-            flexShrink: 0,
-          }}
-        >
-          Nebius Group N.V.
-        </span>
-      </>
-    )}
-  </div>
-));
-
-// ============================================================================
 // CHECKBOX TOGGLE COMPONENT (Styled like screenshot)
 // ============================================================================
 const CheckboxToggle = memo(
-  ({ label, checked, onChange, color = PORTDIVE_COLORS.primary, theme }) => (
+  ({ label, checked, onChange, color = PORTDIVE_THEME.primary, theme }) => (
     <label
       style={{
         display: "inline-flex",
@@ -493,7 +147,7 @@ const WaveCountButton = memo(({ count, active, onClick, theme }) => {
           : `1px solid ${theme.border}`,
         background: active
           ? isAlt
-            ? `linear-gradient(135deg, ${count.color} 0%, ${PORTDIVE_COLORS.secondaryLight} 100%)`
+            ? `linear-gradient(135deg, ${count.color} 0%, ${PORTDIVE_THEME.secondaryLight} 100%)`
             : `${count.color}18`
           : "transparent",
         cursor: "pointer",
@@ -585,21 +239,25 @@ const ChartCanvas = memo(
     );
     const candleW = Math.max(2.5, Math.min(5, cW / totalBars - 1.5));
 
-    const calcMA = useCallback(
-      (period) => {
-        const result = [];
-        for (let i = period - 1; i < data.length; i++) {
-          let sum = 0;
-          for (let j = i - period + 1; j <= i; j++) sum += data[j].close;
-          result.push({ idx: i, ma: sum / period });
-        }
-        return result;
-      },
+    // Use pre-calculated moving averages from the data
+    const ma50 = useMemo(
+      () =>
+        data
+          .map((d, idx) =>
+            d["50_MA"] != null ? { idx, ma: d["50_MA"] } : null,
+          )
+          .filter(Boolean),
       [data],
     );
-
-    const ma50 = useMemo(() => calcMA(50), [calcMA]);
-    const ma200 = useMemo(() => calcMA(200), [calcMA]);
+    const ma200 = useMemo(
+      () =>
+        data
+          .map((d, idx) =>
+            d["200_MA"] != null ? { idx, ma: d["200_MA"] } : null,
+          )
+          .filter(Boolean),
+      [data],
+    );
 
     // Get active wave count configuration
     const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
@@ -762,7 +420,7 @@ const ChartCanvas = memo(
             <stop offset="0%" stopColor={theme.surface} stopOpacity="0" />
             <stop
               offset="100%"
-              stopColor={PORTDIVE_COLORS.primary}
+              stopColor={PORTDIVE_THEME.primary}
               stopOpacity="0.05"
             />
           </linearGradient>
@@ -776,12 +434,12 @@ const ChartCanvas = memo(
           >
             <stop
               offset="0%"
-              stopColor={PORTDIVE_COLORS.primary}
+              stopColor={PORTDIVE_THEME.primary}
               stopOpacity="0.12"
             />
             <stop
               offset="100%"
-              stopColor={PORTDIVE_COLORS.primaryLight}
+              stopColor={PORTDIVE_THEME.primaryLight}
               stopOpacity="0.02"
             />
           </linearGradient>
@@ -795,12 +453,12 @@ const ChartCanvas = memo(
           >
             <stop
               offset="0%"
-              stopColor={PORTDIVE_COLORS.secondaryLight}
+              stopColor={PORTDIVE_THEME.secondaryLight}
               stopOpacity="0.12"
             />
             <stop
               offset="100%"
-              stopColor={PORTDIVE_COLORS.secondary}
+              stopColor={PORTDIVE_THEME.secondary}
               stopOpacity="0.02"
             />
           </linearGradient>
@@ -850,7 +508,7 @@ const ChartCanvas = memo(
                 x2={idxToX(i)}
                 y1={M.t}
                 y2={H - M.b}
-                stroke={isProjection ? PORTDIVE_COLORS.primary : theme.grid}
+                stroke={isProjection ? PORTDIVE_THEME.primary : theme.grid}
                 strokeWidth="1"
                 strokeDasharray={isProjection ? "4,4" : ""}
                 opacity={isProjection ? 0.3 : 1}
@@ -860,7 +518,7 @@ const ChartCanvas = memo(
                 y={H - M.b + 22}
                 textAnchor="middle"
                 fill={
-                  isProjection ? PORTDIVE_COLORS.primary : theme.textSecondary
+                  isProjection ? PORTDIVE_THEME.primary : theme.textSecondary
                 }
                 fontSize="12"
                 fontWeight="500"
@@ -895,7 +553,7 @@ const ChartCanvas = memo(
                   x2={W - M.r - 60}
                   y1={y}
                   y2={y}
-                  stroke={PORTDIVE_COLORS.fibonacci.primary}
+                  stroke={PORTDIVE_THEME.fibonacci.primary}
                   strokeWidth={key ? 1.5 : 1}
                   strokeDasharray={key ? "" : "6,4"}
                   opacity={key ? 0.5 : 0.25}
@@ -907,7 +565,7 @@ const ChartCanvas = memo(
                   height={20}
                   rx={4}
                   fill={theme.surface}
-                  stroke={PORTDIVE_COLORS.fibonacci.primary}
+                  stroke={PORTDIVE_THEME.fibonacci.primary}
                   strokeWidth={1}
                   opacity={0.9}
                 />
@@ -915,7 +573,7 @@ const ChartCanvas = memo(
                   x={W - M.r - 33}
                   y={y + 4}
                   textAnchor="middle"
-                  fill={PORTDIVE_COLORS.fibonacci.primary}
+                  fill={PORTDIVE_THEME.fibonacci.primary}
                   fontSize="10"
                   fontWeight="600"
                   fontFamily="system-ui, -apple-system, sans-serif"
@@ -938,7 +596,7 @@ const ChartCanvas = memo(
                   x2={W - M.r}
                   y1={y}
                   y2={y}
-                  stroke={PORTDIVE_COLORS.fibonacci.extension}
+                  stroke={PORTDIVE_THEME.fibonacci.extension}
                   strokeWidth={key ? 2 : 1}
                   strokeDasharray="8,4"
                   opacity={key ? 0.6 : 0.35}
@@ -950,9 +608,9 @@ const ChartCanvas = memo(
                   height={24}
                   rx={4}
                   fill={
-                    key ? PORTDIVE_COLORS.fibonacci.extension : theme.surface
+                    key ? PORTDIVE_THEME.fibonacci.extension : theme.surface
                   }
-                  stroke={PORTDIVE_COLORS.fibonacci.extension}
+                  stroke={PORTDIVE_THEME.fibonacci.extension}
                   strokeWidth={1}
                   opacity={0.95}
                 />
@@ -960,7 +618,7 @@ const ChartCanvas = memo(
                   x={W - M.r + 36}
                   y={y + 4}
                   textAnchor="middle"
-                  fill={key ? "#fff" : PORTDIVE_COLORS.fibonacci.extension}
+                  fill={key ? "#fff" : PORTDIVE_THEME.fibonacci.extension}
                   fontSize="10"
                   fontWeight="600"
                   fontFamily="system-ui, -apple-system, sans-serif"
@@ -1014,7 +672,7 @@ const ChartCanvas = memo(
               x2={W - M.r}
               y1={priceToY(75.25)}
               y2={priceToY(75.25)}
-              stroke={PORTDIVE_COLORS.secondary}
+              stroke={PORTDIVE_THEME.secondary}
               strokeWidth="2"
               strokeDasharray="10,5"
               opacity={0.7}
@@ -1025,7 +683,7 @@ const ChartCanvas = memo(
               width={130}
               height={18}
               rx={4}
-              fill={PORTDIVE_COLORS.secondary}
+              fill={PORTDIVE_THEME.secondary}
               opacity={0.9}
             />
             <text
@@ -1047,7 +705,7 @@ const ChartCanvas = memo(
           <path
             d={`M ${ma50.map(({ idx, ma }) => `${idxToX(idx)},${priceToY(ma)}`).join(" L ")}`}
             fill="none"
-            stroke={PORTDIVE_COLORS.movingAverage.fast}
+            stroke={PORTDIVE_THEME.movingAverage.fast}
             strokeWidth="2.5"
             opacity={0.7}
           />
@@ -1056,7 +714,7 @@ const ChartCanvas = memo(
           <path
             d={`M ${ma200.map(({ idx, ma }) => `${idxToX(idx)},${priceToY(ma)}`).join(" L ")}`}
             fill="none"
-            stroke={PORTDIVE_COLORS.movingAverage.slow}
+            stroke={PORTDIVE_THEME.movingAverage.slow}
             strokeWidth="2.5"
             opacity={0.6}
           />
@@ -1067,8 +725,8 @@ const ChartCanvas = memo(
           const x = idxToX(i);
           const isGreen = d.close >= d.open;
           const bodyColor = isGreen
-            ? PORTDIVE_COLORS.candleUp
-            : PORTDIVE_COLORS.candleDown;
+            ? PORTDIVE_THEME.candleUp
+            : PORTDIVE_THEME.candleDown;
           const yO = priceToY(d.open),
             yC = priceToY(d.close);
           const yH = priceToY(d.high),
@@ -1155,7 +813,7 @@ const ChartCanvas = memo(
                   d={`M ${idxToX(activeCount.pivots.wave1Start.idx)},${priceToY(activeCount.pivots.wave1Start.price)}
                     L ${idxToX(activeCount.pivots.wave1Peak.idx)},${priceToY(activeCount.pivots.wave1Peak.price)}
                     L ${idxToX(activeCount.pivots.wave2Low.idx)},${priceToY(activeCount.pivots.wave2Low.price)}
-                    L ${idxToX(activeCount.pivots.wave3ExtPeak.idx)},${priceToY(activeCount.pivots.wave3ExtPeak.price)}`}
+                    L ${idxToX(activeCount.pivots.wave3Peak.idx)},${priceToY(activeCount.pivots.wave3Peak.price)}`}
                   fill="none"
                   stroke={activeCount.color}
                   strokeWidth="2.5"
@@ -1178,9 +836,9 @@ const ChartCanvas = memo(
                   activeCount.color,
                 )}
                 {renderWaveLabel(
-                  idxToX(activeCount.pivots.wave3ExtPeak.idx),
-                  priceToY(activeCount.pivots.wave3ExtPeak.price),
-                  activeCount.pivots.wave3ExtPeak.label,
+                  idxToX(activeCount.pivots.wave3Peak.idx),
+                  priceToY(activeCount.pivots.wave3Peak.price),
+                  activeCount.pivots.wave3Peak.label,
                   true,
                   activeCount.color,
                 )}
@@ -1254,6 +912,49 @@ const ChartCanvas = memo(
                 activeCount.minorWaves.minorIILow.label,
                 false,
                 activeCount.color,
+                true,
+              )}
+            </g>
+          )}
+
+        {/* Minor waves - Only for primary count */}
+        {analysisState.showMinorWaves &&
+          activeWaveCount === "alt2" &&
+          activeCount.minorWaves && (
+            <g>
+              <path
+                d={`M ${idxToX(activeCount.minorWaves.waveWStart.idx)},${priceToY(activeCount.minorWaves.waveWStart.price)}
+                L ${idxToX(activeCount.minorWaves.waveWLow.idx)},${priceToY(activeCount.minorWaves.waveWLow.price)}
+                L ${idxToX(activeCount.minorWaves.waveXPeak.idx)},${priceToY(activeCount.minorWaves.waveXPeak.price)}
+                L ${idxToX(activeCount.minorWaves.waveYLow.idx)},${priceToY(activeCount.minorWaves.waveYLow.price)}`}
+                fill="none"
+                stroke={PORTDIVE_THEME.secondary}
+                strokeWidth="1.5"
+                strokeDasharray="6,4"
+                opacity="0.7"
+              />
+              {renderWaveLabel(
+                idxToX(activeCount.minorWaves.waveWLow.idx),
+                priceToY(activeCount.minorWaves.waveWLow.price),
+                activeCount.minorWaves.waveWLow.label,
+                false,
+                PORTDIVE_THEME.secondary,
+                true,
+              )}
+              {renderWaveLabel(
+                idxToX(activeCount.minorWaves.waveXPeak.idx),
+                priceToY(activeCount.minorWaves.waveXPeak.price),
+                activeCount.minorWaves.waveXPeak.label,
+                true,
+                PORTDIVE_THEME.secondary,
+                true,
+              )}
+              {renderWaveLabel(
+                idxToX(activeCount.minorWaves.waveYLow.idx),
+                priceToY(activeCount.minorWaves.waveYLow.price),
+                activeCount.minorWaves.waveYLow.label,
+                false,
+                PORTDIVE_THEME.secondary,
                 true,
               )}
             </g>
@@ -1360,13 +1061,13 @@ const ChartCanvas = memo(
         )}
 
         {/* Projected Wave 4 path */}
-        {analysisState.showMotiveWaves && activeWaveCount === "alt2" && (
+        {analysisState.showCorrectiveWaves && activeWaveCount === "alt2" && (
           <g>
             <path
               d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
                 L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
               fill="none"
-              stroke={activeCount.color}
+              stroke={PORTDIVE_THEME.secondary}
               strokeWidth="2"
               strokeDasharray="8,6"
               opacity="0.5"
@@ -1378,7 +1079,7 @@ const ChartCanvas = memo(
                 cy={priceToY(activeCount.projectedTarget) + 23}
                 rx={16}
                 ry={16}
-                stroke={activeCount.color}
+                stroke={PORTDIVE_THEME.secondary}
                 strokeWidth={1.5}
                 strokeDasharray="5,3"
                 opacity={0.6}
@@ -1398,7 +1099,7 @@ const ChartCanvas = memo(
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
                 y={priceToY(activeCount.projectedTarget)}
                 textAnchor="middle"
-                fill={activeCount.color}
+                fill={PORTDIVE_THEME.secondary}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
@@ -1430,9 +1131,7 @@ const ChartCanvas = memo(
               width={candleW}
               height={h}
               fill={
-                isGreen
-                  ? PORTDIVE_COLORS.volume.up
-                  : PORTDIVE_COLORS.volume.down
+                isGreen ? PORTDIVE_THEME.volume.up : PORTDIVE_THEME.volume.down
               }
               rx={0.5}
             />
@@ -1448,8 +1147,8 @@ const ChartCanvas = memo(
             y2={priceToY(currentPrice)}
             stroke={
               currentPrice >= data[data.length - 2]?.close
-                ? PORTDIVE_COLORS.candleUp
-                : PORTDIVE_COLORS.candleDown
+                ? PORTDIVE_THEME.candleUp
+                : PORTDIVE_THEME.candleDown
             }
             strokeWidth={1.5}
             strokeDasharray="4,3"
@@ -1462,8 +1161,8 @@ const ChartCanvas = memo(
             rx={6}
             fill={
               currentPrice >= data[data.length - 2]?.close
-                ? PORTDIVE_COLORS.candleUp
-                : PORTDIVE_COLORS.candleDown
+                ? PORTDIVE_THEME.candleUp
+                : PORTDIVE_THEME.candleDown
             }
           />
           <text
@@ -1497,7 +1196,7 @@ const ChartCanvas = memo(
                 y1="0"
                 x2="20"
                 y2="0"
-                stroke={PORTDIVE_COLORS.movingAverage.fast}
+                stroke={PORTDIVE_THEME.movingAverage.fast}
                 strokeWidth="2.5"
               />
               <text
@@ -1518,7 +1217,7 @@ const ChartCanvas = memo(
                 y1="0"
                 x2="95"
                 y2="0"
-                stroke={PORTDIVE_COLORS.movingAverage.slow}
+                stroke={PORTDIVE_THEME.movingAverage.slow}
                 strokeWidth="2.5"
               />
               <text
@@ -1544,14 +1243,14 @@ const ChartCanvas = memo(
             width={80}
             height={18}
             rx={4}
-            fill={PORTDIVE_COLORS.primary}
+            fill={PORTDIVE_THEME.primary}
             opacity={0.15}
           />
           <text
             x="0"
             y="3"
             textAnchor="middle"
-            fill={PORTDIVE_COLORS.primary}
+            fill={PORTDIVE_THEME.primary}
             fontSize="10"
             fontWeight="600"
           >
@@ -1613,8 +1312,8 @@ const CurrentPriceCard = ({ price, change, target, theme, isDarkMode }) => {
             fontSize: "48px",
             fontWeight: 700,
             color: isTargetPositive
-              ? PORTDIVE_COLORS.primaryLight
-              : PORTDIVE_COLORS.secondary,
+              ? PORTDIVE_THEME.primaryLight
+              : PORTDIVE_THEME.secondary,
             fontFamily: "system-ui, -apple-system, sans-serif",
           }}
         >
@@ -1631,8 +1330,8 @@ const CurrentPriceCard = ({ price, change, target, theme, isDarkMode }) => {
               ? "rgba(31, 163, 155, 0.15)"
               : "rgba(255, 107, 107, 0.15)",
             color: isPositive
-              ? PORTDIVE_COLORS.primary
-              : PORTDIVE_COLORS.secondary,
+              ? PORTDIVE_THEME.primary
+              : PORTDIVE_THEME.secondary,
             fontSize: "14px",
             fontWeight: 600,
           }}
@@ -1655,7 +1354,7 @@ const CurrentPriceCard = ({ price, change, target, theme, isDarkMode }) => {
               width: `${Math.abs(progressToTarget)}%`,
               marginLeft: isTargetPositive ? "0" : "auto",
               height: "100%",
-              background: `linear-gradient(90deg, ${isTargetPositive ? PORTDIVE_COLORS.primary : PORTDIVE_COLORS.secondaryLight} 0%, ${isTargetPositive ? PORTDIVE_COLORS.primaryLight : PORTDIVE_COLORS.secondary} 100%)`,
+              background: `linear-gradient(90deg, ${isTargetPositive ? PORTDIVE_THEME.primary : PORTDIVE_THEME.secondaryLight} 0%, ${isTargetPositive ? PORTDIVE_THEME.primaryLight : PORTDIVE_THEME.secondary} 100%)`,
               borderRadius: "4px",
               transition: "width 0.5s ease",
               willChange: "width",
@@ -1762,7 +1461,7 @@ const FibonacciLevelsPanel = memo(({ currentPrice, theme }) => {
                   width: "45px",
                   fontSize: "11px",
                   color: isCurrentLevel
-                    ? PORTDIVE_COLORS.secondary
+                    ? PORTDIVE_THEME.secondary
                     : theme.textSecondary,
                   fontWeight: isCurrentLevel ? 600 : 400,
                 }}
@@ -1774,8 +1473,8 @@ const FibonacciLevelsPanel = memo(({ currentPrice, theme }) => {
                   flex: 1,
                   height: "1px",
                   background: isSolid
-                    ? PORTDIVE_COLORS.primary
-                    : `repeating-linear-gradient(90deg, ${PORTDIVE_COLORS.primary} 0px, ${PORTDIVE_COLORS.primary} 4px, transparent 4px, transparent 8px)`,
+                    ? PORTDIVE_THEME.primary
+                    : `repeating-linear-gradient(90deg, ${PORTDIVE_THEME.primary} 0px, ${PORTDIVE_THEME.primary} 4px, transparent 4px, transparent 8px)`,
                   opacity: isSolid ? 0.6 : 0.4,
                 }}
               />
@@ -1783,9 +1482,7 @@ const FibonacciLevelsPanel = memo(({ currentPrice, theme }) => {
                 style={{
                   fontSize: "12px",
                   fontFamily: "monospace",
-                  color: isCurrentLevel
-                    ? PORTDIVE_COLORS.secondary
-                    : theme.text,
+                  color: isCurrentLevel ? PORTDIVE_THEME.secondary : theme.text,
                   fontWeight: isCurrentLevel ? 600 : 400,
                 }}
               >
@@ -1858,8 +1555,8 @@ const AnalysisMetricsRow = memo(({ metrics, theme }) => {
                 fontSize: "24px",
                 fontWeight: 700,
                 color: m.isNegative
-                  ? PORTDIVE_COLORS.secondary
-                  : PORTDIVE_COLORS.primary,
+                  ? PORTDIVE_THEME.secondary
+                  : PORTDIVE_THEME.primary,
               }}
             >
               {m.value}
@@ -1879,7 +1576,7 @@ const AnalysisMetricsRow = memo(({ metrics, theme }) => {
                     width: "6px",
                     height: "6px",
                     borderRadius: "50%",
-                    background: PORTDIVE_COLORS.primary,
+                    background: PORTDIVE_THEME.primary,
                   }}
                 />
               )}
@@ -1980,7 +1677,7 @@ const WaveTimelinePanel = memo(({ waves, theme }) => {
             width: "8px",
             height: "8px",
             borderRadius: "50%",
-            background: PORTDIVE_COLORS.primary,
+            background: PORTDIVE_THEME.primary,
           }}
         />
         #1 WMS PROGRESSION
@@ -1995,7 +1692,7 @@ const WaveTimelinePanel = memo(({ waves, theme }) => {
 export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   // Use Docusaurus colorMode prop or default to dark
   const isDarkMode = colorMode === "dark";
-  const theme = isDarkMode ? PORTDIVE_COLORS.dark : PORTDIVE_COLORS.light;
+  const theme = isDarkMode ? PORTDIVE_THEME.dark : PORTDIVE_THEME.light;
 
   const [activeWaveCount, setActiveWaveCount] = useState("primary");
   const containerRef = useRef(null);
@@ -2052,65 +1749,6 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         maxWidth: "100%",
       }}
     >
-      {/* Header */}
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          marginBottom: "24px",
-          flexWrap: "wrap",
-          gap: "16px",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <TickerIcon showWordmark={showWordmark} theme={theme} />
-          <div
-            style={{
-              borderLeft: `2px solid ${theme.border}`,
-              paddingLeft: "16px",
-            }}
-          >
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "20px",
-                fontWeight: 700,
-                color: theme.text,
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              Elliott Wave Analysis
-              <span
-                style={{
-                  fontSize: "11px",
-                  padding: "4px 10px",
-                  background: theme.surfaceAlt,
-                  borderRadius: "6px",
-                  color: theme.textSecondary,
-                  fontWeight: 600,
-                  border: `1px solid ${theme.border}`,
-                }}
-              >
-                1D
-              </span>
-            </h1>
-            <p
-              style={{
-                margin: "6px 0 0",
-                fontSize: "13px",
-                color: theme.textSecondary,
-              }}
-            >
-              Apr 2025 → Jun 2026 (Projection) | Target: $
-              {activeCount.projectedTarget.toFixed(2)} | ATH: $141.10
-            </p>
-          </div>
-        </div>
-      </header>
-
       {/* Wave Count Selector */}
       <div
         style={{
@@ -2169,35 +1807,35 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           label="Motive Waves (65%)"
           checked={analysisState.showMotiveWaves}
           onChange={() => toggleAnalysis("showMotiveWaves")}
-          color={PORTDIVE_COLORS.primary}
+          color={PORTDIVE_THEME.primary}
           theme={theme}
         />
         <CheckboxToggle
           label="Corrective (25%)"
           checked={analysisState.showCorrectiveWaves}
           onChange={() => toggleAnalysis("showCorrectiveWaves")}
-          color={PORTDIVE_COLORS.secondary}
+          color={PORTDIVE_THEME.secondary}
           theme={theme}
         />
         <CheckboxToggle
           label="Minor Waves"
           checked={analysisState.showMinorWaves}
           onChange={() => toggleAnalysis("showMinorWaves")}
-          color={PORTDIVE_COLORS.primary}
+          color={PORTDIVE_THEME.primary}
           theme={theme}
         />
         <CheckboxToggle
           label="Fib Retracement"
           checked={analysisState.showFibRetracements}
           onChange={() => toggleAnalysis("showFibRetracements")}
-          color={PORTDIVE_COLORS.primary}
+          color={PORTDIVE_THEME.primary}
           theme={theme}
         />
         <CheckboxToggle
           label="Fib Extension"
           checked={analysisState.showFibExtensions}
           onChange={() => toggleAnalysis("showFibExtensions")}
-          color={PORTDIVE_COLORS.fibonacci.extension}
+          color={PORTDIVE_THEME.fibonacci.extension}
           theme={theme}
         />
       </div>
@@ -2247,7 +1885,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
               style={{
                 width: "20px",
                 height: "4px",
-                background: PORTDIVE_COLORS.primary,
+                background: PORTDIVE_THEME.primary,
                 borderRadius: "2px",
               }}
             />
@@ -2266,7 +1904,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
               style={{
                 width: "20px",
                 height: "4px",
-                background: PORTDIVE_COLORS.secondary,
+                background: PORTDIVE_THEME.secondary,
                 borderRadius: "2px",
               }}
             />
@@ -2285,7 +1923,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
               style={{
                 width: "20px",
                 height: "4px",
-                background: PORTDIVE_COLORS.fibonacci.extension,
+                background: PORTDIVE_THEME.fibonacci.extension,
                 borderRadius: "2px",
               }}
             />
@@ -2311,13 +1949,13 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           }}
         >
           <span>
-            <span style={{ color: PORTDIVE_COLORS.primary, fontWeight: 600 }}>
+            <span style={{ color: PORTDIVE_THEME.primary, fontWeight: 600 }}>
               Target:
             </span>{" "}
             ${activeCount.projectedTarget.toFixed(2)}
           </span>
           <span>
-            <span style={{ color: PORTDIVE_COLORS.secondary, fontWeight: 600 }}>
+            <span style={{ color: PORTDIVE_THEME.secondary, fontWeight: 600 }}>
               Invalidation:
             </span>{" "}
             $75.25
@@ -2367,7 +2005,6 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
           display: "flex",
           gap: "8px",
           width: "100%",
-          marginBottom: "20px",
         }}
       >
         {activeCount.verdict.length > 0 && (
