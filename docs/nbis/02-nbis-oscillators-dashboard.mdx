@@ -1,0 +1,29 @@
+---
+id: nbis-oscillators-dashboard
+sidebar_title: Oscillators Dashboard
+sidebar_position: 2
+hide_title: true
+title: "Oscillators Dashboard"
+description: "NBIS, Oscillators Dashboard with Gauge Indicators, Time Series Charts, Buy/Sell Signal Matrix"
+keywords: []
+image: ./assets/20260122/elliott-wave-preview.png
+---
+
+import { AnalysisCard } from '@site/src/components/AnalysisCard'
+import { OscillatorsDashboard } from '@site/src/components/OscillatorsDashboard';
+import OHLCV_DATA from "./assets/20260122/nasdaq-nbis-1d-ohlcv_indicators.json";
+
+<OscillatorsDashboard
+  ticker="NBIS"
+  tickerName="Nebius Group N.V."
+  data={OHLCV_DATA}
+  daysToShow={30}
+/>
+
+<AnalysisCard 
+  title="NBIS - Elliott Wave Analysis"
+  description="Complete wave count analysis with target levels and risk management"
+  symbol="NBIS"  
+  attribution={`${OHLCV_DATA.length} daily candles • Projection to Jun 2026 • Last updated: Jan 26, 2026`}
+  analysisDate="2026-01-22"
+/>
