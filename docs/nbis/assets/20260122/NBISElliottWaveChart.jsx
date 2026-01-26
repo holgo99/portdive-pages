@@ -255,7 +255,7 @@ The vertical Sep–Oct expansion behaves like a terminal/mania leg. Under this c
     label: "Wave (4) complex not finished (triangle/combination)",
     probability: "10%",
     mode: "CORRECTIVE",
-    color: PORTDIVE_COLORS.secondary,
+    color: PORTDIVE_COLORS.primary,
     pivots: {
       wave1Start: { idx: 1, price: 18.31 },
       wave1Peak: { idx: 58, price: 55.75, label: "1" },
@@ -589,7 +589,9 @@ const ChartCanvas = memo(
     const ma50 = useMemo(
       () =>
         data
-          .map((d, idx) => (d["50_MA"] != null ? { idx, ma: d["50_MA"] } : null))
+          .map((d, idx) =>
+            d["50_MA"] != null ? { idx, ma: d["50_MA"] } : null,
+          )
           .filter(Boolean),
       [data],
     );
