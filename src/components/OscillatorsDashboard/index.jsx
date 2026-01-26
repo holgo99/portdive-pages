@@ -62,6 +62,15 @@ const INDICATOR_CONFIG = {
     weakTrend: 20,
     format: (v) => v?.toFixed(1) ?? "—",
   },
+  MACD: {
+    label: "MACD(12/26/9)",
+    min: -5,
+    max: 5,
+    bullish: 0,
+    bearish: 0,
+    format: (v) => v?.toFixed(2) ?? "—",
+    isMACD: true,
+  },
 };
 
 // ============================================================================
@@ -192,6 +201,15 @@ const getOscillatorStatus = (key, value) => {
     return { status: "NO TREND", color: "coral", icon: "warning" };
   }
 
+  if (key === "MACD") {
+    // MACD: positive = bullish, negative = bearish
+    if (value > 0.5)
+      return { status: "BULLISH", color: "teal", icon: "trend" };
+    if (value < -0.5)
+      return { status: "BEARISH", color: "coral", icon: "warning" };
+    return { status: "NEUTRAL", color: "blue", icon: "balance" };
+  }
+
   if (key === "Williams_R") {
     // Williams %R is inverted: -100 to 0
     if (value >= config.overbought)
@@ -233,8 +251,9 @@ const formatFullDate = (timestamp) => {
 // PREMIUM GRADIENT GAUGE COMPONENT
 // ============================================================================
 
-const GaugeIndicator = memo(({ indicatorKey, value, config }) => {
+const GaugeIndicator = memo(({ indicatorKey, value, config, extraData }) => {
   const { status, color, icon } = getOscillatorStatus(indicatorKey, value);
+  const isMACD = config.isMACD;
 
   // Calculate normalized value for gauge position (0 to 1)
   const normalizedValue = useMemo(() => {
@@ -388,20 +407,33 @@ const GaugeIndicator = memo(({ indicatorKey, value, config }) => {
         <span>{status}</span>
       </div>
 
-      {/* Reference levels */}
+      {/* Reference levels or MACD extra values */}
       <div className={styles.gaugeLevels}>
-        {config.overbought && (
-          <span className={styles.gaugeLevel}>
-            Overbought: {config.overbought}
-          </span>
-        )}
-        {config.oversold && (
-          <span className={styles.gaugeLevel}>Oversold: {config.oversold}</span>
-        )}
-        {config.strongTrend && (
-          <span className={styles.gaugeLevel}>
-            Strong: &gt;{config.strongTrend}
-          </span>
+        {isMACD && extraData ? (
+          <>
+            <span className={styles.gaugeLevel}>
+              Signal: {extraData.signal?.toFixed(2) ?? "—"}
+            </span>
+            <span className={styles.gaugeLevel}>
+              Hist: {extraData.hist?.toFixed(2) ?? "—"}
+            </span>
+          </>
+        ) : (
+          <>
+            {config.overbought && (
+              <span className={styles.gaugeLevel}>
+                Overbought: {config.overbought}
+              </span>
+            )}
+            {config.oversold && (
+              <span className={styles.gaugeLevel}>Oversold: {config.oversold}</span>
+            )}
+            {config.strongTrend && (
+              <span className={styles.gaugeLevel}>
+                Strong: &gt;{config.strongTrend}
+              </span>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -820,6 +852,15 @@ export function OscillatorsDashboard({
         config: INDICATOR_CONFIG.Stoch_D,
       },
       { key: "ADX", value: latestData.ADX, config: INDICATOR_CONFIG.ADX },
+      {
+        key: "MACD",
+        value: latestData.MACD,
+        config: INDICATOR_CONFIG.MACD,
+        extraData: {
+          signal: latestData["MACD.signal"],
+          hist: latestData["MACD.hist"],
+        },
+      },
     ];
   }, [latestData]);
 
@@ -854,6 +895,7 @@ export function OscillatorsDashboard({
               indicatorKey={indicator.key}
               value={indicator.value}
               config={indicator.config}
+              extraData={indicator.extraData}
             />
           ))}
         </div>
