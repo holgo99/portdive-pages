@@ -9,9 +9,9 @@ import React, {
 import VerdictPanel from "@site/src/components/VerdictPanel";
 
 // ============================================================================
-// OHLCV DATA - DO NOT MODIFY VALUES
+// OHLCV DATA WITH PRE-CALCULATED INDICATORS - DO NOT MODIFY VALUES
 // ============================================================================
-import OHLCV_DATA from "./ohlcv-data.json";
+import OHLCV_DATA from "./nasdaq-nbis-1d-ohlcv_indicators.json";
 
 const tickerIconUrl = "/portdive-pages/img/nbis/nbis-icon.svg";
 const portdiveLogoUrl = "/portdive-pages/img/portdive-logo-primary.svg";
@@ -585,21 +585,23 @@ const ChartCanvas = memo(
     );
     const candleW = Math.max(2.5, Math.min(5, cW / totalBars - 1.5));
 
-    const calcMA = useCallback(
-      (period) => {
-        const result = [];
-        for (let i = period - 1; i < data.length; i++) {
-          let sum = 0;
-          for (let j = i - period + 1; j <= i; j++) sum += data[j].close;
-          result.push({ idx: i, ma: sum / period });
-        }
-        return result;
-      },
+    // Use pre-calculated moving averages from the data
+    const ma50 = useMemo(
+      () =>
+        data
+          .map((d, idx) => (d["50_MA"] != null ? { idx, ma: d["50_MA"] } : null))
+          .filter(Boolean),
       [data],
     );
-
-    const ma50 = useMemo(() => calcMA(50), [calcMA]);
-    const ma200 = useMemo(() => calcMA(200), [calcMA]);
+    const ma200 = useMemo(
+      () =>
+        data
+          .map((d, idx) =>
+            d["200_MA"] != null ? { idx, ma: d["200_MA"] } : null,
+          )
+          .filter(Boolean),
+      [data],
+    );
 
     // Get active wave count configuration
     const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
