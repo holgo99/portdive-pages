@@ -7,45 +7,45 @@
     "color": "PORTDIVE_THEME.primary",
     "pivots": {
       "wave1Start": {
-        "idx": 0,
+        "idx": 197,
         "price": 18.31
       },
       "wave1Peak": {
-        "idx": 57,
+        "idx": 254,
         "price": 55.75,
         "label": "1"
       },
       "wave2Low": {
-        "idx": 65,
+        "idx": 261,
         "price": 43.89,
         "label": "2"
       },
       "wave3Peak": {
-        "idx": 129,
+        "idx": 326,
         "price": 141.1,
         "label": "3"
       },
       "wave4Low": {
-        "idx": 176,
+        "idx": 373,
         "price": 75.25,
         "label": "4"
       }
     },
     "minorWaves": {
       "minorIPeak": {
-        "idx": 196,
+        "idx": 394,
         "price": 110.5,
         "label": "i"
       },
       "minorIILow": {
-        "idx": 201,
+        "idx": 398,
         "price": 91.36,
         "label": "ii"
       }
     },
     "projected": [
       {
-        "idx": 176,
+        "idx": 373,
         "price": 75.25,
         "label": "4",
         "color": "PORTDIVE_THEME.primary"
@@ -132,16 +132,16 @@
     "color": "PORTDIVE_THEME.secondary",
     "pivots": {
       "wave1Start": {
-        "idx": 129,
+        "idx": 326,
         "price": 141.1
       },
       "waveALow": {
-        "idx": 176,
+        "idx": 374,
         "price": 75.25,
         "label": "A"
       },
       "waveBPeak": {
-        "idx": 196,
+        "idx": 393,
         "price": 110.5,
         "label": "B"
       }
@@ -149,7 +149,7 @@
     "minorWaves": {},
     "projected": [
       {
-        "idx": 196,
+        "idx": 393,
         "price": 110.5,
         "label": "B",
         "color": "PORTDIVE_THEME.secondary"
@@ -230,49 +230,49 @@
     "color": "PORTDIVE_THEME.primary",
     "pivots": {
       "wave1Start": {
-        "idx": 0,
+        "idx": 197,
         "price": 18.31
       },
       "wave1Peak": {
-        "idx": 57,
+        "idx": 254,
         "price": 55.75,
         "label": "1"
       },
       "wave2Low": {
-        "idx": 65,
+        "idx": 261,
         "price": 43.89,
         "label": "2"
       },
       "wave3Peak": {
-        "idx": 129,
+        "idx": 326,
         "price": 141.1,
         "label": "3"
       }
     },
     "minorWaves": {
       "waveWStart": {
-        "idx": 129,
+        "idx": 326,
         "price": 141.1
       },
       "waveWLow": {
-        "idx": 176,
+        "idx": 374,
         "price": 75.25,
         "label": "W"
       },
       "waveXPeak": {
-        "idx": 196,
+        "idx": 394,
         "price": 110.5,
         "label": "X"
       },
       "waveYLow": {
-        "idx": 201,
+        "idx": 398,
         "price": 91.36,
         "label": "Y"
       }
     },
     "projected": [
       {
-        "idx": 129,
+        "idx": 326,
         "price": 141.1,
         "label": "3",
         "color": "PORTDIVE_THEME.secondary"
