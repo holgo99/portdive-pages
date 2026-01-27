@@ -15,7 +15,7 @@
  * />
  */
 
-import styles from "./index.module.css";
+import styles from "./styles.module.css";
 
 export function AnalysisCard({
   title,
