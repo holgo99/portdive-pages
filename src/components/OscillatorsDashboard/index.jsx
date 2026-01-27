@@ -2,14 +2,14 @@
  * OscillatorsDashboard Component
  * Premium technical indicators dashboard with gradient gauges, glowing effects, and signal matrix
  *
- * Supports Context + Composition pattern via TickerConfigProvider
+ * Supports Context + Composition pattern via TickerConfigProvider + OHLCVDataProvider
  * Falls back to props if context not available
  *
  * @component
  * @example
- * // With context (preferred):
+ * // With full context (preferred - no props needed):
  * <NBISLayout>
- *   <OscillatorsDashboard data={ohlcvData} daysToShow={30} />
+ *   <OscillatorsDashboard daysToShow={30} />
  * </NBISLayout>
  *
  * // Or with props (backwards compatible):
@@ -23,6 +23,7 @@
 
 import React, { useMemo, memo } from "react";
 import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
+import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
 import styles from "./styles.module.css";
 
 // ============================================================================
@@ -211,8 +212,7 @@ const getOscillatorStatus = (key, value) => {
 
   if (key === "MACD") {
     // MACD: positive = bullish, negative = bearish
-    if (value > 0.5)
-      return { status: "BULLISH", color: "teal", icon: "trend" };
+    if (value > 0.5) return { status: "BULLISH", color: "teal", icon: "trend" };
     if (value < -0.5)
       return { status: "BEARISH", color: "coral", icon: "warning" };
     return { status: "NEUTRAL", color: "blue", icon: "balance" };
@@ -434,7 +434,9 @@ const GaugeIndicator = memo(({ indicatorKey, value, config, extraData }) => {
               </span>
             )}
             {config.oversold && (
-              <span className={styles.gaugeLevel}>Oversold: {config.oversold}</span>
+              <span className={styles.gaugeLevel}>
+                Oversold: {config.oversold}
+              </span>
             )}
             {config.strongTrend && (
               <span className={styles.gaugeLevel}>
@@ -824,15 +826,17 @@ export function OscillatorsDashboard({
   // Props override context values
   ticker: tickerProp,
   tickerName: tickerNameProp,
-  data = [],
+  data: dataProp,
   daysToShow = 30,
 }) {
   // Get config from context (if available)
-  const config = useTickerConfig();
+  const tickerConfig = useTickerConfig();
+  const ohlcvContext = useOHLCVData();
 
   // Merge context with props (props take precedence)
-  const ticker = tickerProp || config.ticker;
-  const tickerName = tickerNameProp || config.tickerName;
+  const ticker = tickerProp || tickerConfig.ticker;
+  const tickerName = tickerNameProp || tickerConfig.tickerName;
+  const data = dataProp || ohlcvContext.data || [];
   // Get latest data point and filter recent data
   const { latestData, recentData, dateString } = useMemo(() => {
     if (!data || data.length === 0) {

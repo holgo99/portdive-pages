@@ -25,17 +25,13 @@ import { NBISLayout } from "@site/src/components/TickerLayout";
 import { TickerHeader } from "@site/src/components/TickerHeader";
 import { AnalysisCard } from "@site/src/components/AnalysisCard";
 import { OscillatorsDashboard } from "@site/src/components/OscillatorsDashboard";
-import OHLCV_DATA from "./assets/20260122/nasdaq-nbis-1d-ohlcv_indicators.json";
 
-<NBISLayout>
-  <TickerHeader title="Oscillators Dashboard" badge="1M" />
-
-  <OscillatorsDashboard data={OHLCV_DATA} daysToShow={30} />
-
+<NBISLayout timeframe="1D">
+  <TickerHeader title="Oscillators Dashboard" />
+  <OscillatorsDashboard daysToShow={30} />
   <AnalysisCard
     title="Oscillators Dashboard"
     description="Multi-indicator momentum analysis with RSI, Williams %R, Stochastic, ADX, and MACD"
-    attribution={`${OHLCV_DATA.length} daily candles • Last updated: Jan 26, 2026`}
     analysisDate="2026-01-22"
   />
 </NBISLayout>
