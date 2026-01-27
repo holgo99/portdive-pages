@@ -25,7 +25,9 @@ import { createContext, useContext, useMemo } from "react";
 // ============================================================================
 
 // NBIS datasets
-import nbis1d from "@site/data/ohlcv-indicators/nbis/1d/nasdaq-nbis-1d-ohlcv_indicators.json";
+import nbis1d from "@site/data/ohlcv-indicators/nbis/nasdaq-nbis-1d-ohlcv_indicators-20260127-185146.json";
+import nbis1h from "@site/data/ohlcv-indicators/nbis/nasdaq-nbis-1h-ohlcv_indicators-20260127-185143.json";
+import nbis1w from "@site/data/ohlcv-indicators/nbis/nasdaq-nbis-1w-ohlcv_indicators-20260127-185148.json";
 
 /**
  * Registry of all available OHLCV datasets
@@ -34,8 +36,8 @@ import nbis1d from "@site/data/ohlcv-indicators/nbis/1d/nasdaq-nbis-1d-ohlcv_ind
 const OHLCV_REGISTRY = {
   NBIS: {
     "1D": nbis1d,
-    // "1H": nbis1h,  // Add when available
-    // "1W": nbis1w,  // Add when available
+    "1H": nbis1h,
+    "1W": nbis1w,
   },
 };
 
