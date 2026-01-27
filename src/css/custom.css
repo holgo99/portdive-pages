@@ -4,8 +4,66 @@
  * work well for content-centric websites.
  */
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PORTDIVE PREMIUM DESIGN SYSTEM                                            */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 /* You can override the default Infima variables here. */
 :root {
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* PORTDIVE BRAND COLORS                                                    */
+    /* ════════════════════════════════════════════════════════════════════════ */
+    --portdive-teal: #1fa39b;
+    --portdive-teal-rgb: 31, 163, 155;
+    --portdive-coral: #ff6b6b;
+    --portdive-coral-rgb: 255, 107, 107;
+    --portdive-blue: #3d72ff;
+    --portdive-blue-rgb: 61, 114, 255;
+
+    /* Legacy aliases for backwards compatibility */
+    --portdive-primary: var(--portdive-teal);
+    --portdive-primary-rgb: var(--portdive-teal-rgb);
+    --portdive-secondary: var(--portdive-coral);
+    --portdive-secondary-rgb: var(--portdive-coral-rgb);
+
+    /* Supporting Colors */
+    --portdive-warning: #f9e95e;
+    --portdive-magenta: #e040fb;
+
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* PREMIUM COMPONENT COLORS - Light Mode                                    */
+    /* ════════════════════════════════════════════════════════════════════════ */
+    --premium-bg: #f8faf9;
+    --premium-surface: #ffffff;
+    --premium-surface-alt: #f0f4f2;
+    --premium-surface-elevated: #ffffff;
+    --premium-text: #0a1a1f;
+    --premium-text-secondary: #5a6570;
+    --premium-text-muted: #8a9199;
+    --premium-border: rgba(10, 26, 31, 0.12);
+    --premium-border-glow: rgba(31, 163, 155, 0.3);
+
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* PREMIUM TYPOGRAPHY                                                       */
+    /* ════════════════════════════════════════════════════════════════════════ */
+    --font-family-premium:
+        "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
+    --font-family-mono:
+        "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        monospace;
+
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* PREMIUM SHADOWS & EFFECTS - Light Mode                                   */
+    /* ════════════════════════════════════════════════════════════════════════ */
+    --premium-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --premium-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --premium-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* INFIMA OVERRIDES                                                         */
+    /* ════════════════════════════════════════════════════════════════════════ */
+
     /* Primary - Teal/Green */
     --ifm-color-primary: #0d9488;
     --ifm-color-primary-dark: #0b847a;
@@ -80,6 +138,28 @@
 
 /* Dark theme */
 [data-theme="dark"] {
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* PREMIUM COMPONENT COLORS - Dark Mode                                     */
+    /* ════════════════════════════════════════════════════════════════════════ */
+    --premium-bg: #0a1a1f;
+    --premium-surface: #0f2028;
+    --premium-surface-alt: #142830;
+    --premium-surface-elevated: #1a3040;
+    --premium-text: #f8faf9;
+    --premium-text-secondary: #a8b4bc;
+    --premium-text-muted: #6a7a84;
+    --premium-border: rgba(248, 250, 249, 0.12);
+    --premium-border-glow: rgba(31, 163, 155, 0.3);
+
+    /* Premium Shadows & Effects - Dark Mode */
+    --premium-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --premium-shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --premium-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    /* ════════════════════════════════════════════════════════════════════════ */
+    /* INFIMA OVERRIDES - Dark Mode                                             */
+    /* ════════════════════════════════════════════════════════════════════════ */
+
     /* Primary - Brighter Teal/Cyan */
     --ifm-color-primary: #2dd4bf;
     --ifm-color-primary-dark: #20c9b3;
@@ -234,4 +314,563 @@ nav.navbar-sidebar--show {
 
 [data-theme="dark"] .btn-secondary:hover {
     background: rgba(var(--ifm-color-primary-rgb), 0.1);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM COMPONENT COMMON STYLES                                            */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM PANEL/WRAPPER BASE                                                   */
+/* Use: Base styling for premium component wrappers                             */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-panel {
+    background: var(--premium-bg);
+    border: 1px solid var(--premium-border);
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: var(--font-family-premium);
+    color: var(--premium-text);
+    width: 100%;
+    box-shadow: var(--premium-shadow-lg);
+    margin-bottom: 24px;
+}
+
+.premium-panel:focus-visible {
+    outline: 2px solid var(--portdive-teal);
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .premium-panel {
+        border-radius: 12px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM LOGO HEADER                                                          */
+/* Use: Top header with logo icon and text                                      */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-logo-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--premium-border);
+}
+
+.premium-logo-header__icon {
+    color: var(--premium-text);
+    opacity: 0.8;
+}
+
+.premium-logo-header__text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--premium-text);
+    letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+    .premium-logo-header {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .premium-logo-header__text {
+        font-size: 12px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM CARD BASE                                                            */
+/* Use: Base styling for cards within premium components                        */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-card {
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Card color variants */
+.premium-card--teal {
+    border-left: 4px solid var(--portdive-teal);
+    background: linear-gradient(
+        135deg,
+        rgba(31, 163, 155, 0.12) 0%,
+        var(--premium-surface) 100%
+    );
+    box-shadow:
+        var(--premium-shadow-md),
+        0 0 30px rgba(31, 163, 155, 0.06),
+        inset 0 1px 0 rgba(31, 163, 155, 0.1);
+}
+
+.premium-card--teal:hover {
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(31, 163, 155, 0.1),
+        inset 0 1px 0 rgba(31, 163, 155, 0.15);
+    border-color: rgba(31, 163, 155, 0.4);
+}
+
+.premium-card--coral {
+    border-left: 4px solid var(--portdive-coral);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 107, 107, 0.12) 0%,
+        var(--premium-surface) 100%
+    );
+    box-shadow:
+        var(--premium-shadow-md),
+        0 0 30px rgba(255, 107, 107, 0.06),
+        inset 0 1px 0 rgba(255, 107, 107, 0.1);
+}
+
+.premium-card--coral:hover {
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(255, 107, 107, 0.1),
+        inset 0 1px 0 rgba(255, 107, 107, 0.15);
+    border-color: rgba(255, 107, 107, 0.4);
+}
+
+.premium-card--blue {
+    border-left: 4px solid var(--portdive-blue);
+    background: linear-gradient(
+        135deg,
+        rgba(61, 114, 255, 0.12) 0%,
+        var(--premium-surface) 100%
+    );
+    box-shadow:
+        var(--premium-shadow-md),
+        0 0 30px rgba(61, 114, 255, 0.06),
+        inset 0 1px 0 rgba(61, 114, 255, 0.1);
+}
+
+.premium-card--blue:hover {
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(61, 114, 255, 0.1),
+        inset 0 1px 0 rgba(61, 114, 255, 0.15);
+    border-color: rgba(61, 114, 255, 0.4);
+}
+
+/* Light mode card adjustments */
+[data-theme="light"] .premium-card {
+    box-shadow: var(--premium-shadow-sm);
+}
+
+[data-theme="light"] .premium-card:hover {
+    box-shadow: var(--premium-shadow-md);
+}
+
+[data-theme="light"] .premium-card--teal,
+[data-theme="light"] .premium-card--coral,
+[data-theme="light"] .premium-card--blue {
+    background: var(--premium-surface);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM STATUS BADGE                                                         */
+/* Use: Status indicators with color variants and glow effects                  */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.premium-badge--teal {
+    background: rgba(31, 163, 155, 0.1);
+    color: var(--portdive-teal);
+    border: 1px solid rgba(31, 163, 155, 0.2);
+}
+
+.premium-badge--teal-glow {
+    background: rgba(31, 163, 155, 0.15);
+    color: var(--portdive-teal);
+    border: 1px solid rgba(31, 163, 155, 0.3);
+    box-shadow:
+        0 0 12px rgba(31, 163, 155, 0.2),
+        inset 0 0 8px rgba(31, 163, 155, 0.1);
+}
+
+.premium-badge--coral {
+    background: rgba(255, 107, 107, 0.1);
+    color: var(--portdive-coral);
+    border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+.premium-badge--coral-glow {
+    background: rgba(255, 107, 107, 0.15);
+    color: var(--portdive-coral);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    box-shadow:
+        0 0 12px rgba(255, 107, 107, 0.2),
+        inset 0 0 8px rgba(255, 107, 107, 0.1);
+}
+
+.premium-badge--blue {
+    background: rgba(61, 114, 255, 0.1);
+    color: var(--portdive-blue);
+    border: 1px solid rgba(61, 114, 255, 0.2);
+}
+
+.premium-badge--blue-glow {
+    background: rgba(61, 114, 255, 0.15);
+    color: var(--portdive-blue);
+    border: 1px solid rgba(61, 114, 255, 0.3);
+    box-shadow:
+        0 0 12px rgba(61, 114, 255, 0.2),
+        inset 0 0 8px rgba(61, 114, 255, 0.1);
+}
+
+.premium-badge--muted {
+    background: rgba(106, 122, 132, 0.1);
+    color: var(--premium-text-muted);
+    border: 1px solid rgba(106, 122, 132, 0.2);
+}
+
+/* Pill variant (more rounded) */
+.premium-badge--pill {
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+/* Light mode badge adjustments */
+[data-theme="light"] .premium-badge--teal-glow,
+[data-theme="light"] .premium-badge--coral-glow,
+[data-theme="light"] .premium-badge--blue-glow {
+    box-shadow: none;
+}
+
+@media (max-width: 480px) {
+    .premium-badge {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM FOOTER                                                               */
+/* Use: Component footer with badge                                             */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-footer {
+    padding: 16px 32px;
+    border-top: 1px solid var(--premium-border);
+    display: flex;
+    justify-content: flex-end;
+    background: var(--premium-surface);
+}
+
+@media (max-width: 480px) {
+    .premium-footer {
+        padding: 12px 16px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM SECTION TITLE                                                        */
+/* Use: Section headings within premium components                              */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--portdive-teal);
+    margin: 0 0 24px 0;
+    letter-spacing: -0.01em;
+}
+
+.premium-section-title--coral {
+    color: var(--portdive-coral);
+}
+
+.premium-section-title--blue {
+    color: var(--portdive-blue);
+}
+
+@media (max-width: 480px) {
+    .premium-section-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM LABEL                                                                */
+/* Use: Small uppercase labels                                                  */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.premium-label--teal {
+    color: var(--portdive-teal);
+}
+
+.premium-label--coral {
+    color: var(--portdive-coral);
+}
+
+.premium-label--blue {
+    color: var(--portdive-blue);
+}
+
+.premium-label--muted {
+    color: var(--premium-text-muted);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM HIGHLIGHT                                                            */
+/* Use: Inline text highlights with color background                            */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-highlight {
+    font-weight: 600;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+.premium-highlight--teal {
+    color: var(--portdive-teal);
+    background: rgba(31, 163, 155, 0.2);
+}
+
+.premium-highlight--coral {
+    color: var(--portdive-coral);
+    background: rgba(255, 107, 107, 0.2);
+}
+
+.premium-highlight--blue {
+    color: var(--portdive-blue);
+    background: rgba(61, 114, 255, 0.2);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM BULLET DOT                                                           */
+/* Use: Colored bullet points for lists                                         */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-bullet {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.premium-bullet--teal {
+    background: var(--portdive-teal);
+    box-shadow: 0 0 6px rgba(31, 163, 155, 0.5);
+}
+
+.premium-bullet--coral {
+    background: var(--portdive-coral);
+    box-shadow: 0 0 6px rgba(255, 107, 107, 0.5);
+}
+
+.premium-bullet--blue {
+    background: var(--portdive-blue);
+    box-shadow: 0 0 6px rgba(61, 114, 255, 0.5);
+}
+
+[data-theme="light"] .premium-bullet--teal,
+[data-theme="light"] .premium-bullet--coral,
+[data-theme="light"] .premium-bullet--blue {
+    box-shadow: none;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM ICON CIRCLE                                                          */
+/* Use: Circular icon containers with color variants                            */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+.premium-icon-circle--teal {
+    background: rgba(31, 163, 155, 0.15);
+    color: var(--portdive-teal);
+    border: 1px solid rgba(31, 163, 155, 0.3);
+    box-shadow:
+        0 0 12px rgba(31, 163, 155, 0.2),
+        inset 0 0 8px rgba(31, 163, 155, 0.1);
+}
+
+.premium-icon-circle--coral {
+    background: rgba(255, 107, 107, 0.15);
+    color: var(--portdive-coral);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    box-shadow:
+        0 0 12px rgba(255, 107, 107, 0.2),
+        inset 0 0 8px rgba(255, 107, 107, 0.1);
+}
+
+.premium-icon-circle--blue {
+    background: rgba(61, 114, 255, 0.15);
+    color: var(--portdive-blue);
+    border: 1px solid rgba(61, 114, 255, 0.3);
+    box-shadow:
+        0 0 12px rgba(61, 114, 255, 0.2),
+        inset 0 0 8px rgba(61, 114, 255, 0.1);
+}
+
+[data-theme="light"] .premium-icon-circle--teal,
+[data-theme="light"] .premium-icon-circle--coral,
+[data-theme="light"] .premium-icon-circle--blue {
+    box-shadow: none;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM VALUE DISPLAY                                                        */
+/* Use: Large monospace numbers with optional glow                              */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-value {
+    font-family: var(--font-family-mono);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.premium-value--xl {
+    font-size: 2.5rem;
+}
+
+.premium-value--lg {
+    font-size: 1.5rem;
+}
+
+.premium-value--md {
+    font-size: 1rem;
+}
+
+.premium-value--teal {
+    color: var(--premium-text);
+    text-shadow: 0 0 20px rgba(31, 163, 155, 0.4);
+}
+
+.premium-value--coral {
+    color: var(--premium-text);
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+}
+
+.premium-value--blue {
+    color: var(--premium-text);
+    text-shadow: 0 0 20px rgba(61, 114, 255, 0.4);
+}
+
+[data-theme="light"] .premium-value--teal,
+[data-theme="light"] .premium-value--coral,
+[data-theme="light"] .premium-value--blue {
+    text-shadow: none;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM PROGRESS BAR                                                         */
+/* Use: Progress bars with gradient fill                                        */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+.premium-progress {
+    height: 8px;
+    background: var(--premium-border);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-progress__fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-progress__fill--teal {
+    background: linear-gradient(90deg, var(--portdive-teal) 0%, #25b8ae 100%);
+    box-shadow: 0 0 12px rgba(31, 163, 155, 0.5);
+}
+
+.premium-progress__fill--coral {
+    background: linear-gradient(90deg, var(--portdive-coral) 0%, #ff8e8e 100%);
+    box-shadow: 0 0 12px rgba(255, 107, 107, 0.5);
+}
+
+.premium-progress__fill--blue {
+    background: linear-gradient(90deg, var(--portdive-blue) 0%, #5b8aff 100%);
+    box-shadow: 0 0 12px rgba(61, 114, 255, 0.5);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/* PREMIUM ACCESSIBILITY                                                        */
+/* Use: Reduced motion and high contrast support                                */
+/* ════════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+    .premium-panel,
+    .premium-card,
+    .premium-badge,
+    .premium-progress__fill {
+        transition: none;
+    }
+
+    .premium-card:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-contrast: more) {
+    .premium-panel {
+        border-width: 2px;
+    }
+
+    .premium-card {
+        border-width: 2px;
+    }
+
+    .premium-card--teal,
+    .premium-card--coral,
+    .premium-card--blue {
+        border-left-width: 5px;
+    }
+
+    .premium-highlight {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    .premium-badge {
+        border-width: 2px;
+    }
 }
