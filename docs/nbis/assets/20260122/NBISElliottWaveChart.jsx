@@ -130,15 +130,15 @@ const CheckboxToggle = memo(
 );
 
 // ============================================================================
-// WAVE COUNT SELECTOR BUTTONS
+// WAVE COUNT SELECTOR LINKS
 // ============================================================================
-const WaveCountButton = memo(({ count, active, onClick, theme }) => {
+const WaveCountLink = memo(({ count, active, theme }) => {
   const isAlt = count.id === "alt1";
 
   return (
-    <button
-      onClick={onClick}
-      aria-pressed={active}
+    <a
+      href={`#wave-${count.id}`}
+      aria-current={active ? "true" : undefined}
       style={{
         padding: "12px 16px",
         borderRadius: "8px",
@@ -155,6 +155,8 @@ const WaveCountButton = memo(({ count, active, onClick, theme }) => {
         transition: "all 0.2s ease",
         flex: "1 1 auto",
         minWidth: "120px",
+        textDecoration: "none",
+        display: "block",
       }}
     >
       <div
@@ -185,7 +187,7 @@ const WaveCountButton = memo(({ count, active, onClick, theme }) => {
           {count.probability}
         </span>
       </div>
-    </button>
+    </a>
   );
 });
 
@@ -1712,6 +1714,21 @@ const WaveTimelinePanel = memo(({ waves, theme }) => {
 });
 
 // ============================================================================
+// HELPER: Parse wave count from URL hash
+// ============================================================================
+const getWaveCountFromHash = () => {
+  if (typeof window === "undefined") return "primary";
+  const hash = window.location.hash;
+  if (hash.startsWith("#wave-")) {
+    const countId = hash.replace("#wave-", "");
+    if (WAVE_COUNTS[countId]) {
+      return countId;
+    }
+  }
+  return "primary";
+};
+
+// ============================================================================
 // MAIN COMPONENT - REFACTORED
 // ============================================================================
 export default function NBISElliottWaveChart({ colorMode = "dark" }) {
@@ -1719,7 +1736,9 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const isDarkMode = colorMode === "dark";
   const theme = isDarkMode ? PORTDIVE_THEME.dark : PORTDIVE_THEME.light;
 
-  const [activeWaveCount, setActiveWaveCount] = useState("primary");
+  const [activeWaveCount, setActiveWaveCount] = useState(() =>
+    getWaveCountFromHash(),
+  );
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(1000);
   const [showWordmark, setShowWordmark] = useState(true);
@@ -1733,6 +1752,17 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
     showInvalidationLevel: true,
     showTargetBand: true,
   });
+
+  // Listen for hash changes (browser back/forward, direct link)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const countId = getWaveCountFromHash();
+      setActiveWaveCount(countId);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   // Responsive container width
   useEffect(() => {
@@ -1750,11 +1780,6 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
 
   const toggleAnalysis = useCallback((key) => {
     setAnalysisState((prev) => ({ ...prev, [key]: !prev[key] }));
-  }, []);
-
-  // Handle wave count change - this now actually updates the chart
-  const handleWaveCountChange = useCallback((countId) => {
-    setActiveWaveCount(countId);
   }, []);
 
   const currentPrice = OHLCV_DATA[OHLCV_DATA.length - 1].close;
@@ -1804,11 +1829,10 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         </div>
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", flex: 1 }}>
           {Object.values(WAVE_COUNTS).map((count) => (
-            <WaveCountButton
+            <WaveCountLink
               key={count.id}
               count={count}
               active={activeWaveCount === count.id}
-              onClick={() => handleWaveCountChange(count.id)}
               theme={theme}
             />
           ))}
