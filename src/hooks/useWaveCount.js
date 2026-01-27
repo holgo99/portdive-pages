@@ -106,11 +106,22 @@ export const useWaveCount = (defaultId = "primary") => {
     }
   }, []);
 
+  const [analysisState, setAnalysisState] = useState({
+    showMotiveWaves: true,
+    showCorrectiveWaves: true,
+    showMinorWaves: true,
+    showFibRetracements: false,
+    showFibExtensions: true,
+    showInvalidationLevel: true,
+    showTargetBand: true,
+  });
+
   return {
     activeId,
     activeScenario,
     items,
     switchScenario,
+    analysisState,
     // No loading/error states needed with direct import
     isLoading: false,
     error: null,
