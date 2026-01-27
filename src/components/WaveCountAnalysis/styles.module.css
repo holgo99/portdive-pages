@@ -1,0 +1,226 @@
+/**
+ * WaveCountAnalysis Component Styles - PREMIUM REDESIGN
+ *
+ * Features:
+ * - Premium panel wrapper with logo header
+ * - Elliott Wave themed icon
+ * - Chart container with proper spacing
+ * - Premium shadows and glows
+ * - Dark mode optimized (PortDive brand)
+ * - WCAG AA+ accessible
+ * - Responsive design
+ *
+ * Uses global premium CSS variables from custom.css
+ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* WRAPPER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.waveCountWrapper {
+    background: var(--premium-bg);
+    border: 1px solid var(--premium-border);
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: var(--font-family-premium);
+    color: var(--premium-text);
+    width: 100%;
+    box-shadow: var(--premium-shadow-lg);
+    margin-bottom: 24px;
+}
+
+.waveCountWrapper:focus-visible {
+    outline: 2px solid var(--portdive-teal);
+    outline-offset: 2px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* LOGO HEADER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.logoHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--premium-border);
+}
+
+.logoIcon {
+    color: var(--premium-text);
+    opacity: 0.8;
+}
+
+.logoText {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--premium-text);
+    letter-spacing: -0.01em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CHART CONTAINER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.chartContainer {
+    padding: 24px;
+    background: var(--premium-surface);
+}
+
+.chartWrapper {
+    background: var(--premium-surface-alt);
+    border: 1px solid var(--premium-border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow:
+        var(--premium-shadow-sm),
+        inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chartWrapper:hover {
+    box-shadow:
+        var(--premium-shadow-md),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* FOOTER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.footer {
+    padding: 16px 32px;
+    border-top: 1px solid var(--premium-border);
+    display: flex;
+    justify-content: flex-end;
+    background: var(--premium-surface);
+}
+
+.footerBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(31, 163, 155, 0.1);
+    color: var(--portdive-teal);
+    border-radius: 8px;
+    border: 1px solid rgba(31, 163, 155, 0.2);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.footerBadge--glow {
+    background: rgba(31, 163, 155, 0.15);
+    border: 1px solid rgba(31, 163, 155, 0.3);
+    box-shadow:
+        0 0 12px rgba(31, 163, 155, 0.2),
+        inset 0 0 8px rgba(31, 163, 155, 0.1);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE - Tablet */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 768px) {
+    .logoHeader {
+        padding: 12px 16px;
+    }
+
+    .chartContainer {
+        padding: 16px;
+    }
+
+    .chartWrapper {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .footer {
+        padding: 12px 16px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE - Mobile */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 480px) {
+    .waveCountWrapper {
+        border-radius: 12px;
+    }
+
+    .logoHeader {
+        padding: 12px 14px;
+    }
+
+    .logoText {
+        font-size: 12px;
+    }
+
+    .chartContainer {
+        padding: 12px;
+    }
+
+    .chartWrapper {
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    .footer {
+        padding: 10px 14px;
+    }
+
+    .footerBadge {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* LIGHT MODE */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+[data-theme="light"] .waveCountWrapper {
+    box-shadow: var(--premium-shadow-md);
+}
+
+[data-theme="light"] .chartWrapper {
+    box-shadow: var(--premium-shadow-sm);
+}
+
+[data-theme="light"] .chartWrapper:hover {
+    box-shadow: var(--premium-shadow-md);
+}
+
+[data-theme="light"] .footerBadge--glow {
+    box-shadow: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ACCESSIBILITY */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (prefers-reduced-motion: reduce) {
+    .waveCountWrapper,
+    .chartWrapper,
+    .footerBadge {
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: more) {
+    .waveCountWrapper {
+        border-width: 2px;
+    }
+
+    .chartWrapper {
+        border-width: 2px;
+    }
+
+    .footerBadge {
+        border-width: 2px;
+    }
+}
