@@ -390,6 +390,9 @@ const ChartCanvas = memo(
     // Calculate aspect ratio for responsive scaling
     const aspectRatio = W / H;
 
+    // Get projected target
+    const projectedPrice = activeCount.projected.at(-1).price || null;
+
     return (
       <svg
         width="100%"
@@ -640,18 +643,14 @@ const ChartCanvas = memo(
                 priceToY(activeCount.projectedTargetBand.startPrice) -
                 priceToY(activeCount.projectedTargetBand.endPrice)
               }
-              fill={
-                activeCount.projectedTarget >= currentPrice
-                  ? "url(#primaryTargetZoneGradient)"
-                  : "url(#secondaryTargetZoneGradient)"
-              }
+              fill={activeCount.projectedTargetBand.fill}
               rx={4}
             />
             <text
               x={idxToX(data.length + projectionBars * 0.25)}
               y={
-                priceToY(activeCount.projectedTarget) -
-                (10 * activeCount.projectedTarget >= currentPrice ? 1.0 : -1.0)
+                priceToY(projectedPrice) -
+                (10 * projectedPrice >= currentPrice ? 1.0 : -1.0)
               }
               textAnchor="middle"
               fill={activeCount.projectedTargetBand.color}
@@ -964,8 +963,8 @@ const ChartCanvas = memo(
         {analysisState.showMotiveWaves && activeWaveCount === "primary" && (
           <g>
             <path
-              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
-                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projected[0].idx)},${priceToY(activeCount.projected[0].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(projectedPrice)}`}
               fill="none"
               stroke={activeCount.color}
               strokeWidth="2"
@@ -976,7 +975,7 @@ const ChartCanvas = memo(
             <g>
               <ellipse
                 cx={idxToX(data.length + projectionBars * projectionBarsScale)}
-                cy={priceToY(activeCount.projectedTarget) - 28}
+                cy={priceToY(projectedPrice) - 28}
                 rx={16}
                 ry={16}
                 stroke={activeCount.color}
@@ -987,24 +986,24 @@ const ChartCanvas = memo(
               />
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget) - 23}
+                y={priceToY(projectedPrice) - 23}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                {activeCount.projectedLabel}
+                {activeCount.projected.at(-1).label}
               </text>
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget)}
+                y={priceToY(projectedPrice)}
                 textAnchor="middle"
                 fill={activeCount.color}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
               >
-                ${activeCount.projectedTarget}
+                ${projectedPrice}
               </text>
             </g>
           </g>
@@ -1014,8 +1013,8 @@ const ChartCanvas = memo(
         {analysisState.showCorrectiveWaves && activeWaveCount === "alt1" && (
           <g>
             <path
-              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
-                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projected[0].idx)},${priceToY(activeCount.projected[0].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(projectedPrice)}`}
               fill="none"
               stroke={activeCount.color}
               strokeWidth="2"
@@ -1026,7 +1025,7 @@ const ChartCanvas = memo(
             <g>
               <ellipse
                 cx={idxToX(data.length + projectionBars * projectionBarsScale)}
-                cy={priceToY(activeCount.projectedTarget) + 23}
+                cy={priceToY(projectedPrice) + 23}
                 rx={16}
                 ry={16}
                 stroke={activeCount.color}
@@ -1037,24 +1036,24 @@ const ChartCanvas = memo(
               />
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget) + 28}
+                y={priceToY(projectedPrice) + 28}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                {activeCount.projectedLabel}
+                {activeCount.projected.at(-1).label}
               </text>
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget)}
+                y={priceToY(projectedPrice)}
                 textAnchor="middle"
                 fill={activeCount.color}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
               >
-                ${activeCount.projectedTarget}
+                ${projectedPrice}
               </text>
             </g>
           </g>
@@ -1064,19 +1063,45 @@ const ChartCanvas = memo(
         {analysisState.showCorrectiveWaves && activeWaveCount === "alt2" && (
           <g>
             <path
-              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
-                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projected[0].idx)},${priceToY(activeCount.projected[0].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale * 0.5)},${priceToY(activeCount.projected[1].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(projectedPrice)}`}
               fill="none"
               stroke={PORTDIVE_THEME.primary}
               strokeWidth="2"
               strokeDasharray="8,6"
               opacity="0.5"
             />
-            {/* Wave C projected label */}
+            {/* Wave 4 + 5 projected label */}
             <g>
               <ellipse
+                cx={idxToX(
+                  data.length + projectionBars * projectionBarsScale * 0.5,
+                )}
+                cy={priceToY(activeCount.projected[1].price) + 23}
+                rx={16}
+                ry={16}
+                stroke={PORTDIVE_THEME.primary}
+                strokeWidth={1.5}
+                strokeDasharray="5,3"
+                opacity={0.6}
+                filter="url(#labelShadow)"
+              />
+              <text
+                x={idxToX(
+                  data.length + projectionBars * projectionBarsScale * 0.5,
+                )}
+                y={priceToY(activeCount.projected[1].price) + 28}
+                textAnchor="middle"
+                fill="#fff"
+                fontSize="14"
+                fontWeight="700"
+              >
+                {activeCount.projected.at(1).label}
+              </text>
+              <ellipse
                 cx={idxToX(data.length + projectionBars * projectionBarsScale)}
-                cy={priceToY(activeCount.projectedTarget) + 23}
+                cy={priceToY(projectedPrice) - 28}
                 rx={16}
                 ry={16}
                 stroke={PORTDIVE_THEME.primary}
@@ -1087,24 +1112,24 @@ const ChartCanvas = memo(
               />
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget) + 28}
+                y={priceToY(projectedPrice) - 23}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                {activeCount.projectedLabel}
+                {activeCount.projected.at(-1).label}
               </text>
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget)}
+                y={priceToY(projectedPrice)}
                 textAnchor="middle"
-                fill={PORTDIVE_THEME.secondary}
+                fill={PORTDIVE_THEME.primary}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
               >
-                ${activeCount.projectedTarget}
+                ${projectedPrice}
               </text>
             </g>
           </g>
@@ -1736,6 +1761,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const prevClose = OHLCV_DATA[OHLCV_DATA.length - 2].close;
   const priceChange = ((currentPrice - prevClose) / prevClose) * 100;
   const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
+  const projectedPrice = activeCount.projected.at(-1).price;
 
   return (
     <div
@@ -1952,7 +1978,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
             <span style={{ color: PORTDIVE_THEME.primary, fontWeight: 600 }}>
               Target:
             </span>{" "}
-            ${activeCount.projectedTarget.toFixed(2)}
+            ${projectedPrice.toFixed(2)}
           </span>
           <span>
             <span style={{ color: PORTDIVE_THEME.secondary, fontWeight: 600 }}>
@@ -1976,7 +2002,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         <CurrentPriceCard
           price={currentPrice}
           change={priceChange}
-          target={activeCount.projectedTarget}
+          target={projectedPrice}
           theme={theme}
           isDarkMode={isDarkMode}
         />

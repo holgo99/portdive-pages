@@ -43,16 +43,25 @@
         "label": "ii"
       }
     },
-    "projectedTarget": 150.13,
-    "projectedLabel": "5",
-    "projectedStart": {
-      "idx": 176,
-      "price": 75.25
-    },
+    "projected": [
+      {
+        "idx": 176,
+        "price": 75.25,
+        "label": "4",
+        "color": "PORTDIVE_THEME.primary"
+      },
+      {
+        "idx": -1,
+        "price": 150.13,
+        "label": "5",
+        "color": "PORTDIVE_THEME.primary"
+      }
+    ],
     "projectedTargetBand": {
       "startPrice": 135.83,
       "endPrice": 158.45,
-      "color": "PORTDIVE_THEME.primary"
+      "color": "PORTDIVE_THEME.primary",
+      "fill": "url(#primaryTargetZoneGradient)"
     },
     "description": "Primary revised: (5) still possible, but the pullback has extended below prior minor ii ($93.10) and the 0.50 shelf (~$92.88), so validation now requires reclaiming key pivots before upside targets regain high confidence.",
     "waves": [
@@ -138,16 +147,25 @@
       }
     },
     "minorWaves": {},
-    "projectedTarget": 79.7,
-    "projectedLabel": "C",
-    "projectedStart": {
-      "idx": 196,
-      "price": 110.5
-    },
+    "projected": [
+      {
+        "idx": 196,
+        "price": 110.5,
+        "label": "B",
+        "color": "PORTDIVE_THEME.secondary"
+      },
+      {
+        "idx": -1,
+        "price": 79.7,
+        "label": "C",
+        "color": "PORTDIVE_THEME.secondary"
+      }
+    ],
     "projectedTargetBand": {
       "startPrice": 79.7,
       "endPrice": 88.72,
-      "color": "PORTDIVE_THEME.secondary"
+      "color": "PORTDIVE_THEME.secondary",
+      "fill": "url(#secondaryTargetZoneGradient)"
     },
     "description": "Alt1 upgraded: 141.10→75.25 is A/W, 75.25→110.50 is B/X, and the confirmed break below $92.50 implies C/Y is active with downside targets at 88.72 then 79.70 (and possibly 75.25).",
     "waves": [
@@ -252,16 +270,31 @@
         "label": "Y"
       }
     },
-    "projectedTarget": 79.7,
-    "projectedLabel": "4",
-    "projectedStart": {
-      "idx": 129,
-      "price": 141.1
-    },
+    "projected": [
+      {
+        "idx": 129,
+        "price": 141.1,
+        "label": "3",
+        "color": "PORTDIVE_THEME.secondary"
+      },
+      {
+        "idx": -1,
+        "price": 79.7,
+        "label": "4",
+        "color": "PORTDIVE_THEME.secondary"
+      },
+      {
+        "idx": -1,
+        "price": 141.1,
+        "label": "5",
+        "color": "PORTDIVE_THEME.secondary"
+      }
+    ],
     "projectedTargetBand": {
       "startPrice": 79.7,
       "endPrice": 88.72,
-      "color": "PORTDIVE_THEME.secondary"
+      "color": "PORTDIVE_THEME.primary",
+      "fill": "url(#secondaryTargetZoneGradient)"
     },
     "description": "Alt2: The structure may still be a complex (4) (double-three / triangle-like). 75.25→110.50 was an X-wave bounce, and price is now working a choppy Y-leg down into 88.72–79.70 before a later (5) attempt.",
     "waves": [
