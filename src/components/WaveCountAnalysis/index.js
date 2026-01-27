@@ -17,14 +17,18 @@ import { WaveCountSelector } from "@site/src/components/WaveCountSelector";
 import { VerdictPanel } from "@site/src/components/VerdictPanel";
 import { ChartCanvas } from "@site/src/components/ChartCanvas";
 import { WaveCountChartOverlay } from "@site/src/components/WaveCountChartOverlay";
-import { useWaveCount } from "../../hooks/useWaveCount";
+import {
+  useWaveCount,
+  WaveCountProvider,
+} from "../../hooks/useWaveCount";
 import { useOHLCVData } from "../../hooks/useOHLCVData";
 import { useTickerConfig } from "../../hooks/useTickerConfig";
 import { useColorMode } from "@docusaurus/theme-common";
 import { PORTDIVE_THEME } from "@site/src/components/PortDiveTheme";
 import styles from "./styles.module.css";
 
-export function WaveCountAnalysis() {
+// Inner component that consumes the WaveCount context
+function WaveCountAnalysisInner() {
   // Get config from context (if available)
   const tickerConfig = useTickerConfig();
   const ohlcvContext = useOHLCVData();
@@ -51,12 +55,7 @@ export function WaveCountAnalysis() {
 
   return (
     <div ref={containerRef}>
-      <WaveCountSelector
-        showProbability={true}
-        onScenarioChange={(id) => {
-          console.log("Selected:", id);
-        }}
-      />
+      <WaveCountSelector showProbability={true} />
       <ChartCanvas
         data={ohlcvContext.data}
         theme={theme}
@@ -76,5 +75,14 @@ export function WaveCountAnalysis() {
         />
       )}
     </div>
+  );
+}
+
+// Main component that provides the WaveCount context
+export function WaveCountAnalysis() {
+  return (
+    <WaveCountProvider>
+      <WaveCountAnalysisInner />
+    </WaveCountProvider>
   );
 }
