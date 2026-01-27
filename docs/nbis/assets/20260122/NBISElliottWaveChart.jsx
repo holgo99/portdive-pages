@@ -130,15 +130,15 @@ const CheckboxToggle = memo(
 );
 
 // ============================================================================
-// WAVE COUNT SELECTOR BUTTONS
+// WAVE COUNT SELECTOR LINKS
 // ============================================================================
-const WaveCountButton = memo(({ count, active, onClick, theme }) => {
+const WaveCountLink = memo(({ count, active, theme }) => {
   const isAlt = count.id === "alt1";
 
   return (
-    <button
-      onClick={onClick}
-      aria-pressed={active}
+    <a
+      href={`#wave-${count.id}`}
+      aria-current={active ? "true" : undefined}
       style={{
         padding: "12px 16px",
         borderRadius: "8px",
@@ -155,6 +155,8 @@ const WaveCountButton = memo(({ count, active, onClick, theme }) => {
         transition: "all 0.2s ease",
         flex: "1 1 auto",
         minWidth: "120px",
+        textDecoration: "none",
+        display: "block",
       }}
     >
       <div
@@ -185,7 +187,7 @@ const WaveCountButton = memo(({ count, active, onClick, theme }) => {
           {count.probability}
         </span>
       </div>
-    </button>
+    </a>
   );
 });
 
@@ -389,6 +391,9 @@ const ChartCanvas = memo(
 
     // Calculate aspect ratio for responsive scaling
     const aspectRatio = W / H;
+
+    // Get projected target
+    const projectedPrice = activeCount.projected.at(-1).price || null;
 
     return (
       <svg
@@ -640,21 +645,17 @@ const ChartCanvas = memo(
                 priceToY(activeCount.projectedTargetBand.startPrice) -
                 priceToY(activeCount.projectedTargetBand.endPrice)
               }
-              fill={
-                activeCount.projectedTarget >= currentPrice
-                  ? "url(#primaryTargetZoneGradient)"
-                  : "url(#secondaryTargetZoneGradient)"
-              }
+              fill={activeCount.projectedTargetBand.fill}
               rx={4}
             />
             <text
               x={idxToX(data.length + projectionBars * 0.25)}
               y={
-                priceToY(activeCount.projectedTarget) -
-                (10 * activeCount.projectedTarget >= currentPrice ? 1.0 : -1.0)
+                priceToY(projectedPrice) -
+                (10 * projectedPrice >= currentPrice ? 1.0 : -1.0)
               }
               textAnchor="middle"
-              fill={activeCount.color}
+              fill={activeCount.projectedTargetBand.color}
               fontSize="11"
               fontWeight="600"
               opacity={0.8}
@@ -964,8 +965,8 @@ const ChartCanvas = memo(
         {analysisState.showMotiveWaves && activeWaveCount === "primary" && (
           <g>
             <path
-              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
-                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projected[0].idx)},${priceToY(activeCount.projected[0].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(projectedPrice)}`}
               fill="none"
               stroke={activeCount.color}
               strokeWidth="2"
@@ -976,7 +977,7 @@ const ChartCanvas = memo(
             <g>
               <ellipse
                 cx={idxToX(data.length + projectionBars * projectionBarsScale)}
-                cy={priceToY(activeCount.projectedTarget) - 28}
+                cy={priceToY(projectedPrice) - 28}
                 rx={16}
                 ry={16}
                 stroke={activeCount.color}
@@ -987,24 +988,24 @@ const ChartCanvas = memo(
               />
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget) - 23}
+                y={priceToY(projectedPrice) - 23}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                {activeCount.projectedLabel}
+                {activeCount.projected.at(-1).label}
               </text>
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget)}
+                y={priceToY(projectedPrice)}
                 textAnchor="middle"
                 fill={activeCount.color}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
               >
-                ${activeCount.projectedTarget}
+                ${projectedPrice}
               </text>
             </g>
           </g>
@@ -1014,8 +1015,8 @@ const ChartCanvas = memo(
         {analysisState.showCorrectiveWaves && activeWaveCount === "alt1" && (
           <g>
             <path
-              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
-                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projected[0].idx)},${priceToY(activeCount.projected[0].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(projectedPrice)}`}
               fill="none"
               stroke={activeCount.color}
               strokeWidth="2"
@@ -1026,7 +1027,7 @@ const ChartCanvas = memo(
             <g>
               <ellipse
                 cx={idxToX(data.length + projectionBars * projectionBarsScale)}
-                cy={priceToY(activeCount.projectedTarget) + 23}
+                cy={priceToY(projectedPrice) + 23}
                 rx={16}
                 ry={16}
                 stroke={activeCount.color}
@@ -1037,24 +1038,24 @@ const ChartCanvas = memo(
               />
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget) + 28}
+                y={priceToY(projectedPrice) + 28}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                {activeCount.projectedLabel}
+                {activeCount.projected.at(-1).label}
               </text>
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget)}
+                y={priceToY(projectedPrice)}
                 textAnchor="middle"
                 fill={activeCount.color}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
               >
-                ${activeCount.projectedTarget}
+                ${projectedPrice}
               </text>
             </g>
           </g>
@@ -1064,22 +1065,48 @@ const ChartCanvas = memo(
         {analysisState.showCorrectiveWaves && activeWaveCount === "alt2" && (
           <g>
             <path
-              d={`M ${idxToX(activeCount.projectedStart.idx)},${priceToY(activeCount.projectedStart.price)}
-                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(activeCount.projectedTarget)}`}
+              d={`M ${idxToX(activeCount.projected[0].idx)},${priceToY(activeCount.projected[0].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale * 0.5)},${priceToY(activeCount.projected[1].price)}
+                L ${idxToX(data.length + projectionBars * projectionBarsScale)},${priceToY(projectedPrice)}`}
               fill="none"
-              stroke={PORTDIVE_THEME.secondary}
+              stroke={PORTDIVE_THEME.primary}
               strokeWidth="2"
               strokeDasharray="8,6"
               opacity="0.5"
             />
-            {/* Wave C projected label */}
+            {/* Wave 4 + 5 projected label */}
             <g>
               <ellipse
-                cx={idxToX(data.length + projectionBars * projectionBarsScale)}
-                cy={priceToY(activeCount.projectedTarget) + 23}
+                cx={idxToX(
+                  data.length + projectionBars * projectionBarsScale * 0.5,
+                )}
+                cy={priceToY(activeCount.projected[1].price) + 23}
                 rx={16}
                 ry={16}
-                stroke={PORTDIVE_THEME.secondary}
+                stroke={PORTDIVE_THEME.primary}
+                strokeWidth={1.5}
+                strokeDasharray="5,3"
+                opacity={0.6}
+                filter="url(#labelShadow)"
+              />
+              <text
+                x={idxToX(
+                  data.length + projectionBars * projectionBarsScale * 0.5,
+                )}
+                y={priceToY(activeCount.projected[1].price) + 28}
+                textAnchor="middle"
+                fill="#fff"
+                fontSize="14"
+                fontWeight="700"
+              >
+                {activeCount.projected.at(1).label}
+              </text>
+              <ellipse
+                cx={idxToX(data.length + projectionBars * projectionBarsScale)}
+                cy={priceToY(projectedPrice) - 28}
+                rx={16}
+                ry={16}
+                stroke={PORTDIVE_THEME.primary}
                 strokeWidth={1.5}
                 strokeDasharray="5,3"
                 opacity={0.6}
@@ -1087,24 +1114,24 @@ const ChartCanvas = memo(
               />
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget) + 28}
+                y={priceToY(projectedPrice) - 23}
                 textAnchor="middle"
                 fill="#fff"
                 fontSize="14"
                 fontWeight="700"
               >
-                {activeCount.projectedLabel}
+                {activeCount.projected.at(-1).label}
               </text>
               <text
                 x={idxToX(data.length + projectionBars * projectionBarsScale)}
-                y={priceToY(activeCount.projectedTarget)}
+                y={priceToY(projectedPrice)}
                 textAnchor="middle"
-                fill={PORTDIVE_THEME.secondary}
+                fill={PORTDIVE_THEME.primary}
                 fontSize="10"
                 fontWeight="600"
                 opacity={0.8}
               >
-                ${activeCount.projectedTarget}
+                ${projectedPrice}
               </text>
             </g>
           </g>
@@ -1687,6 +1714,21 @@ const WaveTimelinePanel = memo(({ waves, theme }) => {
 });
 
 // ============================================================================
+// HELPER: Parse wave count from URL hash
+// ============================================================================
+const getWaveCountFromHash = () => {
+  if (typeof window === "undefined") return "primary";
+  const hash = window.location.hash;
+  if (hash.startsWith("#wave-")) {
+    const countId = hash.replace("#wave-", "");
+    if (WAVE_COUNTS[countId]) {
+      return countId;
+    }
+  }
+  return "primary";
+};
+
+// ============================================================================
 // MAIN COMPONENT - REFACTORED
 // ============================================================================
 export default function NBISElliottWaveChart({ colorMode = "dark" }) {
@@ -1694,7 +1736,9 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
   const isDarkMode = colorMode === "dark";
   const theme = isDarkMode ? PORTDIVE_THEME.dark : PORTDIVE_THEME.light;
 
-  const [activeWaveCount, setActiveWaveCount] = useState("primary");
+  const [activeWaveCount, setActiveWaveCount] = useState(() =>
+    getWaveCountFromHash(),
+  );
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(1000);
   const [showWordmark, setShowWordmark] = useState(true);
@@ -1708,6 +1752,17 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
     showInvalidationLevel: true,
     showTargetBand: true,
   });
+
+  // Listen for hash changes (browser back/forward, direct link)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const countId = getWaveCountFromHash();
+      setActiveWaveCount(countId);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   // Responsive container width
   useEffect(() => {
@@ -1727,15 +1782,11 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
     setAnalysisState((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
 
-  // Handle wave count change - this now actually updates the chart
-  const handleWaveCountChange = useCallback((countId) => {
-    setActiveWaveCount(countId);
-  }, []);
-
   const currentPrice = OHLCV_DATA[OHLCV_DATA.length - 1].close;
   const prevClose = OHLCV_DATA[OHLCV_DATA.length - 2].close;
   const priceChange = ((currentPrice - prevClose) / prevClose) * 100;
   const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
+  const projectedPrice = activeCount.projected.at(-1).price;
 
   return (
     <div
@@ -1778,11 +1829,10 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         </div>
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", flex: 1 }}>
           {Object.values(WAVE_COUNTS).map((count) => (
-            <WaveCountButton
+            <WaveCountLink
               key={count.id}
               count={count}
               active={activeWaveCount === count.id}
-              onClick={() => handleWaveCountChange(count.id)}
               theme={theme}
             />
           ))}
@@ -1952,7 +2002,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
             <span style={{ color: PORTDIVE_THEME.primary, fontWeight: 600 }}>
               Target:
             </span>{" "}
-            ${activeCount.projectedTarget.toFixed(2)}
+            ${projectedPrice.toFixed(2)}
           </span>
           <span>
             <span style={{ color: PORTDIVE_THEME.secondary, fontWeight: 600 }}>
@@ -1976,7 +2026,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         <CurrentPriceCard
           price={currentPrice}
           change={priceChange}
-          target={activeCount.projectedTarget}
+          target={projectedPrice}
           theme={theme}
           isDarkMode={isDarkMode}
         />
