@@ -15,7 +15,7 @@
 import React from "react";
 import { WaveCountSelector } from "@site/src/components/WaveCountSelector";
 import { VerdictPanel } from "@site/src/components/VerdictPanel";
-import { ChartCanvasWrapper } from "@site/src/components/ChartCanvas";
+import { WaveCountChartOverlayWrapper } from "@site/src/components/WaveCountChartOverlay";
 import { useWaveCount } from "../../hooks/useWaveCount";
 import { useOHLCVData } from "../../hooks/useOHLCVData";
 import { useTickerConfig } from "../../hooks/useTickerConfig";
@@ -35,7 +35,7 @@ export function WaveCountAnalysis() {
           console.log("Selected:", id);
         }}
       />
-      <ChartCanvasWrapper />
+      <WaveCountChartOverlayWrapper />
       {waveCounts.activeScenario.verdict.length > 0 && (
         <VerdictPanel
           verdict={waveCounts.activeScenario.verdict}

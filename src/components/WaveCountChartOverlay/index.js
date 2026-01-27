@@ -8,16 +8,15 @@ import React, {
 } from "react";
 import { ChartCanvas } from "@site/src/components/ChartCanvas";
 import { PORTDIVE_THEME } from "@site/src/components/PortDiveTheme";
-
-import OHLCV_DATA from "./nasdaq-nbis-1d-ohlcv_indicators.json";
-
 import { useColorMode } from "@docusaurus/theme-common";
+import { useWaveCount } from "@site/src/hooks/useWaveCount";
+import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
 import styles from "./styles.module.css";
 
 // ============================================================================
 // MAIN COMPONENT - REFACTORED
 // ============================================================================
-export function WaveCountChartChart({ colorMode = "dark" }) {
+export function WaveCountChart({ colorMode = "dark" }) {
   // Use Docusaurus colorMode prop or default to dark
   const isDarkMode = colorMode === "dark";
   const theme = isDarkMode ? PORTDIVE_THEME.dark : PORTDIVE_THEME.light;
@@ -68,10 +67,12 @@ export function WaveCountChartChart({ colorMode = "dark" }) {
     setAnalysisState((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
 
-  const currentPrice = OHLCV_DATA[OHLCV_DATA.length - 1].close;
-  const prevClose = OHLCV_DATA[OHLCV_DATA.length - 2].close;
+  const ohlcvContext = useOHLCVData();
+  const waveCounts = useWaveCount();
+  const currentPrice = ohlcvContext.data[ohlcvContext.data.length - 1].close;
+  const prevClose = ohlcvContext.data[ohlcvContext.data.length - 2].close;
   const priceChange = ((currentPrice - prevClose) / prevClose) * 100;
-  const activeCount = WAVE_COUNTS[activeWaveCount] || WAVE_COUNTS.primary;
+  const activeCount = waveCounts.activeCount;
   const projectedPrice = activeCount.projected.at(-1).price;
 
   return (

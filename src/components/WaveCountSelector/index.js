@@ -51,7 +51,9 @@ const WaveCountLink = memo(({ scenario, active, onClick }) => {
     >
       <div className={styles.scenarioContent}>
         <span className={styles.scenarioLabel}>{scenario.label}</span>
-        <span className={styles.scenarioProbability}>{scenario.probability}</span>
+        <span className={styles.scenarioProbability}>
+          {scenario.probability}
+        </span>
       </div>
     </a>
   );
@@ -88,7 +90,11 @@ export const WaveCountSelector = ({
     : "Wave Count Scenarios";
 
   return (
-    <div className={styles.selectorWrapper} role="tablist" aria-label={ariaLabel}>
+    <div
+      className={styles.selectorWrapper}
+      role="tablist"
+      aria-label={ariaLabel}
+    >
       <div className={styles.selectorLabel}>Wave Count</div>
       <div className={styles.itemsContainer}>
         {items.map((scenario) => (
