@@ -23,19 +23,22 @@ module.exports = {
     {
       type: "category",
       label: "NBIS, Nebius Group N.V.",
+      customProps: {
+        icon: "/img/nbis/nbis-icon.svg", // Your icon path
+      },
       items: [
         {
           type: "category",
           label: "Elliott Wave Analysis",
-          items: ["nbis/elliott-wave-analysis/nbis-elliot-waves-analysis-1D"],
+          items: ["nbis/elliott-wave-analysis/1d"],
         },
         {
           type: "category",
           label: "Oscillators Dashboard",
           items: [
-            "nbis/oscillators-dashboard/nbis-oscillators-dashboard-1H",
-            "nbis/oscillators-dashboard/nbis-oscillators-dashboard-1D",
-            "nbis/oscillators-dashboard/nbis-oscillators-dashboard-1W",
+            "nbis/oscillators-dashboard/1h",
+            "nbis/oscillators-dashboard/1d",
+            "nbis/oscillators-dashboard/1w",
           ],
         },
       ],
