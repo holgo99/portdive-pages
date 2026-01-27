@@ -1,0 +1,35 @@
+---
+id: nbis-oscillators-dashboard-1H
+title: "1H"
+hide_title: true
+description: "NBIS 1H Multi-indicator oscillators dashboard with RSI, Williams %R, Stochastic, ADX, and MACD analysis. Gauge indicators, chart visualization, and buy/sell signal confirmation for informed trading decisions."
+keywords:
+  - RSI indicator
+  - NBIS technical analysis
+  - oscillator dashboard
+  - momentum indicator
+  - trading signals
+  - Williams %R
+  - Stochastic oscillator
+  - ADX trend indicator
+  - MACD analysis
+  - gauge chart
+  - technical analysis tools
+imageAlt: "PortDive Oscillators Dashboard showing gauge indicators (RSI, Williams %R, Stochastic K/D, ADX) with MACD momentum analysis, real-time chart visualizations, and signal confirmation matrix"
+image: ../assets/20260122/oscillators-dashboard-preview.png
+---
+
+import { NBISLayout } from "@site/src/components/TickerLayout";
+import { TickerHeader } from "@site/src/components/TickerHeader";
+import { AnalysisCard } from "@site/src/components/AnalysisCard";
+import { OscillatorsDashboard } from "@site/src/components/OscillatorsDashboard";
+
+<NBISLayout timeframe="1H">
+  <TickerHeader title="Oscillators Dashboard" />
+  <OscillatorsDashboard daysToShow={30} />
+  <AnalysisCard
+    title="Oscillators Dashboard"
+    description="Multi-indicator momentum analysis with RSI, Williams %R, Stochastic, ADX, and MACD"
+    analysisDate="2026-01-27"
+  />
+</NBISLayout>

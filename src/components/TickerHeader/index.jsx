@@ -28,6 +28,7 @@ import { TickerIcon } from "@site/src/components/TickerIcon";
 import { PORTDIVE_THEME } from "@site/src/components/PortDiveTheme";
 import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
 import styles from "./styles.module.css";
+import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
 
 export function TickerHeader({
   // Props override context values
@@ -43,13 +44,14 @@ export function TickerHeader({
   children,
 }) {
   // Get config from context (if available)
-  const config = useTickerConfig();
+  const tickerConfig = useTickerConfig();
+  const ohlcvData = useOHLCVData();
 
   // Merge context with props (props take precedence)
-  const ticker = tickerProp || config.ticker;
-  const tickerName = tickerNameProp || config.tickerName;
-  const tickerIconUrl = tickerIconUrlProp || config.tickerIconUrl;
-  const badge = badgeProp || config.analysisConfig?.timeframe;
+  const ticker = tickerProp || tickerConfig.ticker;
+  const tickerName = tickerNameProp || tickerConfig.tickerName;
+  const tickerIconUrl = tickerIconUrlProp || tickerConfig.tickerIconUrl;
+  const badge = badgeProp || ohlcvData.timeframe;
   return (
     <header className={styles.tickerHeader}>
       {/* Left side: Ticker Icon and Name */}
