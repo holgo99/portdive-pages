@@ -48,6 +48,13 @@ module.exports = {
                 "features/ticker/technical-indicators/signal-matrix",
               ],
             },
+            {
+              type: "category",
+              label: "AI Features",
+              items: [
+                "features/ticker/ai-features/ai-signal-contradiction-resolution",
+              ],
+            },
           ],
         },
       ],
