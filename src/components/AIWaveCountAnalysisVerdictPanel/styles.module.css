@@ -109,17 +109,34 @@
     display: none;
 }
 
+.verdictPanelEmbedded .thesisSection {
+    border-bottom: none;
+}
+
 .verdictPanelEmbedded .thesisHeroCard {
     margin: 0 0 20px 0;
 }
 
 .verdictPanelEmbedded .decisionTreeContainer {
     padding: 0;
-    border-top: none;
+}
+
+.verdictPanelEmbedded .sectionHeader {
+    padding: 20px 0 16px 0;
+}
+
+.verdictPanelEmbedded .sectionHeaderIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
 }
 
 .verdictPanelEmbedded .sectionTitle {
-    display: none;
+    font-size: 18px;
+}
+
+.verdictPanelEmbedded .sectionSubtitle {
+    font-size: 12px;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -218,11 +235,82 @@
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SECTION HEADER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 24px 24px 20px 24px;
+}
+
+.sectionHeaderIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.2) 0%,
+        rgba(var(--portdive-gold-rgb), 0.15) 100%
+    );
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.3);
+    border-radius: 12px;
+    color: var(--portdive-teal);
+    box-shadow:
+        0 0 20px rgba(var(--portdive-teal-rgb), 0.15),
+        inset 0 0 10px rgba(var(--portdive-teal-rgb), 0.08);
+    flex-shrink: 0;
+}
+
+.sectionHeaderIcon.corrective {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-coral-rgb), 0.2) 0%,
+        rgba(var(--portdive-gold-rgb), 0.15) 100%
+    );
+    border-color: rgba(var(--portdive-coral-rgb), 0.3);
+    color: var(--portdive-coral);
+    box-shadow:
+        0 0 20px rgba(var(--portdive-coral-rgb), 0.15),
+        inset 0 0 10px rgba(var(--portdive-coral-rgb), 0.08);
+}
+
+.sectionHeaderText {
+    flex: 1;
+}
+
+.sectionSubtitle {
+    font-size: 13px;
+    color: var(--premium-text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* THESIS SECTION */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.thesisSection {
+    border-bottom: 1px solid var(--premium-border);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* DECISION TREE SECTION */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.decisionTreeSection {
+    /* wrapper for section header + content */
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 /* HERO THESIS CARD */
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .thesisHeroCard {
-    margin: 24px;
+    margin: 0 24px 24px 24px;
     padding: 24px 28px;
     background: linear-gradient(
         135deg,
@@ -358,35 +446,37 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .decisionTreeContainer {
-    padding: 28px 24px;
+    padding: 0 24px 28px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-top: 1px solid var(--premium-border);
 }
 
 .sectionTitle {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--premium-text);
-    margin: 0 0 20px 0;
-    text-align: center;
-    letter-spacing: -0.01em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.02em;
+    background: linear-gradient(
+        135deg,
+        var(--premium-text) 0%,
+        var(--portdive-teal) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.sectionTitle::before {
-    content: "";
-    width: 3px;
-    height: 18px;
+.verdictPanelCorrective .sectionTitle {
     background: linear-gradient(
-        180deg,
-        var(--portdive-teal) 0%,
-        var(--portdive-gold) 100%
+        135deg,
+        var(--premium-text) 0%,
+        var(--portdive-coral) 100%
     );
-    border-radius: 2px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -919,18 +1009,6 @@
 /* CORRECTIVE MODE (Color Swap) */
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-.verdictPanelCorrective .sectionTitle {
-    color: var(--portdive-coral);
-}
-
-.verdictPanelCorrective .sectionTitle::before {
-    background: linear-gradient(
-        180deg,
-        var(--portdive-coral) 0%,
-        var(--portdive-gold) 100%
-    );
-}
-
 .verdictPanelCorrective .thesisLabel {
     color: var(--portdive-coral);
 }
@@ -995,8 +1073,25 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 @media (max-width: 768px) {
+    .sectionHeader {
+        padding: 20px 16px 16px 16px;
+    }
+
+    .sectionHeaderIcon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sectionTitle {
+        font-size: 18px;
+    }
+
+    .sectionSubtitle {
+        font-size: 12px;
+    }
+
     .thesisHeroCard {
-        margin: 16px;
+        margin: 0 16px 16px 16px;
         padding: 18px;
         border-left-width: 4px;
     }
@@ -1127,8 +1222,27 @@
         padding: 12px 16px;
     }
 
+    .sectionHeader {
+        padding: 16px 12px 12px 12px;
+        gap: 12px;
+    }
+
+    .sectionHeaderIcon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    .sectionTitle {
+        font-size: 16px;
+    }
+
+    .sectionSubtitle {
+        font-size: 11px;
+    }
+
     .thesisHeroCard {
-        margin: 12px;
+        margin: 0 12px 12px 12px;
         padding: 14px;
         border-left-width: 4px;
     }
@@ -1242,6 +1356,16 @@
 
 [data-theme="light"] .verdictPanelWrapper::before {
     opacity: 0.3;
+}
+
+[data-theme="light"] .sectionHeaderIcon {
+    box-shadow: none;
+}
+
+[data-theme="light"] .sectionTitle {
+    -webkit-text-fill-color: initial;
+    background: none;
+    color: var(--premium-text);
 }
 
 [data-theme="light"] .thesisHeroCard {

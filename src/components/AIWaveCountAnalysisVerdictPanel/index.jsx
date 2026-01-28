@@ -142,6 +142,40 @@ const SparklesIcon = ({ size = 16 }) => (
   </svg>
 );
 
+const BookOpenIcon = ({ size = 24 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+  </svg>
+);
+
+const GitBranchIcon = ({ size = 24 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="6" y1="3" x2="6" y2="15" />
+    <circle cx="18" cy="6" r="3" />
+    <circle cx="6" cy="18" r="3" />
+    <path d="M18 9a9 9 0 0 1-9 9" />
+  </svg>
+);
+
 /**
  * Parse markdown thesis content to extract structured data
  */
@@ -597,20 +631,51 @@ export function AIWaveCountAnalysisVerdictPanel({
         </div>
       )}
 
-      {/* Hero Thesis Card */}
+      {/* Thesis Section */}
       {displayThesisContent.length > 0 && (
-        <ThesisHeroCard
-          scenario={displayScenario}
-          thesisContent={displayThesisContent}
-          isCorrective={activeIsCorrective}
-        />
+        <div className={styles.thesisSection}>
+          {/* Section Header */}
+          <div className={styles.sectionHeader}>
+            <div
+              className={`${styles.sectionHeaderIcon} ${activeIsCorrective ? styles.corrective : ""}`}
+            >
+              <BookOpenIcon size={24} />
+            </div>
+            <div className={styles.sectionHeaderText}>
+              <h3 className={styles.sectionTitle}>Wave Count Thesis</h3>
+              <p className={styles.sectionSubtitle}>
+                AI-generated scenario analysis with validation criteria
+              </p>
+            </div>
+          </div>
+
+          {/* Hero Thesis Card */}
+          <ThesisHeroCard
+            scenario={displayScenario}
+            thesisContent={displayThesisContent}
+            isCorrective={activeIsCorrective}
+          />
+        </div>
       )}
 
       {/* Scenario Decision Tree Section */}
-      <div className={styles.decisionTreeContainer}>
-        {!isEmbedded && (
-          <h2 className={styles.sectionTitle}>Scenario Decision Tree</h2>
-        )}
+      <div className={styles.decisionTreeSection}>
+        {/* Section Header */}
+        <div className={styles.sectionHeader}>
+          <div
+            className={`${styles.sectionHeaderIcon} ${activeIsCorrective ? styles.corrective : ""}`}
+          >
+            <GitBranchIcon size={24} />
+          </div>
+          <div className={styles.sectionHeaderText}>
+            <h3 className={styles.sectionTitle}>Scenario Decision Tree</h3>
+            <p className={styles.sectionSubtitle}>
+              Validation and invalidation criteria with outcome tracking
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.decisionTreeContainer}>
 
         {/* Probability Card */}
         <div className={`${styles.probabilityCard}`}>
@@ -710,6 +775,7 @@ export function AIWaveCountAnalysisVerdictPanel({
               />
             </div>
           </div>
+        </div>
         </div>
       </div>
 
