@@ -3,7 +3,7 @@
  *
  * New Architecture:
  * - Tab-based navigation for analysis sections
- * - Split layout: 61.4% Tabs + 38.6% TickerDetails
+ * - Split layout: 61.4% Tabs + 38.6% AITickerIntel
  * - MainDashboard, WaveCountAnalysis, MovingAveragesDashboard, OscillatorsDashboard, ActionSignalMatrix tabs
  * - Dynamic ticker details sidebar
  * - TickerSelector component for unified ticker/timeframe selection
@@ -26,7 +26,7 @@ import { ActionSignalMatrix } from "@site/src/components/ActionSignalMatrix";
 import { TickerLayout } from "@site/src/components/TickerLayout";
 import { TickerSelector } from "@site/src/components/TickerSelector";
 import { TabsContainer } from "@site/src/components/TabsContainer";
-import { TickerDetails } from "@site/src/components/TickerDetails";
+import { AITickerIntel } from "@site/src/components/AITickerIntel";
 import { AnalysisCard } from "@site/src/components/AnalysisCard";
 
 // Import ticker configs
@@ -149,7 +149,7 @@ export default function TickerAnalysisPage() {
             />
           </div>
 
-          {/* Split Layout: Tabs (61.4%) + TickerDetails (38.6%) */}
+          {/* Split Layout: Tabs (61.4%) + AITickerIntel (38.6%) */}
           <div className={styles.splitContainer}>
             {/* Left Column - Tabs Container (61.4%) */}
             <div className={styles.tabsColumn}>
@@ -176,7 +176,7 @@ export default function TickerAnalysisPage() {
 
             {/* Right Column - Ticker Details (38.6%) */}
             <div className={styles.detailsColumn}>
-              <TickerDetails ticker={selectedTicker} />
+              <AITickerIntel ticker={selectedTicker} />
             </div>
           </div>
 
