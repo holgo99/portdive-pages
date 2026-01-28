@@ -1,0 +1,361 @@
+/**
+ * TickerSelector Component Styles
+ * Unified ticker selection and timeframe control header
+ *
+ * Uses global premium CSS variables from custom.css
+ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* HEADER CONTAINER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.tickerSelector {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient overlay */
+.tickerSelector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--portdive-teal-rgb), 0.3),
+        transparent
+    );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* TICKER INFO (Left Side) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.tickerInfo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Desktop: show wordmark version, hide mobile version */
+.tickerInfoDesktop {
+    display: flex;
+}
+
+.tickerInfoMobile {
+    display: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CONTENT SECTION (Center with Divider) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.contentSection {
+    border-left: 2px solid var(--premium-border);
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* TITLE ROW */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.titleRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--premium-text);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SUBTITLE */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.subtitle {
+    margin: 0;
+    font-size: 12px;
+    color: var(--premium-text-secondary);
+    line-height: 1.4;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CONTROLS SECTION (Right Side) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.controlsSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* TICKER INPUT */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.tickerInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--premium-surface-alt);
+    border: 1px solid var(--premium-border);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    color: var(--premium-text-secondary);
+}
+
+.tickerInputWrapper:focus-within {
+    border-color: var(--portdive-teal);
+    box-shadow: 0 0 0 3px rgba(var(--portdive-teal-rgb), 0.1);
+}
+
+.tickerInput {
+    border: none;
+    background: transparent;
+    color: var(--premium-text);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--premium-font-mono);
+    width: 60px;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.tickerInput::placeholder {
+    color: var(--premium-text-tertiary);
+    font-weight: 500;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* TIMEFRAME DROPDOWN */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.timeframeDropdown {
+    position: relative;
+}
+
+.timeframeButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--premium-surface-alt);
+    border: 1px solid var(--premium-border);
+    border-radius: 8px;
+    color: var(--premium-text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.timeframeButton:hover {
+    background: var(--premium-hover);
+    border-color: var(--portdive-teal);
+}
+
+.timeframeButton.open {
+    border-color: var(--portdive-teal);
+    box-shadow: 0 0 0 3px rgba(var(--portdive-teal-rgb), 0.1);
+}
+
+.timeframeButton svg {
+    color: var(--premium-text-secondary);
+    transition: transform 0.2s ease;
+}
+
+.timeframeButton.open svg:last-child {
+    transform: rotate(180deg);
+}
+
+.timeframeValue {
+    font-family: var(--premium-font-mono);
+    min-width: 24px;
+    text-align: center;
+}
+
+.timeframeMenu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 100%;
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 8px;
+    box-shadow: var(--premium-shadow-lg);
+    z-index: 100;
+    overflow: hidden;
+    animation: dropdownFadeIn 0.15s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timeframeOption {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    color: var(--premium-text);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--premium-font-mono);
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.timeframeOption:hover {
+    background: var(--premium-hover);
+}
+
+.timeframeOption.selected {
+    background: rgba(var(--portdive-teal-rgb), 0.1);
+    color: var(--portdive-teal);
+    font-weight: 600;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 996px) {
+    .tickerSelector {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .contentSection {
+        order: 3;
+        flex-basis: 100%;
+        border-left: none;
+        padding-left: 0;
+        padding-top: 12px;
+        border-top: 1px solid var(--premium-border);
+    }
+
+    .controlsSection {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile/Tablet: hide wordmark version, show compact version */
+    .tickerInfoDesktop {
+        display: none;
+    }
+
+    .tickerInfoMobile {
+        display: flex;
+    }
+
+    .tickerSelector {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .subtitle {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tickerSelector {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .controlsSection {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .tickerInputWrapper {
+        flex: 1;
+    }
+
+    .tickerInput {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 14px;
+    }
+
+    .timeframeButton {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ACCESSIBILITY */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.tickerSelector:focus-visible {
+    outline: 2px solid var(--portdive-teal);
+    outline-offset: 2px;
+}
+
+.timeframeButton:focus-visible,
+.tickerInput:focus-visible {
+    outline: 2px solid var(--portdive-teal);
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+    .contentSection {
+        border-left-width: 3px;
+    }
+
+    .tickerInputWrapper,
+    .timeframeButton {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .timeframeButton svg,
+    .timeframeMenu {
+        animation: none;
+        transition: none;
+    }
+}

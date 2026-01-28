@@ -751,13 +751,13 @@ select.form-control {
 
 /* END PERPLEXITY DESIGN SYSTEM */
 /**
- * Ticker Details Sidebar Styles
+ * Ticker Details Sidebar Styles - PREMIUM REDESIGN
  *
  * Features:
  * - Sticky sidebar positioning
- * - Company header with badge
- * - Price section with ranges
- * - Collapsible detail sections
+ * - Company header with premium badge
+ * - Price section with animated ranges
+ * - Detail sections with premium borders
  * - Responsive design
  */
 
@@ -803,6 +803,25 @@ select.form-control {
     border-radius: var(--radius-lg);
     text-align: center;
     box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Premium top accent line */
+.companyHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--color-primary) 20%,
+        var(--color-primary) 80%,
+        transparent 100%
+    );
 }
 
 .symbolBadge {
@@ -963,13 +982,28 @@ select.form-control {
 
 .detailTitle {
     margin: 0;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     color: var(--color-primary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     padding-bottom: var(--space-8);
     border-bottom: 1px solid var(--color-card-border-inner);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.detailTitle::before {
+    content: '';
+    width: 2px;
+    height: 12px;
+    background: linear-gradient(
+        180deg,
+        var(--color-primary),
+        transparent
+    );
+    border-radius: 1px;
 }
 
 .detailGrid {

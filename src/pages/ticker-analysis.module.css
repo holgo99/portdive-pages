@@ -751,10 +751,11 @@ select.form-control {
 
 /* END PERPLEXITY DESIGN SYSTEM */
 /**
- * Ticker Analysis Page Styles - REFACTORED WITH SPLIT LAYOUT
+ * Ticker Analysis Page Styles - PREMIUM REDESIGN
  *
  * Features:
  * - Split container: 61.4% tabs + 38.6% details
+ * - Premium gradient accents
  * - Tab navigation styling
  * - Responsive breakpoints
  * - Dark/Light mode support
@@ -768,6 +769,24 @@ select.form-control {
     font-family: var(--font-family-base);
     color: var(--color-text);
     background-color: var(--color-background);
+    position: relative;
+}
+
+/* Subtle background pattern */
+.pageContainer::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        circle at 100% 0%,
+        rgba(var(--color-teal-500-rgb), 0.03) 0%,
+        transparent 50%
+    );
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -888,6 +907,25 @@ select.form-control {
     margin-bottom: var(--space-32);
     padding-bottom: var(--space-24);
     border-bottom: 1px solid var(--color-border);
+    position: relative;
+}
+
+/* Premium gradient line under header */
+.headerSection::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--color-primary) 20%,
+        var(--color-primary) 80%,
+        transparent 100%
+    );
+    opacity: 0.4;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -933,6 +971,26 @@ select.form-control {
     border: 1px solid var(--color-card-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Premium top accent line on metadata section */
+.metadataSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--color-primary) 30%,
+        var(--color-primary) 70%,
+        transparent 100%
+    );
+    opacity: 0.5;
 }
 
 .metadataCard {

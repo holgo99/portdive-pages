@@ -6,6 +6,7 @@
  * - Split layout: 61.4% Tabs + 38.6% TickerDetails
  * - MainDashboard, WaveCountAnalysis, MovingAveragesDashboard, OscillatorsDashboard, SignalMatrix tabs
  * - Dynamic ticker details sidebar
+ * - TickerSelector component for unified ticker/timeframe selection
  *
  * @component
  */
@@ -23,13 +24,12 @@ import { SignalMatrix } from "@site/src/components/SignalMatrix";
 
 // Import layout components
 import { TickerLayout } from "@site/src/components/TickerLayout";
-import { TickerHeader } from "@site/src/components/TickerHeader";
+import { TickerSelector } from "@site/src/components/TickerSelector";
 import { TabsContainer } from "@site/src/components/TabsContainer";
 import { TickerDetails } from "@site/src/components/TickerDetails";
 import { AnalysisCard } from "@site/src/components/AnalysisCard";
 
 // Import config
-import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
 import nbisConfig from "@site/data/tickers/nbis.json";
 
 /**
@@ -42,6 +42,11 @@ const ANALYSIS_TABS = [
   { id: "oscillators", label: "OscillatorsDashboard" },
   { id: "signals", label: "SignalMatrix" },
 ];
+
+/**
+ * Available timeframe options
+ */
+const TIMEFRAME_OPTIONS = ["1H", "1D", "1W"];
 
 /**
  * Main Page Component
@@ -60,11 +65,10 @@ export default function TickerAnalysisPage() {
   });
 
   const daysToShow = 30;
-  const timeframeOptions = ["1H", "1D", "1W"];
   const tickerConfig = nbisConfig;
 
-  const handleTickerChange = (e) => {
-    setSelectedTicker(e.target.value);
+  const handleTickerChange = (newTicker) => {
+    setSelectedTicker(newTicker);
   };
 
   const handleTimeframeChange = (newTimeframe) => {
@@ -103,42 +107,16 @@ export default function TickerAnalysisPage() {
       description="Complete technical analysis with Elliott Wave, moving averages, oscillators, and signal matrix"
     >
       <div className={styles.pageContainer}>
-        {/* Control Panel */}
-        <div className={styles.controlPanel}>
-          <div className={styles.controlGroup}>
-            <label htmlFor="ticker-select">Select Ticker:</label>
-            <input
-              id="ticker-select"
-              type="text"
-              value={selectedTicker}
-              onChange={handleTickerChange}
-              placeholder="Enter ticker symbol"
-              className={styles.tickerInput}
-            />
-          </div>
-          <div className={styles.timeframeButtons}>
-            <label>Timeframe:</label>
-            <div className={styles.buttonGroup}>
-              {timeframeOptions.map((tf) => (
-                <button
-                  key={tf}
-                  className={`${styles.timeframeBtn} ${
-                    timeframe === tf ? styles.active : ""
-                  }`}
-                  onClick={() => handleTimeframeChange(tf)}
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Analysis Layout */}
         <TickerLayout config={tickerConfig} timeframe={timeframe}>
-          {/* Header Section */}
+          {/* Header Section with TickerSelector */}
           <div className={styles.headerSection}>
-            <TickerHeader
+            <TickerSelector
+              ticker={selectedTicker}
+              timeframe={timeframe}
+              timeframeOptions={TIMEFRAME_OPTIONS}
+              onTickerChange={handleTickerChange}
+              onTimeframeChange={handleTimeframeChange}
               title={analysisData.title}
               subtitle={analysisData.subtitle}
             />
