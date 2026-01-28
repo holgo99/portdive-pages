@@ -18,6 +18,7 @@
 import React, { useMemo, memo } from "react";
 import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
 import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
+import ContradictionResolver from "@site/src/components/ContradictionResolver";
 import styles from "./styles.module.css";
 
 // ============================================================================
@@ -123,22 +124,6 @@ const XCircleIcon = ({ size = 48 }) => (
       strokeLinecap="round"
       fill="none"
     />
-  </svg>
-);
-
-const BrainIcon = ({ size = 20 }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.54" />
-    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.54" />
   </svg>
 );
 
@@ -1046,124 +1031,6 @@ const HoldSignalMatrixSection = memo(
 );
 
 // ============================================================================
-// AI CONTRADICTION RESOLUTION COMPONENT
-// ============================================================================
-
-const ContradictionResolution = memo(({ contradictions }) => {
-  const hasContradictions = contradictions && contradictions.length > 0;
-
-  return (
-    <div className={styles.contradictionSection}>
-      <div className={styles.contradictionHeader}>
-        <div className={`${styles.matrixIcon} ${styles.blue}`}>
-          <BrainIcon size={18} />
-        </div>
-        <h3 className={styles.contradictionTitle}>
-          AI Contradiction Resolution
-        </h3>
-      </div>
-
-      <div className={styles.contradictionIntro}>
-        <p className={styles.contradictionDescription}>
-          When signals disagree, the following hierarchy determines action:
-        </p>
-        <div className={styles.hierarchyList}>
-          <div className={styles.hierarchyItem}>
-            <span className={styles.hierarchyWeight}>40%</span>
-            <span className={styles.hierarchyLabel}>
-              Elliott Wave Structure
-            </span>
-          </div>
-          <div className={styles.hierarchyItem}>
-            <span className={styles.hierarchyWeight}>35%</span>
-            <span className={styles.hierarchyLabel}>
-              Momentum (RSI, Williams, MACD)
-            </span>
-          </div>
-          <div className={styles.hierarchyItem}>
-            <span className={styles.hierarchyWeight}>15%</span>
-            <span className={styles.hierarchyLabel}>
-              Trend Context (ADX, DI)
-            </span>
-          </div>
-          <div className={styles.hierarchyItem}>
-            <span className={styles.hierarchyWeight}>10%</span>
-            <span className={styles.hierarchyLabel}>Volatility/Volume</span>
-          </div>
-        </div>
-      </div>
-
-      {hasContradictions ? (
-        <div className={styles.contradictionCards}>
-          {contradictions.map((contradiction, idx) => (
-            <div key={idx} className={styles.contradictionCard}>
-              <div className={styles.contradictionCardHeader}>
-                <ScaleIcon size={16} />
-                <span className={styles.contradictionType}>
-                  {contradiction.description}
-                </span>
-              </div>
-
-              <div className={styles.conflictSignals}>
-                {Object.entries(contradiction)
-                  .filter(
-                    ([key]) =>
-                      ![
-                        "type",
-                        "description",
-                        "resolution",
-                        "action",
-                        "color",
-                        "weights",
-                      ].includes(key),
-                  )
-                  .map(([key, value]) => (
-                    <div key={key} className={styles.conflictSignal}>
-                      <span className={styles.conflictKey}>{key}:</span>
-                      <span className={styles.conflictValue}>{value}</span>
-                    </div>
-                  ))}
-              </div>
-
-              <div className={styles.resolutionBox}>
-                <span className={styles.resolutionLabel}>Resolution:</span>
-                <span className={styles.resolutionText}>
-                  {contradiction.resolution}
-                </span>
-              </div>
-
-              <div
-                className={`${styles.contradictionAction} ${styles[contradiction.color]}`}
-              >
-                <span className={styles.contradictionActionLabel}>Action:</span>
-                <span className={styles.contradictionActionValue}>
-                  {contradiction.action}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className={styles.noContradictions}>
-          <div className={styles.noContradictionsIcon}>
-            <CheckCircleIcon size={32} />
-          </div>
-          <span className={styles.noContradictionsText}>
-            No conflicting signals detected. Indicators are aligned.
-          </span>
-        </div>
-      )}
-
-      <div className={styles.defaultRule}>
-        <strong>DEFAULT RULE:</strong> Elliott Wave wins in 40% weight
-        conflicts. Wave structure is more reliable than indicators. Indicators
-        lag price, waves predict structure.
-      </div>
-    </div>
-  );
-});
-
-// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
@@ -1374,8 +1241,11 @@ export function SignalMatrix({
         holdAction={holdMetrics.action}
       />
 
-      {/* AI Contradiction Resolution */}
-      <ContradictionResolution contradictions={contradictions} />
+      {/* AI Contradiction Resolution - Premium Feature */}
+      <ContradictionResolver
+        variant="embedded"
+        contradictions={contradictions}
+      />
 
       {/* Footer */}
       <footer className={styles.signalMatrixFooter}>
