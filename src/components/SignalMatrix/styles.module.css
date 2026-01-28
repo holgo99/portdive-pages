@@ -128,6 +128,14 @@
     );
 }
 
+.holdSection {
+    background: linear-gradient(
+        180deg,
+        rgba(var(--portdive-blue-rgb), 0.05) 0%,
+        var(--premium-bg) 100%
+    );
+}
+
 .matrixHeader {
     display: flex;
     align-items: center;
@@ -585,6 +593,340 @@
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* HOLD SECTION */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.holdStatusContainer {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 16px;
+    margin-bottom: 24px;
+}
+
+.holdIconWrapper {
+    flex-shrink: 0;
+}
+
+.holdIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.holdIcon.neutral {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-blue-rgb), 0.15) 0%,
+        rgba(var(--portdive-blue-rgb), 0.08) 100%
+    );
+    color: var(--portdive-blue);
+    border: 2px solid rgba(var(--portdive-blue-rgb), 0.3);
+    box-shadow:
+        0 0 20px rgba(var(--portdive-blue-rgb), 0.15),
+        inset 0 0 12px rgba(var(--portdive-blue-rgb), 0.1);
+}
+
+.holdIcon.balanced {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-blue-rgb), 0.2) 0%,
+        rgba(var(--portdive-teal-rgb), 0.1) 50%,
+        rgba(var(--portdive-coral-rgb), 0.1) 100%
+    );
+    color: var(--portdive-blue);
+    border: 2px solid rgba(var(--portdive-blue-rgb), 0.4);
+    box-shadow:
+        0 0 24px rgba(var(--portdive-blue-rgb), 0.2),
+        inset 0 0 12px rgba(var(--portdive-blue-rgb), 0.15);
+}
+
+.holdIcon.conflicting {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.12) 0%,
+        rgba(var(--portdive-coral-rgb), 0.12) 100%
+    );
+    color: var(--portdive-blue);
+    border: 2px solid rgba(var(--portdive-blue-rgb), 0.35);
+    box-shadow:
+        0 0 20px rgba(var(--portdive-blue-rgb), 0.12),
+        inset 0 0 10px rgba(var(--portdive-blue-rgb), 0.08);
+    animation: pulseConflict 2s ease-in-out infinite;
+}
+
+.holdIcon.developing {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-blue-rgb), 0.12) 0%,
+        rgba(var(--portdive-blue-rgb), 0.06) 100%
+    );
+    color: var(--portdive-blue);
+    border: 2px dashed rgba(var(--portdive-blue-rgb), 0.4);
+    box-shadow: 0 0 16px rgba(var(--portdive-blue-rgb), 0.1);
+}
+
+@keyframes pulseConflict {
+    0%, 100% {
+        box-shadow:
+            0 0 20px rgba(var(--portdive-blue-rgb), 0.12),
+            inset 0 0 10px rgba(var(--portdive-blue-rgb), 0.08);
+    }
+    50% {
+        box-shadow:
+            0 0 30px rgba(var(--portdive-blue-rgb), 0.2),
+            inset 0 0 15px rgba(var(--portdive-blue-rgb), 0.12);
+    }
+}
+
+.holdDetails {
+    flex: 1;
+}
+
+.holdActionBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(var(--portdive-blue-rgb), 0.12);
+    border: 1px solid rgba(var(--portdive-blue-rgb), 0.3);
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.holdActionText {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--portdive-blue);
+    letter-spacing: 0.02em;
+}
+
+.holdReason {
+    font-size: 14px;
+    color: var(--premium-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Balance Section */
+.balanceSection {
+    background: var(--premium-surface-alt);
+    border: 1px solid var(--premium-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.balanceHeader {
+    margin-bottom: 16px;
+}
+
+.balanceLabel {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.balanceVisualization {
+    margin-bottom: 20px;
+}
+
+.balanceScale {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.balanceScaleLabels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4px;
+}
+
+.balanceScaleLabelBuy {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--portdive-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.balanceScaleLabelCenter {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--premium-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.balanceScaleLabelSell {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--portdive-coral);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.balanceTrack {
+    position: relative;
+    display: flex;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--premium-border);
+}
+
+.balanceTrackBuy {
+    flex: 1;
+    background: linear-gradient(
+        90deg,
+        rgba(var(--portdive-teal-rgb), 0.4) 0%,
+        rgba(var(--portdive-teal-rgb), 0.15) 100%
+    );
+}
+
+.balanceTrackCenter {
+    width: 20%;
+    background: rgba(var(--portdive-blue-rgb), 0.2);
+}
+
+.balanceTrackSell {
+    flex: 1;
+    background: linear-gradient(
+        90deg,
+        rgba(var(--portdive-coral-rgb), 0.15) 0%,
+        rgba(var(--portdive-coral-rgb), 0.4) 100%
+    );
+}
+
+.balanceIndicator {
+    position: absolute;
+    top: -4px;
+    width: 20px;
+    height: 20px;
+    background: var(--portdive-blue);
+    border: 3px solid var(--premium-surface);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow:
+        0 0 12px rgba(var(--portdive-blue-rgb), 0.5),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.balanceStats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.balanceStatItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.balanceStatLabel {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.balanceStatLabel.teal {
+    color: var(--portdive-teal);
+}
+
+.balanceStatLabel.coral {
+    color: var(--portdive-coral);
+}
+
+.balanceStatValue {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-family-mono);
+}
+
+.balanceStatValue.teal {
+    color: var(--portdive-teal);
+}
+
+.balanceStatValue.coral {
+    color: var(--portdive-coral);
+}
+
+.balanceStatDivider {
+    flex: 1;
+    height: 1px;
+    background: var(--premium-border);
+}
+
+/* Confidence Section */
+.confidenceSection {
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+}
+
+.confidenceHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.confidenceLabel {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.confidenceValue {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-family-mono);
+    color: var(--portdive-blue);
+}
+
+.confidenceBar {
+    height: 10px;
+    background: var(--premium-border);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.confidenceFill {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--portdive-blue) 0%,
+        #5b8aff 100%
+    );
+    border-radius: 5px;
+    box-shadow: 0 0 12px rgba(var(--portdive-blue-rgb), 0.4);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.confidenceHint {
+    font-size: 12px;
+    color: var(--premium-text-muted);
+    font-style: italic;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 /* CONTRADICTION SECTION */
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -925,6 +1267,31 @@
     .hierarchyList {
         justify-content: center;
     }
+
+    .holdStatusContainer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .holdDetails {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .balanceStats {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .balanceStatItem {
+        align-items: center;
+    }
+
+    .balanceStatDivider {
+        width: 100%;
+        height: 1px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1070,6 +1437,43 @@
         font-size: 10px;
         padding: 6px 12px;
     }
+
+    /* Hold Section Mobile */
+    .holdStatusContainer {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .holdIcon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .holdActionText {
+        font-size: 14px;
+    }
+
+    .holdReason {
+        font-size: 13px;
+    }
+
+    .balanceSection {
+        padding: 16px;
+    }
+
+    .balanceScaleLabelBuy,
+    .balanceScaleLabelCenter,
+    .balanceScaleLabelSell {
+        font-size: 10px;
+    }
+
+    .confidenceSection {
+        padding: 14px 16px;
+    }
+
+    .confidenceValue {
+        font-size: 16px;
+    }
 }
 
 /* Very small screens */
@@ -1147,6 +1551,25 @@
     box-shadow: var(--premium-shadow-md);
 }
 
+[data-theme="light"] .holdIcon.neutral,
+[data-theme="light"] .holdIcon.balanced,
+[data-theme="light"] .holdIcon.conflicting,
+[data-theme="light"] .holdIcon.developing {
+    box-shadow: none;
+}
+
+[data-theme="light"] .holdIcon.conflicting {
+    animation: none;
+}
+
+[data-theme="light"] .balanceIndicator {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .confidenceFill {
+    box-shadow: none;
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 /* ACCESSIBILITY */
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -1160,13 +1583,20 @@
     .signalCard,
     .contradictionCard,
     .progressFill,
-    .weightBarFill {
+    .weightBarFill,
+    .holdIcon,
+    .balanceIndicator,
+    .confidenceFill {
         transition: none;
     }
 
     .signalCard:hover,
     .contradictionCard:hover {
         transform: none;
+    }
+
+    .holdIcon.conflicting {
+        animation: none;
     }
 }
 

@@ -188,6 +188,37 @@ const ScaleIcon = ({ size = 16 }) => (
   </svg>
 );
 
+const PauseCircleIcon = ({ size = 48 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <circle
+      cx="24"
+      cy="24"
+      r="20"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      fill="none"
+    />
+    <rect x="17" y="16" width="4" height="16" rx="1" fill="currentColor" />
+    <rect x="27" y="16" width="4" height="16" rx="1" fill="currentColor" />
+  </svg>
+);
+
+const BalanceIcon = ({ size = 18 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 2v20" />
+    <path d="M2 10h4l2-4 4 8 4-8 2 4h4" />
+  </svg>
+);
+
 // ============================================================================
 // HELPER FUNCTIONS
 // ============================================================================
@@ -250,7 +281,9 @@ const checkMACDBullishCrossover = (data, daysPositive = 2) => {
 
   // Check for crossover (previous was negative, now positive)
   const hadCrossover =
-    histValues.length > daysPositive && histValues[0] != null && histValues[0] <= 0;
+    histValues.length > daysPositive &&
+    histValues[0] != null &&
+    histValues[0] <= 0;
 
   const latest = data[data.length - 1];
   const met = recentPositive && hadCrossover;
@@ -430,7 +463,10 @@ const checkStochasticOverbought = (data, consecutiveDays = 2) => {
   const recent = data.slice(-consecutiveDays);
   const allOverbought = recent.every(
     (d) =>
-      d.Stoch_K != null && d.Stoch_D != null && d.Stoch_K > 80 && d.Stoch_D > 80
+      d.Stoch_K != null &&
+      d.Stoch_D != null &&
+      d.Stoch_K > 80 &&
+      d.Stoch_D > 80,
   );
 
   const latest = data[data.length - 1];
@@ -518,7 +554,7 @@ const determineBuyAction = (confirmedCount, totalWeight, fibLevel = null) => {
 const determineSellAction = (
   confirmedCount,
   totalWeight,
-  elliottContext = null
+  elliottContext = null,
 ) => {
   // Elliott Wave context adjustment
   if (elliottContext === "wave5Complete") {
@@ -602,6 +638,67 @@ const determineSellAction = (
 };
 
 /**
+ * Determine HOLD action based on buy/sell signal balance
+ * HOLD when neither BUY nor SELL signals are strong, or when they're balanced
+ */
+const determineHoldAction = (
+  buyConfirmed,
+  sellConfirmed,
+  buyWeight,
+  sellWeight,
+) => {
+  const buyActive = buyConfirmed >= 3 && buyWeight >= 0.5;
+  const sellActive = sellConfirmed >= 3 && sellWeight >= 0.5;
+
+  // Both signals active - balanced/conflicting
+  if (buyActive && sellActive) {
+    const weightDiff = Math.abs(buyWeight - sellWeight);
+    if (weightDiff < 0.15) {
+      return {
+        action: "HOLD - BALANCED",
+        reason:
+          "Buy and sell signals are equally weighted. Wait for clearer direction.",
+        color: "blue",
+        status: "balanced",
+        confidence: 100 - Math.round(weightDiff * 100),
+      };
+    }
+    return {
+      action: "HOLD - CONFLICTING",
+      reason:
+        "Mixed signals detected. Indicators are giving opposing readings.",
+      color: "blue",
+      status: "conflicting",
+      confidence: Math.round(50 + weightDiff * 50),
+    };
+  }
+
+  // Neither signal active - neutral market
+  if (!buyActive && !sellActive) {
+    const maxConfirmed = Math.max(buyConfirmed, sellConfirmed);
+    if (maxConfirmed <= 1) {
+      return {
+        action: "HOLD - NEUTRAL",
+        reason: "No significant signals. Market in consolidation phase.",
+        color: "blue",
+        status: "neutral",
+        confidence: 85,
+      };
+    }
+    return {
+      action: "HOLD - DEVELOPING",
+      reason: "Signals building but not yet confirmed. Monitor closely.",
+      color: "blue",
+      status: "developing",
+      confidence: 65,
+    };
+  }
+
+  // One side active - not a hold condition, return null to indicate
+  return null;
+};
+
+/**
  * Analyze contradictions between indicators
  */
 const analyzeContradictions = (data, buySignals, sellSignals) => {
@@ -650,7 +747,8 @@ const analyzeContradictions = (data, buySignals, sellSignals) => {
   const macdHist = latest?.["MACD.hist"];
   const macdPrevHist =
     data.length > 1 ? data[data.length - 2]?.["MACD.hist"] : null;
-  const priceChange = data.length > 5 ? close / data[data.length - 5]?.close - 1 : 0;
+  const priceChange =
+    data.length > 5 ? close / data[data.length - 5]?.close - 1 : 0;
 
   if (macdHist < macdPrevHist && priceChange > 0.05) {
     contradictions.push({
@@ -707,7 +805,7 @@ const SignalCard = memo(({ signal, index }) => {
         <span
           className={`${styles.signalValue} ${met ? styles.confirmed : styles.notMet}`}
         >
-          {typeof value === "number" ? value.toFixed(2) : value ?? "—"}
+          {typeof value === "number" ? value.toFixed(2) : (value ?? "—")}
         </span>
       </div>
     </div>
@@ -828,7 +926,123 @@ const SignalMatrixSection = memo(
         )}
       </div>
     );
-  }
+  },
+);
+
+// ============================================================================
+// HOLD SIGNAL MATRIX SECTION COMPONENT
+// ============================================================================
+
+const HoldSignalMatrixSection = memo(
+  ({ buyMetrics, sellMetrics, holdAction }) => {
+    if (!holdAction) return null;
+
+    const { action, reason, status, confidence } = holdAction;
+
+    // Calculate the balance visualization
+    const buyStrength = Math.round(buyMetrics.totalWeight * 100);
+    const sellStrength = Math.round(sellMetrics.totalWeight * 100);
+    const balanceOffset = buyStrength - sellStrength;
+
+    return (
+      <div className={`${styles.matrixSection} ${styles.holdSection}`}>
+        <div className={styles.matrixHeader}>
+          <div className={styles.matrixHeaderLeft}>
+            <div className={`${styles.matrixIcon} ${styles.blue}`}>
+              <BalanceIcon size={18} />
+            </div>
+            <h3 className={styles.matrixTitle}>HOLD Signal Matrix</h3>
+          </div>
+          <span className={styles.matrixSubtitle}>Balance Analysis</span>
+        </div>
+
+        {/* Hold Status Indicator */}
+        <div className={styles.holdStatusContainer}>
+          <div className={styles.holdIconWrapper}>
+            <div className={`${styles.holdIcon} ${styles[status]}`}>
+              <PauseCircleIcon size={56} />
+            </div>
+          </div>
+
+          <div className={styles.holdDetails}>
+            <div className={styles.holdActionBadge}>
+              <span className={styles.holdActionText}>{action}</span>
+            </div>
+            <p className={styles.holdReason}>{reason}</p>
+          </div>
+        </div>
+
+        {/* Signal Balance Visualization */}
+        <div className={styles.balanceSection}>
+          <div className={styles.balanceHeader}>
+            <span className={styles.balanceLabel}>Signal Balance</span>
+          </div>
+
+          <div className={styles.balanceVisualization}>
+            <div className={styles.balanceScale}>
+              <div className={styles.balanceScaleLabels}>
+                <span className={styles.balanceScaleLabelBuy}>BUY</span>
+                <span className={styles.balanceScaleLabelCenter}>NEUTRAL</span>
+                <span className={styles.balanceScaleLabelSell}>SELL</span>
+              </div>
+              <div className={styles.balanceTrack}>
+                <div className={styles.balanceTrackBuy} />
+                <div className={styles.balanceTrackCenter} />
+                <div className={styles.balanceTrackSell} />
+                <div
+                  className={styles.balanceIndicator}
+                  style={{
+                    left: `${50 + balanceOffset / 2}%`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.balanceStats}>
+            <div className={styles.balanceStatItem}>
+              <span className={`${styles.balanceStatLabel} ${styles.teal}`}>
+                Buy Signals
+              </span>
+              <span className={`${styles.balanceStatValue} ${styles.teal}`}>
+                {buyMetrics.confirmedCount}/5 ({buyStrength}%)
+              </span>
+            </div>
+            <div className={styles.balanceStatDivider} />
+            <div className={styles.balanceStatItem}>
+              <span className={`${styles.balanceStatLabel} ${styles.coral}`}>
+                Sell Signals
+              </span>
+              <span className={`${styles.balanceStatValue} ${styles.coral}`}>
+                {sellMetrics.confirmedCount}/5 ({sellStrength}%)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Confidence Meter */}
+        <div className={styles.confidenceSection}>
+          <div className={styles.confidenceHeader}>
+            <span className={styles.confidenceLabel}>Hold Confidence</span>
+            <span className={styles.confidenceValue}>{confidence}%</span>
+          </div>
+          <div className={styles.confidenceBar}>
+            <div
+              className={styles.confidenceFill}
+              style={{ width: `${confidence}%` }}
+            />
+          </div>
+          <div className={styles.confidenceHint}>
+            {confidence >= 80
+              ? "Strong hold signal - maintain current position"
+              : confidence >= 60
+                ? "Moderate hold - be ready for directional shift"
+                : "Weak hold - signals developing, monitor closely"}
+          </div>
+        </div>
+      </div>
+    );
+  },
 );
 
 // ============================================================================
@@ -844,7 +1058,9 @@ const ContradictionResolution = memo(({ contradictions }) => {
         <div className={`${styles.matrixIcon} ${styles.blue}`}>
           <BrainIcon size={18} />
         </div>
-        <h3 className={styles.contradictionTitle}>AI Contradiction Resolution</h3>
+        <h3 className={styles.contradictionTitle}>
+          AI Contradiction Resolution
+        </h3>
       </div>
 
       <div className={styles.contradictionIntro}>
@@ -854,15 +1070,21 @@ const ContradictionResolution = memo(({ contradictions }) => {
         <div className={styles.hierarchyList}>
           <div className={styles.hierarchyItem}>
             <span className={styles.hierarchyWeight}>40%</span>
-            <span className={styles.hierarchyLabel}>Elliott Wave Structure</span>
+            <span className={styles.hierarchyLabel}>
+              Elliott Wave Structure
+            </span>
           </div>
           <div className={styles.hierarchyItem}>
             <span className={styles.hierarchyWeight}>35%</span>
-            <span className={styles.hierarchyLabel}>Momentum (RSI, Williams, MACD)</span>
+            <span className={styles.hierarchyLabel}>
+              Momentum (RSI, Williams, MACD)
+            </span>
           </div>
           <div className={styles.hierarchyItem}>
             <span className={styles.hierarchyWeight}>15%</span>
-            <span className={styles.hierarchyLabel}>Trend Context (ADX, DI)</span>
+            <span className={styles.hierarchyLabel}>
+              Trend Context (ADX, DI)
+            </span>
           </div>
           <div className={styles.hierarchyItem}>
             <span className={styles.hierarchyWeight}>10%</span>
@@ -886,9 +1108,14 @@ const ContradictionResolution = memo(({ contradictions }) => {
                 {Object.entries(contradiction)
                   .filter(
                     ([key]) =>
-                      !["type", "description", "resolution", "action", "color", "weights"].includes(
-                        key
-                      )
+                      ![
+                        "type",
+                        "description",
+                        "resolution",
+                        "action",
+                        "color",
+                        "weights",
+                      ].includes(key),
                   )
                   .map(([key, value]) => (
                     <div key={key} className={styles.conflictSignal}>
@@ -928,9 +1155,9 @@ const ContradictionResolution = memo(({ contradictions }) => {
       )}
 
       <div className={styles.defaultRule}>
-        <strong>DEFAULT RULE:</strong> Elliott Wave wins in 40% weight conflicts.
-        Wave structure is more reliable than indicators. Indicators lag price,
-        waves predict structure.
+        <strong>DEFAULT RULE:</strong> Elliott Wave wins in 40% weight
+        conflicts. Wave structure is more reliable than indicators. Indicators
+        lag price, waves predict structure.
       </div>
     </div>
   );
@@ -992,7 +1219,9 @@ export function SignalMatrix({
         label: "Volume Spike",
         description: ">150% ADV on bounce day (accumulation)",
         met: volumeCheck.met,
-        value: volumeCheck.ratio ? `${(volumeCheck.ratio * 100).toFixed(0)}%` : "—",
+        value: volumeCheck.ratio
+          ? `${(volumeCheck.ratio * 100).toFixed(0)}%`
+          : "—",
       },
       {
         label: "Bullish Candle",
@@ -1056,7 +1285,7 @@ export function SignalMatrix({
     ];
     const totalWeight = buySignals.reduce(
       (sum, signal, idx) => sum + (signal.met ? weights[idx] : 0),
-      0
+      0,
     );
     const action = determineBuyAction(confirmedCount, totalWeight);
 
@@ -1075,12 +1304,23 @@ export function SignalMatrix({
     ];
     const totalWeight = sellSignals.reduce(
       (sum, signal, idx) => sum + (signal.met ? weights[idx] : 0),
-      0
+      0,
     );
     const action = determineSellAction(confirmedCount, totalWeight);
 
     return { confirmedCount, totalWeight, action };
   }, [sellSignals]);
+
+  // Calculate hold metrics
+  const holdMetrics = useMemo(() => {
+    const holdAction = determineHoldAction(
+      buyMetrics.confirmedCount,
+      sellMetrics.confirmedCount,
+      buyMetrics.totalWeight,
+      sellMetrics.totalWeight,
+    );
+    return { action: holdAction };
+  }, [buyMetrics, sellMetrics]);
 
   // Analyze contradictions
   const contradictions = useMemo(() => {
@@ -1090,7 +1330,9 @@ export function SignalMatrix({
   if (!data || data.length === 0) {
     return (
       <div className={styles.signalMatrixWrapper}>
-        <div className={styles.noData}>No data available for signal analysis</div>
+        <div className={styles.noData}>
+          No data available for signal analysis
+        </div>
       </div>
     );
   }
@@ -1123,6 +1365,13 @@ export function SignalMatrix({
         totalWeight={sellMetrics.totalWeight}
         confirmedCount={sellMetrics.confirmedCount}
         type="SELL"
+      />
+
+      {/* HOLD Signal Matrix - shown when signals are balanced or neither active */}
+      <HoldSignalMatrixSection
+        buyMetrics={buyMetrics}
+        sellMetrics={sellMetrics}
+        holdAction={holdMetrics.action}
       />
 
       {/* AI Contradiction Resolution */}
