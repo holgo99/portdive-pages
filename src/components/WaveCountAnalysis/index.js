@@ -188,19 +188,6 @@ function WaveCountAnalysisInner() {
           <WaveCountSelector showProbability={true} />
         </section>
 
-        {/* Verdict Panel (if available) */}
-        <section className={styles.wcaSection}>
-          <div className={styles.sectionHeader}>
-            <VerdictIcon size={18} />
-            <h2 className={styles.sectionTitle}>Verdict</h2>
-          </div>
-          <VerdictPanel
-            verdict={waveCounts.activeScenario.verdict}
-            isCorrective={waveCounts.activeScenario.mode === "CORRECTIVE"}
-            variant="embedded"
-          />
-        </section>
-
         {/* Footer Badge */}
         <div className={styles.footer}>
           <span

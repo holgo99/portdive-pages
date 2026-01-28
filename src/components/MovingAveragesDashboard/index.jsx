@@ -23,6 +23,7 @@
 import React, { useMemo, memo } from "react";
 import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
 import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
+import AIMovingAveragesSignalsResolver from "@site/src/components/AIMovingAveragesSignalsResolver";
 import styles from "./styles.module.css";
 
 // ============================================================================
@@ -121,20 +122,6 @@ const TrendDownIcon = ({ size = 16 }) => (
   >
     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
     <polyline points="17 18 23 18 23 12" />
-  </svg>
-);
-
-const CrossoverIcon = ({ size = 16 }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M2 18L12 8l10 10" />
-    <path d="M2 6l10 10L22 6" />
   </svg>
 );
 
@@ -398,55 +385,6 @@ const MACard = memo(({ config, value, price, isVolume = false }) => {
         <span className={`${styles.maPercent} ${styles[trend.color]}`}>
           {percentText}
         </span>
-      </div>
-    </div>
-  );
-});
-
-// ============================================================================
-// CROSSOVER SIGNAL COMPONENT
-// ============================================================================
-
-const CrossoverSignal = memo(({ smaSignal, emaSignal }) => {
-  return (
-    <div className={styles.crossoverSection}>
-      <div className={styles.crossoverHeader}>
-        <CrossoverIcon size={18} />
-        <h3 className={styles.crossoverTitle}>MA Crossover Signals</h3>
-      </div>
-
-      <div className={styles.crossoverGrid}>
-        {smaSignal && (
-          <div className={`${styles.crossoverCard} ${styles[smaSignal.color]}`}>
-            <div className={styles.crossoverCardHeader}>
-              <span className={styles.crossoverType}>SMA 50/200</span>
-              <span
-                className={`${styles.crossoverLabel} ${styles[smaSignal.color]}`}
-              >
-                {smaSignal.label}
-              </span>
-            </div>
-            <p className={styles.crossoverDescription}>
-              {smaSignal.description}
-            </p>
-          </div>
-        )}
-
-        {emaSignal && (
-          <div className={`${styles.crossoverCard} ${styles[emaSignal.color]}`}>
-            <div className={styles.crossoverCardHeader}>
-              <span className={styles.crossoverType}>EMA 50/200</span>
-              <span
-                className={`${styles.crossoverLabel} ${styles[emaSignal.color]}`}
-              >
-                {emaSignal.label}
-              </span>
-            </div>
-            <p className={styles.crossoverDescription}>
-              {emaSignal.description}
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -825,8 +763,12 @@ export function MovingAveragesDashboard({
         />
       </section>
 
-      {/* Crossover Signals */}
-      <CrossoverSignal smaSignal={smaSignal} emaSignal={emaSignal} />
+      {/* AI-PREMIUM Crossover Signal Analysis */}
+      <AIMovingAveragesSignalsResolver
+        smaSignal={smaSignal}
+        emaSignal={emaSignal}
+        variant="embedded"
+      />
 
       {/* Footer */}
       <footer className={styles.dashboardFooter}>

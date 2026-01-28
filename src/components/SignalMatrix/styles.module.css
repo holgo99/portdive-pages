@@ -137,6 +137,7 @@
 }
 
 .aiContradictionResolverSection {
+    display: flex;
 }
 
 .matrixHeader {

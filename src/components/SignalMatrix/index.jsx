@@ -1241,16 +1241,6 @@ export function SignalMatrix({
         holdAction={holdMetrics.action}
       />
 
-      {/* AI Contradiction Resolution - Premium Feature */}
-      <div
-        className={`${styles.matrixSection} ${styles.aiContradictionResolverSection}`}
-      >
-        <ContradictionResolver
-          variant="embedded"
-          contradictions={contradictions}
-        />
-      </div>
-
       {/* Footer */}
       <footer className={styles.signalMatrixFooter}>
         <span className={styles.footerBadge}>
