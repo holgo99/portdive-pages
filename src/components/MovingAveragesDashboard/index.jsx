@@ -35,7 +35,7 @@ const MA_CONFIG = {
     dataKey: "SMA_50",
     label: "SMA(50)",
     description: "50-Day Simple Moving Average",
-    color: "teal",
+    color: "fast",
     type: "SMA",
   },
   SMA_200: {
@@ -43,7 +43,7 @@ const MA_CONFIG = {
     dataKey: "SMA_200",
     label: "SMA(200)",
     description: "200-Day Simple Moving Average",
-    color: "blue",
+    color: "slow",
     type: "SMA",
   },
   EMA_50: {
@@ -51,7 +51,7 @@ const MA_CONFIG = {
     dataKey: "EMA_50",
     label: "EMA(50)",
     description: "50-Day Exponential Moving Average",
-    color: "teal",
+    color: "fast",
     type: "EMA",
   },
   EMA_200: {
@@ -59,7 +59,7 @@ const MA_CONFIG = {
     dataKey: "EMA_200",
     label: "EMA(200)",
     description: "200-Day Exponential Moving Average",
-    color: "blue",
+    color: "slow",
     type: "EMA",
   },
   Volume_20_MA: {
@@ -720,16 +720,16 @@ export function MovingAveragesDashboard({
           title="Price vs SMA (50/200)"
           data={recentData}
           lines={[
-            { dataKey: "close", color: "blue", strokeWidth: 2, label: "Price" },
+            { dataKey: "close", color: "teal", strokeWidth: 2, label: "Price" },
             {
               dataKey: "SMA_50",
-              color: "teal",
+              color: "fast",
               strokeWidth: 2,
               label: "SMA(50)",
             },
             {
               dataKey: "SMA_200",
-              color: "coral",
+              color: "slow",
               strokeWidth: 2,
               dashed: true,
               label: "SMA(200)",
@@ -766,16 +766,16 @@ export function MovingAveragesDashboard({
           title="Price vs EMA (50/200)"
           data={recentData}
           lines={[
-            { dataKey: "close", color: "blue", strokeWidth: 2, label: "Price" },
+            { dataKey: "close", color: "teal", strokeWidth: 2, label: "Price" },
             {
               dataKey: "EMA_50",
-              color: "teal",
+              color: "fast",
               strokeWidth: 2,
               label: "EMA(50)",
             },
             {
               dataKey: "EMA_200",
-              color: "coral",
+              color: "slow",
               strokeWidth: 2,
               dashed: true,
               label: "EMA(200)",
@@ -808,7 +808,7 @@ export function MovingAveragesDashboard({
           lines={[
             {
               dataKey: "volume",
-              color: "blue",
+              color: "teal",
               strokeWidth: 2,
               label: "Volume",
             },
