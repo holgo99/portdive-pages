@@ -92,15 +92,33 @@ const SelectorIcon = ({ size = 16 }) => (
 
 const VerdictIcon = ({ size = 16 }) => (
   <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
+    className={styles.logoIcon}
+    width="24"
+    height="24"
+    viewBox="0 0 32 32"
     fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
   >
-    <path d="M3 3v18h18" />
-    <path d="M18 9l-5 5-4-4-3 3" />
+    <path
+      d="M16 4L4 10L16 16L28 10L16 4Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 22L16 28L28 22"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 16L16 22L28 16"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 

@@ -31,6 +31,38 @@ import { useWaveCount } from "@site/src/hooks/useWaveCount";
 /**
  * SVG Icons for the panel
  */
+const VerdictPanelIcon = ({ size = 16 }) => (
+  <svg
+    className={styles.logoIcon}
+    width="24"
+    height="24"
+    viewBox="0 0 32 32"
+    fill="none"
+  >
+    <path
+      d="M16 4L4 10L16 16L28 10L16 4Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 22L16 28L28 22"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 16L16 22L28 16"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const CheckIcon = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
     <path
@@ -517,35 +549,7 @@ export function VerdictPanel({
     <div className={wrapperClass}>
       {/* Logo Header */}
       <div className={styles.logoHeader}>
-        <svg
-          className={styles.logoIcon}
-          width="24"
-          height="24"
-          viewBox="0 0 32 32"
-          fill="none"
-        >
-          <path
-            d="M16 4L4 10L16 16L28 10L16 4Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M4 22L16 28L28 22"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M4 16L16 22L28 16"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <VerdictPanelIcon size={24} />
         <span className={styles.logoText}>VerdictPanel</span>
       </div>
 
