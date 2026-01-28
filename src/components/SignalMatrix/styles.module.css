@@ -1,0 +1,1094 @@
+/**
+ * SignalMatrix Component Styles - PREMIUM REDESIGN
+ *
+ * Features:
+ * - BUY/ADD and SELL/TRIM signal matrices
+ * - AI Contradiction Resolution section
+ * - Premium gradient cards with glow effects
+ * - Weight distribution visualizations
+ * - Progress bars and action badges
+ * - Dark mode optimized (PortDive brand)
+ * - WCAG AA+ accessible
+ * - Responsive design
+ *
+ * Uses global premium CSS variables from custom.css
+ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* WRAPPER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.signalMatrixWrapper {
+    background: var(--premium-bg);
+    border: 1px solid var(--premium-border);
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: var(--font-family-premium);
+    color: var(--premium-text);
+    width: 100%;
+    box-shadow: var(--premium-shadow-lg);
+    margin-bottom: 24px;
+}
+
+.noData {
+    padding: 64px;
+    text-align: center;
+    color: var(--premium-text-muted);
+    font-size: 16px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* LOGO HEADER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.logoHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--premium-border);
+    color: var(--premium-text);
+}
+
+.logoHeader svg {
+    opacity: 0.8;
+}
+
+.logoText {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--premium-text);
+    letter-spacing: -0.01em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* MATRIX SECTION */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.matrixSection {
+    padding: 28px;
+    border-bottom: 1px solid var(--premium-border);
+}
+
+.buySection {
+    background: linear-gradient(
+        180deg,
+        rgba(var(--portdive-teal-rgb), 0.03) 0%,
+        var(--premium-bg) 100%
+    );
+}
+
+.sellSection {
+    background: linear-gradient(
+        180deg,
+        rgba(var(--portdive-coral-rgb), 0.03) 0%,
+        var(--premium-bg) 100%
+    );
+}
+
+.matrixHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.matrixHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.matrixIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.matrixIcon.teal {
+    background: rgba(var(--portdive-teal-rgb), 0.15);
+    color: var(--portdive-teal);
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.3);
+    box-shadow:
+        0 0 12px rgba(var(--portdive-teal-rgb), 0.2),
+        inset 0 0 8px rgba(var(--portdive-teal-rgb), 0.1);
+}
+
+.matrixIcon.coral {
+    background: rgba(var(--portdive-coral-rgb), 0.15);
+    color: var(--portdive-coral);
+    border: 1px solid rgba(var(--portdive-coral-rgb), 0.3);
+    box-shadow:
+        0 0 12px rgba(var(--portdive-coral-rgb), 0.2),
+        inset 0 0 8px rgba(var(--portdive-coral-rgb), 0.1);
+}
+
+.matrixIcon.blue {
+    background: rgba(var(--portdive-blue-rgb), 0.15);
+    color: var(--portdive-blue);
+    border: 1px solid rgba(var(--portdive-blue-rgb), 0.3);
+    box-shadow:
+        0 0 12px rgba(var(--portdive-blue-rgb), 0.2),
+        inset 0 0 8px rgba(var(--portdive-blue-rgb), 0.1);
+}
+
+.matrixTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--premium-text);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.matrixSubtitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--premium-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SIGNAL GRID */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.signalGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SIGNAL CARD */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.signalCard {
+    background: var(--premium-surface-alt);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.signalCard.confirmed {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.18) 0%,
+        var(--premium-surface-alt) 100%
+    );
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.4);
+    box-shadow:
+        var(--premium-shadow-md),
+        0 0 24px rgba(var(--portdive-teal-rgb), 0.12),
+        inset 0 1px 0 rgba(var(--portdive-teal-rgb), 0.15);
+}
+
+.signalCard.notMet {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-coral-rgb), 0.1) 0%,
+        var(--premium-surface-alt) 100%
+    );
+    border: 1px solid rgba(var(--portdive-coral-rgb), 0.25);
+    box-shadow: var(--premium-shadow-sm);
+}
+
+.signalCard:hover {
+    transform: translateY(-2px);
+}
+
+.signalCard.confirmed:hover {
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(var(--portdive-teal-rgb), 0.18);
+}
+
+.signalCard.notMet:hover {
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(var(--portdive-coral-rgb), 0.12);
+}
+
+.signalCardHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.signalNumber {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--premium-text-muted);
+    font-family: var(--font-family-mono);
+}
+
+.signalLabel {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--premium-text);
+}
+
+.signalIconContainer {
+    display: flex;
+    justify-content: center;
+    padding: 4px 0;
+}
+
+.signalIcon {
+    transition: all 0.3s ease;
+}
+
+.signalIcon.confirmed {
+    color: var(--portdive-teal);
+    filter: drop-shadow(0 0 10px rgba(var(--portdive-teal-rgb), 0.5));
+}
+
+.signalIcon.notMet {
+    color: var(--portdive-coral);
+    filter: drop-shadow(0 0 10px rgba(var(--portdive-coral-rgb), 0.4));
+}
+
+.signalCardBody {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.signalDescription {
+    font-size: 11px;
+    color: var(--premium-text-secondary);
+    line-height: 1.4;
+}
+
+.signalStatus {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.signalStatus.confirmed {
+    color: var(--portdive-teal);
+}
+
+.signalStatus.notMet {
+    color: var(--portdive-coral);
+}
+
+.signalCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid var(--premium-border);
+    margin-top: auto;
+}
+
+.signalValueLabel {
+    font-size: 10px;
+    color: var(--premium-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.signalValue {
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font-family-mono);
+}
+
+.signalValue.confirmed {
+    color: var(--portdive-teal);
+}
+
+.signalValue.notMet {
+    color: var(--portdive-coral);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* WEIGHT SECTION */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.weightSection {
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.weightHeader {
+    margin-bottom: 12px;
+}
+
+.weightLabel {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.weightBars {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.weightBar {
+    display: grid;
+    grid-template-columns: 140px 1fr 120px;
+    align-items: center;
+    gap: 12px;
+}
+
+.weightBarLabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--premium-text);
+}
+
+.weightBarTrack {
+    height: 8px;
+    background: var(--premium-border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.weightBarFill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.weightBarFill.primary {
+    background: linear-gradient(90deg, var(--portdive-teal) 0%, #25b8ae 100%);
+    box-shadow: 0 0 8px rgba(var(--portdive-teal-rgb), 0.4);
+}
+
+.weightBarFill.secondary {
+    background: linear-gradient(90deg, var(--portdive-blue) 0%, #5b8aff 100%);
+    box-shadow: 0 0 8px rgba(var(--portdive-blue-rgb), 0.4);
+}
+
+.weightBarValue {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--premium-text-muted);
+    text-align: right;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SUMMARY CONTAINER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.summaryContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 20px;
+    background: var(--premium-surface-alt);
+    border-radius: 12px;
+    border: 1px solid var(--premium-border);
+}
+
+.summaryStats {
+    display: flex;
+    gap: 24px;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.statLabel {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--premium-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statValue {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-family-mono);
+}
+
+.statValue.teal {
+    color: var(--portdive-teal);
+}
+
+.statValue.coral {
+    color: var(--portdive-coral);
+}
+
+.statValue.blue {
+    color: var(--portdive-blue);
+}
+
+.progressContainer {
+    flex: 1;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progressBar {
+    flex: 1;
+    height: 10px;
+    background: var(--premium-border);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progressFill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressFill.teal {
+    background: linear-gradient(90deg, var(--portdive-teal) 0%, #25b8ae 100%);
+    box-shadow: 0 0 12px rgba(var(--portdive-teal-rgb), 0.5);
+}
+
+.progressFill.coral {
+    background: linear-gradient(90deg, var(--portdive-coral) 0%, #ff8e8e 100%);
+    box-shadow: 0 0 12px rgba(var(--portdive-coral-rgb), 0.5);
+}
+
+.progressFill.blue {
+    background: linear-gradient(90deg, var(--portdive-blue) 0%, #5b8aff 100%);
+    box-shadow: 0 0 12px rgba(var(--portdive-blue-rgb), 0.5);
+}
+
+.progressLabel {
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font-family-mono);
+    color: var(--premium-text);
+    min-width: 40px;
+}
+
+.actionContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.actionLabel {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.actionValue {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 8px;
+}
+
+.actionValue.teal {
+    background: rgba(var(--portdive-teal-rgb), 0.15);
+    color: var(--portdive-teal);
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.3);
+}
+
+.actionValue.coral {
+    background: rgba(var(--portdive-coral-rgb), 0.15);
+    color: var(--portdive-coral);
+    border: 1px solid rgba(var(--portdive-coral-rgb), 0.3);
+}
+
+.actionValue.blue {
+    background: rgba(var(--portdive-blue-rgb), 0.15);
+    color: var(--portdive-blue);
+    border: 1px solid rgba(var(--portdive-blue-rgb), 0.3);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* REASON CONTAINER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.reasonContainer {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: rgba(var(--portdive-blue-rgb), 0.08);
+    border-radius: 8px;
+    border-left: 3px solid var(--portdive-blue);
+}
+
+.reasonText {
+    font-size: 13px;
+    color: var(--premium-text-secondary);
+    font-style: italic;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CONTRADICTION SECTION */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.contradictionSection {
+    padding: 28px;
+    border-bottom: 1px solid var(--premium-border);
+    background: linear-gradient(
+        180deg,
+        rgba(var(--portdive-blue-rgb), 0.03) 0%,
+        var(--premium-bg) 100%
+    );
+}
+
+.contradictionHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.contradictionTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--premium-text);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.contradictionIntro {
+    margin-bottom: 24px;
+}
+
+.contradictionDescription {
+    font-size: 14px;
+    color: var(--premium-text-secondary);
+    margin: 0 0 16px 0;
+}
+
+.hierarchyList {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.hierarchyItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-radius: 8px;
+}
+
+.hierarchyWeight {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-family-mono);
+    color: var(--portdive-blue);
+}
+
+.hierarchyLabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--premium-text-secondary);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CONTRADICTION CARDS */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.contradictionCards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.contradictionCard {
+    background: var(--premium-surface);
+    border: 1px solid var(--premium-border);
+    border-left: 4px solid var(--portdive-blue);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.contradictionCard:hover {
+    box-shadow:
+        var(--premium-shadow-md),
+        0 0 20px rgba(var(--portdive-blue-rgb), 0.08);
+}
+
+.contradictionCardHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    color: var(--portdive-blue);
+}
+
+.contradictionType {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--premium-text);
+}
+
+.conflictSignals {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.conflictSignal {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--premium-surface-alt);
+    border-radius: 6px;
+}
+
+.conflictKey {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text-muted);
+    text-transform: capitalize;
+}
+
+.conflictValue {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text);
+}
+
+.resolutionBox {
+    padding: 12px 16px;
+    background: rgba(var(--portdive-blue-rgb), 0.08);
+    border-radius: 8px;
+    margin-bottom: 14px;
+}
+
+.resolutionLabel {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--portdive-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.resolutionText {
+    font-size: 13px;
+    color: var(--premium-text);
+    line-height: 1.5;
+}
+
+.contradictionAction {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.contradictionAction.teal {
+    background: rgba(var(--portdive-teal-rgb), 0.12);
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.3);
+}
+
+.contradictionAction.coral {
+    background: rgba(var(--portdive-coral-rgb), 0.12);
+    border: 1px solid rgba(var(--portdive-coral-rgb), 0.3);
+}
+
+.contradictionAction.blue {
+    background: rgba(var(--portdive-blue-rgb), 0.12);
+    border: 1px solid rgba(var(--portdive-blue-rgb), 0.3);
+}
+
+.contradictionActionLabel {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--premium-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.contradictionActionValue {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.contradictionAction.teal .contradictionActionValue {
+    color: var(--portdive-teal);
+}
+
+.contradictionAction.coral .contradictionActionValue {
+    color: var(--portdive-coral);
+}
+
+.contradictionAction.blue .contradictionActionValue {
+    color: var(--portdive-blue);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* DEFAULT RULE */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.defaultRule {
+    padding: 14px 18px;
+    background: var(--premium-surface-alt);
+    border: 1px solid var(--premium-border);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--premium-text-secondary);
+    line-height: 1.5;
+}
+
+.defaultRule strong {
+    color: var(--portdive-blue);
+    font-weight: 700;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* FOOTER */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.signalMatrixFooter {
+    padding: 16px 32px;
+    border-top: 1px solid var(--premium-border);
+    display: flex;
+    justify-content: flex-end;
+    background: var(--premium-surface);
+}
+
+.footerBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(var(--portdive-teal-rgb), 0.1);
+    color: var(--portdive-teal);
+    border-radius: 8px;
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.2);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE - Tablet */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 1200px) {
+    .signalGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .weightBar {
+        grid-template-columns: 120px 1fr 100px;
+    }
+}
+
+@media (max-width: 900px) {
+    .signalGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .summaryContainer {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    .summaryStats {
+        justify-content: center;
+    }
+
+    .progressContainer {
+        max-width: none;
+    }
+
+    .actionContainer {
+        justify-content: center;
+    }
+
+    .hierarchyList {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .matrixSection {
+        padding: 20px;
+    }
+
+    .matrixHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .matrixTitle {
+        font-size: 18px;
+    }
+
+    .signalGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .signalCard {
+        padding: 14px;
+    }
+
+    .weightBar {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .weightBarValue {
+        text-align: left;
+    }
+
+    .conflictSignals {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .contradictionSection {
+        padding: 20px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE - Mobile */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 480px) {
+    .signalMatrixWrapper {
+        border-radius: 12px;
+    }
+
+    .logoHeader {
+        padding: 12px 16px;
+    }
+
+    .logoText {
+        font-size: 12px;
+    }
+
+    .matrixSection {
+        padding: 16px;
+    }
+
+    .matrixTitle {
+        font-size: 16px;
+    }
+
+    .matrixSubtitle {
+        font-size: 11px;
+    }
+
+    .signalGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .signalCard {
+        padding: 12px;
+    }
+
+    .signalLabel {
+        font-size: 11px;
+    }
+
+    .signalDescription {
+        font-size: 10px;
+    }
+
+    .signalIcon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .signalValue {
+        font-size: 11px;
+    }
+
+    .weightSection {
+        padding: 12px 16px;
+    }
+
+    .summaryContainer {
+        padding: 14px 16px;
+    }
+
+    .statValue {
+        font-size: 16px;
+    }
+
+    .actionValue {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .contradictionSection {
+        padding: 16px;
+    }
+
+    .contradictionTitle {
+        font-size: 16px;
+    }
+
+    .hierarchyList {
+        flex-direction: column;
+    }
+
+    .hierarchyItem {
+        justify-content: space-between;
+    }
+
+    .contradictionCard {
+        padding: 16px;
+    }
+
+    .signalMatrixFooter {
+        padding: 12px 16px;
+    }
+
+    .footerBadge {
+        font-size: 10px;
+        padding: 6px 12px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 380px) {
+    .signalGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* LIGHT MODE */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+[data-theme="light"] .signalMatrixWrapper {
+    box-shadow: var(--premium-shadow-md);
+}
+
+[data-theme="light"] .matrixIcon.teal,
+[data-theme="light"] .matrixIcon.coral,
+[data-theme="light"] .matrixIcon.blue {
+    box-shadow: none;
+}
+
+[data-theme="light"] .signalCard.confirmed {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.08) 0%,
+        var(--premium-surface-alt) 100%
+    );
+    box-shadow: var(--premium-shadow-sm);
+}
+
+[data-theme="light"] .signalCard.notMet {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-coral-rgb), 0.05) 0%,
+        var(--premium-surface-alt) 100%
+    );
+}
+
+[data-theme="light"] .signalCard.confirmed:hover,
+[data-theme="light"] .signalCard.notMet:hover {
+    box-shadow: var(--premium-shadow-md);
+}
+
+[data-theme="light"] .signalIcon.confirmed,
+[data-theme="light"] .signalIcon.notMet {
+    filter: none;
+}
+
+[data-theme="light"] .weightBarFill.primary,
+[data-theme="light"] .weightBarFill.secondary {
+    box-shadow: none;
+}
+
+[data-theme="light"] .progressFill.teal,
+[data-theme="light"] .progressFill.coral,
+[data-theme="light"] .progressFill.blue {
+    box-shadow: none;
+}
+
+[data-theme="light"] .contradictionCard:hover {
+    box-shadow: var(--premium-shadow-md);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ACCESSIBILITY */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.signalMatrixWrapper:focus-visible {
+    outline: 2px solid var(--portdive-teal);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .signalCard,
+    .contradictionCard,
+    .progressFill,
+    .weightBarFill {
+        transition: none;
+    }
+
+    .signalCard:hover,
+    .contradictionCard:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-contrast: more) {
+    .signalMatrixWrapper {
+        border-width: 2px;
+    }
+
+    .signalCard {
+        border-width: 2px;
+    }
+
+    .signalCard.confirmed {
+        border-left-width: 4px;
+        border-left-color: var(--portdive-teal);
+    }
+
+    .signalCard.notMet {
+        border-left-width: 4px;
+        border-left-color: var(--portdive-coral);
+    }
+
+    .contradictionCard {
+        border-left-width: 5px;
+    }
+}

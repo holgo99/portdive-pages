@@ -24,10 +24,12 @@ import { NBISLayout } from "@site/src/components/TickerLayout";
 import { TickerHeader } from "@site/src/components/TickerHeader";
 import { AnalysisCard } from "@site/src/components/AnalysisCard";
 import { OscillatorsDashboard } from "@site/src/components/OscillatorsDashboard";
+import { SignalMatrix } from "@site/src/components/SignalMatrix";
 
 <NBISLayout timeframe="1H">
   <TickerHeader title="Oscillators Dashboard" />
   <OscillatorsDashboard daysToShow={30} />
+  <SignalMatrix daysToShow={30} />
   <AnalysisCard
     title="Oscillators Dashboard"
     description="Multi-indicator momentum analysis with RSI, Williams %R, Stochastic, ADX, and MACD"
