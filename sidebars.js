@@ -22,23 +22,27 @@ module.exports = {
     },
     {
       type: "category",
-      label: "NBIS, Nebius Group N.V.",
-      customProps: {
-        icon: "/img/nbis/nbis-icon.svg", // Your icon path
-      },
+      label: "Features",
       items: [
         {
           type: "category",
-          label: "Elliott Wave Analysis",
-          items: ["nbis/elliott-wave-analysis/1d"],
-        },
-        {
-          type: "category",
-          label: "Technical Indicators",
+          label: "NBIS, Nebius Group N.V.",
+          customProps: {
+            icon: "/img/nbis/nbis-icon.svg", // Your icon path
+          },
           items: [
-            "nbis/technical-indicators/1h",
-            "nbis/technical-indicators/1d",
-            "nbis/technical-indicators/1w",
+            {
+              type: "category",
+              label: "Elliott Wave Analysis",
+              items: ["features/ticker/elliott-wave-analysis/wave-count-chart"],
+            },
+            {
+              type: "category",
+              label: "Technical Indicators",
+              items: [
+                "features/ticker/technical-indicators/oscillators-dashboard",
+              ],
+            },
           ],
         },
       ],

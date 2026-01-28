@@ -129,7 +129,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "docs",
             position: "left",
-            label: "Analytics",
+            label: "Features",
           },
           /*
           {
@@ -160,11 +160,11 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Analytics",
+            title: "Features",
             items: [
               {
-                label: "Analytics",
-                to: "/docs/intro",
+                label: "Features",
+                to: "/docs/overview",
               },
             ],
           },

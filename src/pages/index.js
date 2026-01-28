@@ -25,10 +25,10 @@ function HomepageHeader() {
           </h3>
           <div className={styles.ctaButtons}>
             <div className={styles.ctaPrimary}>
-              <Link to="/docs/intro">Start Deep Diving</Link>
+              <Link to="/docs/overview">Start Deep Diving</Link>
             </div>
             <div className={styles.ctaSecondary}>
-              <Link to="/docs/intro">Explore Analytics Directory</Link>
+              <Link to="/docs/overview">Explore Features</Link>
             </div>
           </div>
         </div>
