@@ -14,7 +14,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { WaveCountSelector } from "@site/src/components/WaveCountSelector";
-import { VerdictPanel } from "@site/src/components/VerdictPanel";
+import { AIWaveCountAnalysisVerdictPanel } from "@site/src/components/AIWaveCountAnalysisVerdictPanel";
 import { ChartCanvas } from "@site/src/components/ChartCanvas";
 import { WaveCountChart } from "@site/src/components/WaveCountChart";
 import { useWaveCount, WaveCountProvider } from "@site/src/hooks/useWaveCount";

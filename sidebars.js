@@ -42,15 +42,16 @@ module.exports = {
               items: [
                 "features/ticker/technical-indicators/oscillators-dashboard",
                 "features/ticker/technical-indicators/moving-averages-dashboard",
-                "features/ticker/technical-indicators/signal-matrix",
+                "features/ticker/technical-indicators/action-signal-matrix",
               ],
             },
             {
               type: "category",
               label: "AI Features",
               items: [
-                "features/ticker/ai-features/ai-verdict-panel",
-                "features/ticker/ai-features/ai-signal-contradiction-resolution",
+                "features/ticker/ai-features/ai-wave-count-analysis-verdict-panel",
+                "features/ticker/ai-features/ai-moving-averages-signals-resolver",
+                "features/ticker/ai-features/ai-action-signal-matrix-contradiction-resolver",
               ],
             },
           ],

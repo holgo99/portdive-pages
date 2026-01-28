@@ -1,19 +1,19 @@
 /**
- * VerdictPanel Component - Scenario Decision Tree Design
+ * AIWaveCountAnalysisVerdictPanel Component - Scenario Decision Tree Design
  * Renders chart analysis verdict with visual decision tree layout
  *
  * @component
  * @param {string} variant - Display variant:
  *   - "standalone" (default): Full panel with logo header, wrapper styling, and footer badge.
- *                             Use when rendering VerdictPanel as a standalone component.
+ *                             Use when rendering AIWaveCountAnalysisVerdictPanel as a standalone component.
  *   - "embedded": Minimal content without outer chrome (no header, border, shadow, footer).
- *                 Use when integrating VerdictPanel as a section within another component.
+ *                 Use when integrating AIWaveCountAnalysisVerdictPanel as a section within another component.
  *
  * @example
  * // Standalone usage (default)
- * import VerdictPanel from '@site/src/components/VerdictPanel';
+ * import AIWaveCountAnalysisVerdictPanel from '@site/src/components/AIWaveCountAnalysisVerdictPanel';
  *
- * <VerdictPanel
+ * <AIWaveCountAnalysisVerdictPanel
  *   scenario="Bullish Continuation"
  *   probability={60}
  *   priceTargets={{ low: 64.70, high: 81.00 }}
@@ -34,7 +34,7 @@
  * // Embedded usage (within another component)
  * <section className={styles.mySection}>
  *   <h2>Verdict Analysis</h2>
- *   <VerdictPanel variant="embedded" verdict={data.verdict} />
+ *   <AIWaveCountAnalysisVerdictPanel variant="embedded" verdict={data.verdict} />
  * </section>
  */
 
@@ -45,7 +45,7 @@ import { useWaveCount } from "@site/src/hooks/useWaveCount";
 /**
  * SVG Icons for the panel
  */
-const VerdictPanelIcon = ({ size = 16 }) => (
+const AIWaveCountAnalysisVerdictPanelIcon = ({ size = 16 }) => (
   <svg
     className={styles.logoIcon}
     width="24"
@@ -527,12 +527,12 @@ const ThesisHeroCard = ({ scenario, thesisContent, isCorrective }) => {
 };
 
 /**
- * VerdictPanel Component - Scenario Decision Tree
+ * AIWaveCountAnalysisAIWaveCountAnalysisVerdictPanel Component - Scenario Decision Tree
  *
  * @param {string} variant - "standalone" (default) renders full panel with header/footer,
  *                           "embedded" renders just the content for integration into other components
  */
-export function VerdictPanel({
+export function AIWaveCountAnalysisVerdictPanel({
   scenario,
   probability,
   priceTargets,
@@ -586,8 +586,10 @@ export function VerdictPanel({
       {/* Logo Header - only in standalone mode */}
       {!isEmbedded && (
         <div className={styles.logoHeader}>
-          <VerdictPanelIcon size={24} />
-          <span className={styles.logoText}>VerdictPanel</span>
+          <AIWaveCountAnalysisVerdictPanelIcon size={24} />
+          <span className={styles.logoText}>
+            AIWaveCountAnalysisVerdictPanel
+          </span>
           <span className={styles.premiumBadge}>
             <SparklesIcon size={12} />
             PREMIUM

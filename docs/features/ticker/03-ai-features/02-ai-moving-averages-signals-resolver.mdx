@@ -1,0 +1,25 @@
+---
+id: ai-moving-averages-signals-resolver
+hide_title: true
+sidebar_label: AI Moving Averages Signals Resolver
+pagination_label: Technical Indicators - AI Moving Averages Signals Resolver
+description: "AI signals resolution empowers informed trading decisions."
+keywords:
+  - technical analysis tools
+---
+
+import { NBISLayout } from "@site/src/components/TickerLayout";
+import { TickerSelector } from "@site/src/components/TickerSelector";
+import { AnalysisCard } from "@site/src/components/AnalysisCard";
+import { AIMovingAveragesSignalsResolver } from "@site/src/components/AIMovingAveragesSignalsResolver";
+
+<NBISLayout timeframe="1D">
+  <TickerSelector title="AI Features | AI Moving Averages Signals Resolver" />  
+  {/* Signals auto-populated from context */}
+  <AIMovingAveragesSignalsResolver />
+  <AnalysisCard
+    title="AI Features"
+    description="Multi-indicator momentum analysis with Buy/Add, Sell/Trim, Hold signal matrix"    
+    analysisDate="2026-01-27"
+  />
+</NBISLayout>

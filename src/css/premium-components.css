@@ -6,8 +6,8 @@
  * sharing common structural patterns.
  *
  * Color Identities:
- * - ContradictionResolver: Purple/Blue (AI/Neural theme)
- * - VerdictPanel: Teal/Gold (Analysis/Decision theme)
+ * - AIActionSignalMatrixContradictionResolver: Purple/Blue (AI/Neural theme)
+ * - AIWaveCountAnalysisVerdictPanel: Teal/Gold (Analysis/Decision theme)
  *
  * Imported by individual component CSS files.
  */

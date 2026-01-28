@@ -859,7 +859,7 @@ export default function NBISElliottWaveChart({ colorMode = "dark" }) {
         }}
       >
         {activeCount.verdict.length > 0 && (
-          <VerdictPanel
+          <AIWaveCountAnalysisVerdictPanel
             verdict={activeCount.verdict}
             isCorrective={activeCount.mode === "CORRECTIVE"}
           />

@@ -136,10 +136,6 @@
     );
 }
 
-.aiContradictionResolverSection {
-    display: flex;
-}
-
 .matrixHeader {
     display: flex;
     align-items: center;

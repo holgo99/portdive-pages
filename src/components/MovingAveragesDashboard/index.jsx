@@ -23,6 +23,7 @@
 import React, { useMemo, memo } from "react";
 import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
 import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
+import { useMovingAveragesSignals } from "@site/src/hooks/useMovingAveragesSignals";
 import AIMovingAveragesSignalsResolver from "@site/src/components/AIMovingAveragesSignalsResolver";
 import styles from "./styles.module.css";
 
@@ -277,67 +278,6 @@ const getVolumeTrendStatus = (currentVolume, volumeMA) => {
   };
 };
 
-/**
- * Check for Golden Cross (50 MA crosses above 200 MA)
- */
-const checkGoldenCross = (data, ma50Key, ma200Key) => {
-  if (!data || data.length < 2) return null;
-
-  const latest = data[data.length - 1];
-  const previous = data[data.length - 2];
-
-  const latestMA50 = latest?.[ma50Key];
-  const latestMA200 = latest?.[ma200Key];
-  const prevMA50 = previous?.[ma50Key];
-  const prevMA200 = previous?.[ma200Key];
-
-  if (
-    latestMA50 == null ||
-    latestMA200 == null ||
-    prevMA50 == null ||
-    prevMA200 == null
-  ) {
-    return null;
-  }
-
-  // Golden Cross: 50 MA crosses above 200 MA
-  if (prevMA50 <= prevMA200 && latestMA50 > latestMA200) {
-    return {
-      type: "GOLDEN_CROSS",
-      label: "Golden Cross",
-      description: "50 MA crossed above 200 MA - Bullish signal",
-      color: "teal",
-    };
-  }
-
-  // Death Cross: 50 MA crosses below 200 MA
-  if (prevMA50 >= prevMA200 && latestMA50 < latestMA200) {
-    return {
-      type: "DEATH_CROSS",
-      label: "Death Cross",
-      description: "50 MA crossed below 200 MA - Bearish signal",
-      color: "coral",
-    };
-  }
-
-  // Check current position
-  if (latestMA50 > latestMA200) {
-    return {
-      type: "BULLISH_ALIGNMENT",
-      label: "Bullish Alignment",
-      description: "50 MA above 200 MA - Uptrend intact",
-      color: "teal",
-    };
-  }
-
-  return {
-    type: "BEARISH_ALIGNMENT",
-    label: "Bearish Alignment",
-    description: "50 MA below 200 MA - Downtrend intact",
-    color: "coral",
-  };
-};
-
 // ============================================================================
 // MA CARD COMPONENT
 // ============================================================================
@@ -560,11 +500,16 @@ export function MovingAveragesDashboard({
   // Get config from context (if available)
   const tickerConfig = useTickerConfig();
   const ohlcvContext = useOHLCVData();
+  const signalsContext = useMovingAveragesSignals();
 
   // Merge context with props (props take precedence)
   const ticker = tickerProp || tickerConfig.ticker;
   const tickerName = tickerNameProp || tickerConfig.tickerName;
   const data = dataProp || ohlcvContext.data || [];
+
+  // Get signals from context (computed by MovingAveragesSignalsProvider)
+  const smaSignal = signalsContext?.smaSignal ?? null;
+  const emaSignal = signalsContext?.emaSignal ?? null;
 
   // Get latest data point and filter recent data
   const { latestData, recentData, priceRange } = useMemo(() => {
@@ -576,13 +521,15 @@ export function MovingAveragesDashboard({
     const recent = data.slice(-daysToShow);
 
     // Calculate price range for charts
-    const allPrices = recent.flatMap((d) => [
-      d.close,
-      d["50_MA"],
-      d["200_MA"],
-      d["50_EMA"],
-      d["200_EMA"],
-    ]).filter((v) => v != null);
+    const allPrices = recent
+      .flatMap((d) => [
+        d.close,
+        d["50_MA"],
+        d["200_MA"],
+        d["50_EMA"],
+        d["200_EMA"],
+      ])
+      .filter((v) => v != null);
 
     const minPrice = Math.min(...allPrices) * 0.95;
     const maxPrice = Math.max(...allPrices) * 1.05;
@@ -604,15 +551,6 @@ export function MovingAveragesDashboard({
 
     const maxVol = Math.max(...volumes) * 1.1;
     return [0, maxVol];
-  }, [recentData]);
-
-  // Check for crossover signals
-  const smaSignal = useMemo(() => {
-    return checkGoldenCross(recentData, "50_MA", "200_MA");
-  }, [recentData]);
-
-  const emaSignal = useMemo(() => {
-    return checkGoldenCross(recentData, "50_EMA", "200_EMA");
   }, [recentData]);
 
   if (!data || data.length === 0) {
@@ -762,13 +700,6 @@ export function MovingAveragesDashboard({
           icon={<VolumeIcon size={16} />}
         />
       </section>
-
-      {/* AI-PREMIUM Crossover Signal Analysis */}
-      <AIMovingAveragesSignalsResolver
-        smaSignal={smaSignal}
-        emaSignal={emaSignal}
-        variant="embedded"
-      />
 
       {/* Footer */}
       <footer className={styles.dashboardFooter}>

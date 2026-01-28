@@ -1,27 +1,23 @@
 ---
-id: ai-verdict-panel
+id: ai-wave-count-analysis-verdict-panel
 hide_title: true
-sidebar_label: AI Verdict Panel
-pagination_label: Elliott Wave Count - AI Verdict Panel
+sidebar_label: AI Wave Count Analysis Verdict Panel
+pagination_label: Elliott Wave Count - AI Wave Count Verdict Panel
 description: "NBIS, Interactive Elliott Wave analysis. Wave counts with Fibonacci levels and technical alerts."
 keywords: ["Elliott Wave", "Technical Analysis", "Wave Counting", "Market Cycles"]
-image: ../assets/20260122/elliott-wave-preview.png
 ---
 
 import { NBISLayout } from "@site/src/components/TickerLayout";
 import { TickerSelector } from "@site/src/components/TickerSelector";
 import { AnalysisCard } from "@site/src/components/AnalysisCard";
-import { WaveCountProvider } from "@site/src/hooks/useWaveCount";
-import { VerdictPanel } from "@site/src/components/VerdictPanel";
+import { AIWaveCountAnalysisVerdictPanel } from "@site/src/components/AIWaveCountAnalysisVerdictPanel";
 
 <NBISLayout timeframe="1D">
     <TickerSelector
         title="Elliott Wave Count | Verdict Panel"
         subtitle="Apr 2025 → Jun 2026 (Projection) | ATH: $141.10"
     />
-    <WaveCountProvider>
-        <VerdictPanel />
-    </WaveCountProvider>
+    <AIWaveCountAnalysisVerdictPanel />
     <AnalysisCard
         title="Elliott Wave Analysis"
         description="Complete wave count analysis with target levels and risk management"

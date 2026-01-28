@@ -1,5 +1,5 @@
 /**
- * ContradictionResolver Component - AI Signal Conflict Resolution
+ * AIActionSignalMatrixContradictionResolver Component - AI Signal Conflict Resolution
  *
  * Premium component for resolving conflicting trading signals using
  * Elliott Wave hierarchy-based decision making.
@@ -13,13 +13,13 @@
  *
  * @example
  * // Standalone usage (default)
- * import ContradictionResolver from '@site/src/components/ContradictionResolver';
+ * import AIActionSignalMatrixContradictionResolver from '@site/src/components/AIActionSignalMatrixContradictionResolver';
  *
- * <ContradictionResolver contradictions={contradictions} />
+ * <AIActionSignalMatrixContradictionResolver contradictions={contradictions} />
  *
  * @example
  * // Embedded usage (within SignalMatrix)
- * <ContradictionResolver variant="embedded" contradictions={contradictions} />
+ * <AIActionSignalMatrixContradictionResolver variant="embedded" contradictions={contradictions} />
  */
 
 import React, { memo } from "react";
@@ -29,7 +29,7 @@ import styles from "./styles.module.css";
 // SVG ICONS
 // ============================================================================
 
-const ContradictionResolverIcon = ({ size = 24 }) => (
+const AIActionSignalMatrixContradictionResolverIcon = ({ size = 24 }) => (
   <svg
     width={size}
     height={size}
@@ -207,28 +207,32 @@ const HIERARCHY_WEIGHTS = [
 /**
  * Hierarchy Weight Bar - Visual representation of weight distribution
  */
-const HierarchyWeightBar = memo(({ weight, label, description, color, index }) => (
-  <div className={styles.hierarchyWeightItem}>
-    <div className={styles.hierarchyWeightHeader}>
-      <div className={styles.hierarchyWeightRank}>
-        <span className={styles.hierarchyRankNumber}>{index + 1}</span>
+const HierarchyWeightBar = memo(
+  ({ weight, label, description, color, index }) => (
+    <div className={styles.hierarchyWeightItem}>
+      <div className={styles.hierarchyWeightHeader}>
+        <div className={styles.hierarchyWeightRank}>
+          <span className={styles.hierarchyRankNumber}>{index + 1}</span>
+        </div>
+        <div className={styles.hierarchyWeightInfo}>
+          <span className={styles.hierarchyWeightLabel}>{label}</span>
+          <span className={styles.hierarchyWeightDescription}>
+            {description}
+          </span>
+        </div>
+        <div className={`${styles.hierarchyWeightValue} ${styles[color]}`}>
+          {weight}%
+        </div>
       </div>
-      <div className={styles.hierarchyWeightInfo}>
-        <span className={styles.hierarchyWeightLabel}>{label}</span>
-        <span className={styles.hierarchyWeightDescription}>{description}</span>
-      </div>
-      <div className={`${styles.hierarchyWeightValue} ${styles[color]}`}>
-        {weight}%
+      <div className={styles.hierarchyWeightBarTrack}>
+        <div
+          className={`${styles.hierarchyWeightBarFill} ${styles[color]}`}
+          style={{ width: `${weight}%` }}
+        />
       </div>
     </div>
-    <div className={styles.hierarchyWeightBarTrack}>
-      <div
-        className={`${styles.hierarchyWeightBarFill} ${styles[color]}`}
-        style={{ width: `${weight}%` }}
-      />
-    </div>
-  </div>
-));
+  ),
+);
 
 /**
  * Contradiction Card - Individual conflict resolution display
@@ -239,7 +243,14 @@ const ContradictionCard = memo(({ contradiction, index }) => {
   // Extract signal conflicts (excluding metadata fields)
   const conflictSignals = Object.entries(contradiction).filter(
     ([key]) =>
-      !["type", "description", "resolution", "action", "color", "weights"].includes(key)
+      ![
+        "type",
+        "description",
+        "resolution",
+        "action",
+        "color",
+        "weights",
+      ].includes(key),
   );
 
   return (
@@ -250,7 +261,9 @@ const ContradictionCard = memo(({ contradiction, index }) => {
           <AlertTriangleIcon size={20} />
         </div>
         <div className={styles.contradictionCardTitle}>
-          <span className={styles.contradictionCardLabel}>Conflict #{index + 1}</span>
+          <span className={styles.contradictionCardLabel}>
+            Conflict #{index + 1}
+          </span>
           <h4 className={styles.contradictionCardHeading}>{description}</h4>
         </div>
       </div>
@@ -328,7 +341,7 @@ const NoContradictionsState = memo(() => (
 // MAIN COMPONENT
 // ============================================================================
 
-export function ContradictionResolver({
+export function AIActionSignalMatrixContradictionResolver({
   contradictions = null,
   variant = "standalone",
   className = "",
@@ -345,8 +358,10 @@ export function ContradictionResolver({
       {/* Logo Header - only in standalone mode */}
       {!isEmbedded && (
         <div className={styles.logoHeader}>
-          <ContradictionResolverIcon size={24} />
-          <span className={styles.logoText}>ContradictionResolver</span>
+          <AIActionSignalMatrixContradictionResolverIcon size={24} />
+          <span className={styles.logoText}>
+            AIActionSignalMatrixContradictionResolver
+          </span>
           <span className={styles.premiumBadge}>
             <SparklesIcon size={12} />
             PREMIUM
@@ -374,8 +389,8 @@ export function ContradictionResolver({
           <div className={styles.hierarchySectionHeader}>
             <h4 className={styles.hierarchySectionTitle}>Decision Hierarchy</h4>
             <p className={styles.hierarchySectionDescription}>
-              When signals disagree, the following weighted hierarchy determines the
-              final action
+              When signals disagree, the following weighted hierarchy determines
+              the final action
             </p>
           </div>
 
@@ -394,7 +409,8 @@ export function ContradictionResolver({
             </h4>
             {hasContradictions && (
               <span className={styles.contradictionsCount}>
-                {contradictions.length} conflict{contradictions.length > 1 ? "s" : ""}
+                {contradictions.length} conflict
+                {contradictions.length > 1 ? "s" : ""}
               </span>
             )}
           </div>
@@ -420,11 +436,13 @@ export function ContradictionResolver({
             <ScaleIcon size={20} />
           </div>
           <div className={styles.defaultRuleContent}>
-            <span className={styles.defaultRuleLabel}>Default Resolution Rule</span>
+            <span className={styles.defaultRuleLabel}>
+              Default Resolution Rule
+            </span>
             <p className={styles.defaultRuleText}>
-              Elliott Wave structure (40% weight) takes precedence in conflicts. Wave
-              position is more reliable than lagging indicators. When in doubt, follow
-              the wave count.
+              Elliott Wave structure (40% weight) takes precedence in conflicts.
+              Wave position is more reliable than lagging indicators. When in
+              doubt, follow the wave count.
             </p>
           </div>
         </div>
@@ -443,4 +461,4 @@ export function ContradictionResolver({
   );
 }
 
-export default ContradictionResolver;
+export default AIActionSignalMatrixContradictionResolver;

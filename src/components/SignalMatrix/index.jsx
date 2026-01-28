@@ -18,7 +18,6 @@
 import React, { useMemo, memo } from "react";
 import { useTickerConfig } from "@site/src/hooks/useTickerConfig";
 import { useOHLCVData } from "@site/src/hooks/useOHLCVData";
-import ContradictionResolver from "@site/src/components/ContradictionResolver";
 import styles from "./styles.module.css";
 
 // ============================================================================

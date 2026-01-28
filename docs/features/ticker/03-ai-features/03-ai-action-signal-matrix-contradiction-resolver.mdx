@@ -1,23 +1,21 @@
 ---
-id: ai-signal-contradiction-resolution
+id: ai-action-signal-matrix-contradiction-resolver
 hide_title: true
-sidebar_label: AI Signal Contradiction Resolution
-pagination_label: Technical Indicators - Signal Matrix
+sidebar_label: AI Action Signal Matrix Contradiction Resolution
+pagination_label: Technical Indicators - Action Signal Matrix Contradiction Resolution
 description: "AI contradiction resolution empowers informed trading decisions."
 keywords:
   - technical analysis tools
-imageAlt: "PortDive Oscillators Dashboard showing gauge indicators (RSI, Williams %R, Stochastic K/D, ADX) with MACD momentum analysis, real-time chart visualizations, and signal confirmation matrix"
-image: ../assets/20260122/oscillators-dashboard-preview.png
 ---
 
 import { NBISLayout } from "@site/src/components/TickerLayout";
 import { TickerSelector } from "@site/src/components/TickerSelector";
 import { AnalysisCard } from "@site/src/components/AnalysisCard";
-import { ContradictionResolver } from "@site/src/components/ContradictionResolver";
+import { AIActionSignalMatrixContradictionResolver } from "@site/src/components/AIActionSignalMatrixContradictionResolver";
 
 <NBISLayout timeframe="1D">
   <TickerSelector title="AI Features | AI Signal Contradiction Resolution" />  
-  <ContradictionResolver />
+  <AIActionSignalMatrixContradictionResolver />
   <AnalysisCard
     title="AI Features"
     description="Multi-indicator momentum analysis with Buy/Add, Sell/Trim, Hold signal matrix"    

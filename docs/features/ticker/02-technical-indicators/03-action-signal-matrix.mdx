@@ -1,8 +1,8 @@
 ---
-id: signal-matrix
+id: action-signal-matrix
 hide_title: true
-sidebar_label: Signal Matrix
-pagination_label: Technical Indicators - Signal Matrix
+sidebar_label: Action Signal Matrix
+pagination_label: Technical Indicators - Action Signal Matrix
 description: "NBIS 1D Multi-indicator dashboards with RSI, Williams %R, Stochastic, ADX, and MACD analysis. Gauge indicators, chart visualization, and buy/sell signal confirmation for informed trading decisions."
 keywords:
   - technical analysis tools
@@ -17,7 +17,7 @@ import { AnalysisCard } from "@site/src/components/AnalysisCard";
 import { SignalMatrix } from "@site/src/components/SignalMatrix";
 
 <NBISLayout timeframe="1D">
-  <TickerSelector title="Technical Indicators | Signal Matrix" />
+  <TickerSelector title="Technical Indicators | Action Signal Matrix" />
   <SignalMatrix daysToShow={30} />
   <AnalysisCard
     title="Technical Indicators"

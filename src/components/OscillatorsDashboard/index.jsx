@@ -670,7 +670,7 @@ export function OscillatorsDashboard({
 
   return (
     <div className={styles.dashboardWrapper}>
-      {/* Logo Header - VerdictPanel style */}
+      {/* Logo Header - AIWaveCountAnalysisVerdictPanel style */}
       <div className={styles.logoHeader}>
         <svg
           className={styles.logoIcon}

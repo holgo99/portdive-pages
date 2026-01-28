@@ -168,8 +168,8 @@ Each AI-PREMIUM component has a unique color identity while sharing structural p
 
 | Component | Primary Color | Secondary Color | Theme |
 |-----------|--------------|-----------------|-------|
-| ContradictionResolver | Purple (`#8b5cf6`) | Blue (`#3d72ff`) | AI/Neural |
-| VerdictPanel | Teal (`#1fa39b`) | Gold (`#f59e0b`) | Analysis/Decision |
+| AIActionSignalMatrixContradictionResolver | Purple (`#8b5cf6`) | Blue (`#3d72ff`) | AI/Neural |
+| AIWaveCountAnalysisVerdictPanel | Teal (`#1fa39b`) | Gold (`#f59e0b`) | Analysis/Decision |
 
 ### Color Variables
 
@@ -351,7 +351,7 @@ Add a colored accent line to section titles:
 
 ### Embedded Variant
 
-When a premium component is embedded inside another component (like ContradictionResolver inside SignalMatrix), use the `.embedded` class to remove outer styling:
+When a premium component is embedded inside another component (like AIActionSignalMatrixContradictionResolver inside SignalMatrix), use the `.embedded` class to remove outer styling:
 
 ```css
 .embedded {
@@ -414,12 +414,12 @@ Always include reduced-motion and high-contrast support:
 
 ### Current AI-PREMIUM Components
 
-1. **ContradictionResolver** (`src/components/ContradictionResolver/`)
+1. **AIActionSignalMatrixContradictionResolver** (`src/components/AIActionSignalMatrixContradictionResolver/`)
    - Analyzes and resolves conflicting trading signals
    - Purple/Blue color identity
    - Supports `standalone` and `embedded` variants
 
-2. **VerdictPanel** (`src/components/VerdictPanel/`)
+2. **AIWaveCountAnalysisVerdictPanel** (`src/components/AIWaveCountAnalysisVerdictPanel/`)
    - Displays AI analysis verdict and thesis
    - Teal/Gold color identity
    - Supports `standalone` and `embedded` variants

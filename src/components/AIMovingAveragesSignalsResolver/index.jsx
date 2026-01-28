@@ -4,25 +4,34 @@
  * Premium component for validating and analyzing MA crossover signals
  * using AI-driven signal interpretation and conflict resolution.
  *
+ * Automatically consumes signals from MovingAveragesSignalsProvider context
+ * when available, with props as fallback for backward compatibility.
+ *
  * @component
- * @param {string} variant - Display variant:
- *   - "standalone" (default): Full panel with logo header, wrapper styling, and footer badge.
- *                             Use when rendering as a standalone component.
+ * @param {Object} [smaSignal] - SMA crossover signal (optional if using context)
+ * @param {Object} [emaSignal] - EMA crossover signal (optional if using context)
+ * @param {string} [variant="standalone"] - Display variant:
+ *   - "standalone": Full panel with logo header, wrapper styling, and footer badge.
  *   - "embedded": Minimal content without outer chrome (no header, border, shadow, footer).
- *                 Use when integrating as a section within another component.
+ * @param {string} [className] - Additional CSS class names
  *
  * @example
- * // Standalone usage (default)
- * import AIMovingAveragesSignalsResolver from '@site/src/components/AIMovingAveragesSignalsResolver';
+ * // With context (recommended) - signals auto-populated
+ * <MovingAveragesSignalsProvider>
+ *   <AIMovingAveragesSignalsResolver />
+ * </MovingAveragesSignalsProvider>
  *
+ * @example
+ * // With explicit props (backward compatible)
  * <AIMovingAveragesSignalsResolver smaSignal={smaSignal} emaSignal={emaSignal} />
  *
  * @example
- * // Embedded usage (within MovingAveragesDashboard)
- * <AIMovingAveragesSignalsResolver variant="embedded" smaSignal={smaSignal} emaSignal={emaSignal} />
+ * // Embedded variant (within another component)
+ * <AIMovingAveragesSignalsResolver variant="embedded" />
  */
 
 import React, { memo, useMemo } from "react";
+import { useMovingAveragesSignals } from "@site/src/hooks/useMovingAveragesSignals";
 import styles from "./styles.module.css";
 
 // ============================================================================
@@ -485,12 +494,17 @@ const AlignedSignalsState = memo(({ consensus }) => {
 // ============================================================================
 
 export function AIMovingAveragesSignalsResolver({
-  smaSignal = null,
-  emaSignal = null,
+  smaSignal: smaSignalProp = null,
+  emaSignal: emaSignalProp = null,
   variant = "standalone",
   className = "",
 }) {
   const isEmbedded = variant === "embedded";
+
+  // Get signals from context (if available), with props as fallback
+  const signalsContext = useMovingAveragesSignals();
+  const smaSignal = smaSignalProp ?? signalsContext?.smaSignal ?? null;
+  const emaSignal = emaSignalProp ?? signalsContext?.emaSignal ?? null;
 
   // Analyze signals
   const analysis = useMemo(

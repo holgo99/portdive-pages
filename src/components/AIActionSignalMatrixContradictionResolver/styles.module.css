@@ -1,5 +1,5 @@
 /**
- * ContradictionResolver Component Styles - PREMIUM REDESIGN
+ * AIActionSignalMatrixContradictionResolver Component Styles - PREMIUM REDESIGN
  *
  * Features:
  * - Eye-catching AI-themed design with neural network aesthetic
@@ -258,7 +258,8 @@
 }
 
 @keyframes premiumPulse {
-    0%, 100% {
+    0%,
+    100% {
         box-shadow: 0 0 8px rgba(var(--portdive-purple-rgb), 0.3);
     }
     50% {
@@ -358,8 +359,15 @@
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(var(--portdive-purple-rgb), 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--portdive-purple-rgb), 0.03) 1px, transparent 1px);
+        linear-gradient(
+            rgba(var(--portdive-purple-rgb), 0.03) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(var(--portdive-purple-rgb), 0.03) 1px,
+            transparent 1px
+        );
     background-size: 20px 20px;
     pointer-events: none;
 }
@@ -892,7 +900,8 @@
 }
 
 @keyframes iconPulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
     }
     50% {
