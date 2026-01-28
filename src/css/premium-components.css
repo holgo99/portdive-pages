@@ -76,6 +76,440 @@
 /* REDUCED MOTION PREFERENCE                                     */
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM WRAPPER BASE                                          */
+/* Use: Apply to component wrappers for animated gradient border */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-wrapper {
+    position: relative;
+    background: var(--premium-bg);
+    border: 1px solid var(--premium-border);
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: var(--font-family-premium);
+    color: var(--premium-text);
+    width: 100%;
+    box-shadow: var(--premium-shadow-lg);
+}
+
+/* Animated gradient border effect */
+.premium-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.5) 0%,
+        rgba(var(--portdive-gold-rgb), 0.3) 50%,
+        rgba(var(--portdive-blue-rgb), 0.4) 100%
+    );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.premium-wrapper:hover::before {
+    opacity: 1;
+}
+
+/* Color variants for wrapper border */
+.premium-wrapper--teal::before {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.5) 0%,
+        rgba(var(--portdive-teal-rgb), 0.2) 50%,
+        rgba(var(--portdive-blue-rgb), 0.3) 100%
+    );
+}
+
+.premium-wrapper--coral::before {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-coral-rgb), 0.5) 0%,
+        rgba(var(--portdive-coral-rgb), 0.2) 50%,
+        rgba(var(--portdive-gold-rgb), 0.3) 100%
+    );
+}
+
+.premium-wrapper--purple::before {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-purple-rgb), 0.5) 0%,
+        rgba(var(--portdive-blue-rgb), 0.3) 50%,
+        rgba(var(--portdive-purple-rgb), 0.4) 100%
+    );
+}
+
+/* Light mode adjustments */
+[data-theme="light"] .premium-wrapper {
+    box-shadow: var(--premium-shadow-md);
+}
+
+[data-theme="light"] .premium-wrapper::before {
+    opacity: 0.3;
+}
+
+[data-theme="light"] .premium-wrapper:hover::before {
+    opacity: 0.5;
+}
+
+@media (max-width: 480px) {
+    .premium-wrapper {
+        border-radius: 12px;
+    }
+
+    .premium-wrapper::before {
+        border-radius: 12px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM HEADER WITH SHIMMER                                   */
+/* Use: Component headers with animated shimmer effect           */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.15) 0%,
+        var(--premium-surface) 40%,
+        rgba(var(--portdive-gold-rgb), 0.08) 100%
+    );
+    border-bottom: 1px solid var(--premium-border);
+    color: var(--portdive-teal);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated shimmer effect */
+.premium-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(var(--portdive-teal-rgb), 0.1) 50%,
+        transparent 100%
+    );
+    animation: premiumShimmer 3s ease-in-out infinite;
+}
+
+.premium-header__icon {
+    filter: drop-shadow(0 0 8px rgba(var(--portdive-teal-rgb), 0.5));
+    position: relative;
+    z-index: 1;
+}
+
+.premium-header__text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--premium-text);
+    position: relative;
+    z-index: 1;
+}
+
+/* Color variants */
+.premium-header--coral {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-coral-rgb), 0.15) 0%,
+        var(--premium-surface) 40%,
+        rgba(var(--portdive-gold-rgb), 0.08) 100%
+    );
+    color: var(--portdive-coral);
+}
+
+.premium-header--coral::after {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(var(--portdive-coral-rgb), 0.1) 50%,
+        transparent 100%
+    );
+}
+
+.premium-header--coral .premium-header__icon {
+    filter: drop-shadow(0 0 8px rgba(var(--portdive-coral-rgb), 0.5));
+}
+
+.premium-header--purple {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-purple-rgb), 0.15) 0%,
+        var(--premium-surface) 40%,
+        rgba(var(--portdive-blue-rgb), 0.08) 100%
+    );
+    color: var(--portdive-purple);
+}
+
+.premium-header--purple::after {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(var(--portdive-purple-rgb), 0.1) 50%,
+        transparent 100%
+    );
+}
+
+.premium-header--purple .premium-header__icon {
+    filter: drop-shadow(0 0 8px rgba(var(--portdive-purple-rgb), 0.5));
+}
+
+[data-theme="light"] .premium-header::after {
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .premium-header {
+        padding: 16px 20px;
+        gap: 10px;
+    }
+
+    .premium-header__text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .premium-header {
+        padding: 12px 16px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM AI BADGE                                              */
+/* Use: AI-PREMIUM badge with pulse animation                    */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-ai-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-teal-rgb), 0.25) 0%,
+        rgba(var(--portdive-gold-rgb), 0.2) 100%
+    );
+    border: 1px solid rgba(var(--portdive-teal-rgb), 0.4);
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--portdive-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-left: auto;
+    position: relative;
+    z-index: 1;
+    animation: premiumPulse 2s ease-in-out infinite;
+}
+
+.premium-ai-badge--purple {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-purple-rgb), 0.25) 0%,
+        rgba(var(--portdive-blue-rgb), 0.2) 100%
+    );
+    border-color: rgba(var(--portdive-purple-rgb), 0.4);
+    color: var(--portdive-purple);
+}
+
+.premium-ai-badge--coral {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--portdive-coral-rgb), 0.25) 0%,
+        rgba(var(--portdive-gold-rgb), 0.2) 100%
+    );
+    border-color: rgba(var(--portdive-coral-rgb), 0.4);
+    color: var(--portdive-coral);
+}
+
+[data-theme="light"] .premium-ai-badge {
+    animation: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM SECTION TITLE WITH ACCENT                             */
+/* Use: Section headings with decorative accent line             */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-section-heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--premium-text);
+    margin: 0 0 20px 0;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    padding-left: 16px;
+}
+
+.premium-section-heading::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(
+        180deg,
+        var(--portdive-teal) 0%,
+        var(--portdive-gold) 100%
+    );
+    border-radius: 2px;
+}
+
+.premium-section-heading--coral::before {
+    background: linear-gradient(
+        180deg,
+        var(--portdive-coral) 0%,
+        var(--portdive-gold) 100%
+    );
+}
+
+.premium-section-heading--purple::before {
+    background: linear-gradient(
+        180deg,
+        var(--portdive-purple) 0%,
+        var(--portdive-blue) 100%
+    );
+}
+
+@media (max-width: 480px) {
+    .premium-section-heading {
+        font-size: 16px;
+        margin-bottom: 16px;
+        padding-left: 14px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM GRID OVERLAY                                          */
+/* Use: Subtle grid pattern for cards/sections                   */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-grid-overlay {
+    position: relative;
+}
+
+.premium-grid-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(var(--portdive-teal-rgb), 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--portdive-teal-rgb), 0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.premium-grid-overlay--coral::before {
+    background-image:
+        linear-gradient(rgba(var(--portdive-coral-rgb), 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--portdive-coral-rgb), 0.02) 1px, transparent 1px);
+}
+
+.premium-grid-overlay--purple::before {
+    background-image:
+        linear-gradient(rgba(var(--portdive-purple-rgb), 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--portdive-purple-rgb), 0.02) 1px, transparent 1px);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM CONTENT AREA                                          */
+/* Use: Main content padding within premium wrappers             */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-content {
+    padding: 24px;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .premium-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .premium-content {
+        padding: 16px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PREMIUM TOP ACCENT LINE                                       */
+/* Use: Gradient accent line at top of sections                  */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.premium-top-accent {
+    position: relative;
+}
+
+.premium-top-accent::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--portdive-teal) 30%,
+        var(--portdive-teal) 70%,
+        transparent 100%
+    );
+    opacity: 0.5;
+}
+
+.premium-top-accent--coral::before {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--portdive-coral) 30%,
+        var(--portdive-coral) 70%,
+        transparent 100%
+    );
+}
+
+.premium-top-accent--purple::before {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--portdive-purple) 30%,
+        var(--portdive-purple) 70%,
+        transparent 100%
+    );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* REDUCED MOTION PREFERENCE                                     */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -83,5 +517,33 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+
+    .premium-wrapper::before,
+    .premium-header::after {
+        animation: none;
+    }
+
+    .premium-ai-badge {
+        animation: none;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* HIGH CONTRAST MODE                                            */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (prefers-contrast: more) {
+    .premium-wrapper {
+        border-width: 2px;
+    }
+
+    .premium-section-heading::before {
+        width: 4px;
+    }
+
+    .premium-top-accent::before {
+        height: 3px;
+        opacity: 0.8;
     }
 }
